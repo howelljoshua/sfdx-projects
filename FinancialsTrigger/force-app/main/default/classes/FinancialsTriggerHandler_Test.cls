@@ -114,6 +114,5 @@ public with sharing class FinancialsTriggerHandler_Test {
         delete finAddList;
 
         Test.stopTest();
-
     }
 }
