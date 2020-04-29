@@ -1,0 +1,66 @@
+<template>
+    <div class="app slds-p-around_x-large"> 
+
+        <h1 class="slds-text-heading_large">Community Access Request for CMU Staff</h1>
+        <br/><br/>
+        <ul class="slds-list">
+            
+            <li class="slds-m-horizontal_xx-small slds-m-bottom_x-small">
+                <lightning-icon icon-name="utility:new" variant="container" size="x-small">
+                </lightning-icon>
+                &nbsp; CMU Staff may open a Case to request access to the Alumni Community
+                </li>
+            <br/>
+            <li class="slds-m-horizontal_xx-small slds-m-bottom_x-small">
+                <lightning-icon icon-name="utility:share_file" variant="container" size="x-small">  
+                </lightning-icon>
+                &nbsp; Download and complete the&nbsp;<a href='https://cmu--UAT.my.salesforce.com/sfc/p/3I0000008aRn/a/3I0000004CfA/DixOrqqaP_Zs_2Z7S05E0cKzMqDZquafjqSRxA8fO0M' target="_blank">Tartan360 Non-Disclosure Agreement</a>&nbsp; and attach below.
+                </li>     
+            <br/>
+            <li class="slds-m-horizontal_xx-small slds-m-bottom_x-small">
+                <lightning-icon icon-name="utility:work_order_type"  variant="container" size="x-small">   
+                </lightning-icon>
+                &nbsp; Fill out the Description Box below, including your Name and <u>Andrew Id</u>, Department/School, and justification for access and attach the Non-Disclosure Form
+                </li>                          
+        </ul>
+
+        
+ <!--
+        <template if:false={hasId}>   
+            <lightning-record-form            
+                object-api-name="Case"                
+                record-id={recordId}                
+                fields={fields}
+                columns="1"
+                mode="edit"
+                onsubmit={handleSubmit}>                
+            </lightning-record-form>
+        </template>
+
+
+        <template if:true={hasId}>
+            <lightning-record-view-form
+                record-id={recordId}
+                object-api-name="Case">
+                <div class="slds-box slds-theme_default">
+                    Record Id = {recordId}       
+                    <lightning-output-field field-name="Id"></lightning-output-field>
+                    <lightning-output-field field-name="Subject"></lightning-output-field>
+                    <lightning-output-field field-name="Description"></lightning-output-field>
+                </div>                
+            </lightning-record-view-form>
+
+            <br/>
+            <lightning-file-upload
+                label="Attach Non-Disclosure"
+                name="fileUploader"
+                accept={acceptedFormats}
+                record-id={recordId}
+                onuploadfinished={handleUploadFinished}
+                multiple>
+            </lightning-file-upload>    
+        </template>
+-->
+
+    </div> 
+</template>

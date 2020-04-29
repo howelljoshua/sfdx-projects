@@ -1,0 +1,503 @@
+<!-- 
+    Name: customquickevents
+ -->
+ <apex:page docType="html-5.0" id="siteQuickEventPage" controller="CustomQuickEventController" title="{!event.Name}"  showHeader="false" sidebar="false" cache="false" standardStylesheets="false">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script> $j = jQuery.noConflict();</script>
+    <style>
+        /*
+        #blockContainer {
+            display: -webkit-box;
+            display: -moz-box;
+            display: box;
+
+            -webkit-box-orient: vertical;
+            -moz-box-orient: vertical;
+            box-orient: vertical;
+        }
+        #eventFees {
+            -webkit-box-ordinal-group: 3;
+            -moz-box-ordinal-group: 3;
+            box-ordinal-group: 3;
+        }
+        #eventDetails {
+            -webkit-box-ordinal-group: 2;
+            -moz-box-ordinal-group: 2;
+            box-ordinal-group: 2;
+        }
+        #whenWhere {
+            -webkit-box-ordinal-group: 1;
+            -moz-box-ordinal-group: 1;
+            box-ordinal-group: 1;
+        }
+        */
+        .regList>div>div>div:not(:last-child) {
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .regList>div>div>div>div:first-child {
+            font-weight: bold;
+        }
+        .regList>div>div>div>div:not(:first-child) {
+            font-size: 14.6px;
+        }
+
+        .evt_fees_table {
+            display: table;
+            margin-bottom: 0.5rem;
+        }
+        .evt_fees_table th, .evt_fees_table td {
+            border: none;
+        }
+        .evt_quickevent_register_table {
+            display: table;
+        }
+        .evt_quickevent_register_table td {
+            border: none;
+            margin-top: 0rem;
+        }
+        .evt_quickevent_register_table .css-button {
+            font-weight: bold;
+            font-size: 1rem;
+            color: #595959;
+            border-radius: 5px;
+            border-bottom: none;
+            padding: 0rem;
+            height: 2.1rem;
+            width: 6.5rem !important;
+            border: none;
+            margin-top: 0rem;
+        }
+        .evt_quickevent_register_table .css-button:active {
+            width: 6.5rem !important;
+            height: 2.1rem;
+            font-size: 1rem;
+            padding: 0rem !important;
+            margin-top: 0rem;
+        }
+
+        #evt_quickevent_where_box{
+            padding: 0px !important;
+            border-radius: 5px !important;
+        }
+
+        #evt_quickevent_registeredAttendee_box{
+            border-radius: 5px !important;
+        }
+        
+
+        h2{
+            border: none;
+            background: #e0e0e0;
+            margin: 0px;
+            padding: 8px !important;
+            box-sizing: border-box;
+            color: black !important;
+            font-weight: bold !important;
+        }
+
+        #evt_quickevent_ticket_info_box{
+            padding: 0px !important;
+            border-radius: 5px !important;
+        }
+        
+        .evt_box_body{
+            padding: 5px !important;
+        }
+    </style>
+    <apex:composition template="{!$Site.Template}">
+        <apex:define name="body">
+            <apex:includeLightning />
+            
+            <script language="javascript">
+                function evt_divtoggle(idname) {
+                    var ele = document.getElementById(idname);
+                    if(ele.style.display == "block") {
+                            ele.style.display = "none";
+                    } else {
+                        ele.style.display = "block";
+                    }
+                }
+            </script>
+            <apex:includeScript value="{!URLFOR($Resource.pymt__PaymentConnect, 'includes/busy_indicator/busy_indicator.js')}"/>
+            <script>
+                var busyi;
+                document.addEventListener("DOMContentLoaded", function(){
+                    busyi = new busy_indicator(document.getElementById("busybox"),document.querySelector("#busybox div"));
+                });
+            </script>
+
+            <div id="busybox" class="fog_div">
+                <div></div>
+            </div>
+
+            <div id="pc_lang_{!HTMLENCODE($CurrentPage.parameters.lang)}">
+                <div class="pc_frame" >
+                    <div class="pc_page"  id="evt_quick_event_detail">
+                        <div class="pc_page_content" >
+                            <div class="pc_page_content_inner">
+                                <apex:form id="mainForm">
+                                        <apex:pageMessage rendered="{!soldOut}" severity="Info" strength="0" title="{!$Label.Sold_Out_Message}"/>
+                                        <apex:pageMessage rendered="{!registrationClosed}" severity="Info" strength="0" title="{!$Label.Registration_Closed_Message}"/>
+                                        <apex:pageMessages id="messages"/>
+                                        <apex:outputPanel id="errorMsg" >
+                                            <apex:pageMessage rendered="{!noTcktsSelected}" summary="One or more tickets must be selected in order to register." severity="info" />
+                                            <apex:pageMessage rendered="{!atndeLimit}" title="Error:" summary="Please limit your selection to {!attndSelectionLimit} or fewer passes." severity="error" />
+                                        </apex:outputPanel>
+                                        <apex:actionStatus id="pageBusyIndicator" onstart="busyi.show();" onstop="busyi.hide();" />
+
+                                        <apex:outputPanel styleClass="evt_wait_list_link" rendered="{!AND(soldOut, event.evt__Wait_List__c)}">
+                                            <apex:outputLink value="{!$Page.evt__SiteWaitList}?eid={!event.id}">Add your name to our wait list.</apex:outputLink>
+                                        </apex:outputPanel>
+
+                                        <div id="evt_quickeventreg_title" class="evt_h1_outer_box">
+                                            <h1>{!event.Name}</h1>
+                                        </div>
+
+                                        <div id="quick_event_detail_flex">
+                                        <div id="evt_registration_options">
+                                            <div class="pc_formstone_container">
+                                                <div class="fs-grid fs-grid-fluid">
+                                                    <div class="fs-row">
+                                                        <div id="blockContainer">
+                                                            <!-- EVENT FEES SECTION STARTS -->
+                                                            <div id="eventFees" data-order="{!eventFeeOrder}" class=" eachItem {!eventFeesClasses}" >
+                                                                <div id="evt_quickevent_ticket_info_box" class="evt_page_box" style="margin-top:10px;overflow:auto;">
+                                                                    <div class="evt_box_header">
+                                                                        <h2>Registration</h2>
+                                                                    </div>
+                                                                    <div class="evt_box_body">
+                                                                        <apex:dataTable styleClass="evt_fees_table" value="{!eventFeeWrapperList}" var="item"
+                                                                                        columnClasses="evt_quickevent_item_col, evt_quickevent_price_col, evt_quickevent_qty_col">
+                                                                            <apex:column headerClass="evt_quickevent_item_col">
+                                                                                <apex:facet name="header">Registration Type</apex:facet>
+                                                                                <span class="evt_quickevent_fee_item_name">{!item.fee.Name}</span>
+                                                                                <apex:outputPanel rendered="{!NOT(ISBLANK(item.fee.evt__Description__c))}">
+                                                                                    &nbsp;
+                                                                                <span class="evt_item_detail_toggle_link">
+                                                                                        <a href="#" onclick="evt_divtoggle('evt_item{!item.fee.id}');">
+                                                                                            <i class="fa fa-plus-square-o"/>
+                                                                                        </a>
+                                                                                    </span>
+                                                                                    <div id="evt_item{!item.fee.id}" class="evt_quickevent_fee_item_description" style="display:none;">
+                                                                                        <apex:outputPanel rendered="{!NOT(ISBLANK(item.fee.evt__Description__c))}">
+                                                                                            <div class="evt_quickevent_fee_item_refund_policy">
+                                                                                                <apex:outputField value="{!item.fee.evt__Description__c}"/>
+                                                                                            </div>
+                                                                                        </apex:outputPanel>
+                                                                                    </div>
+                                                                                </apex:outputPanel>                         
+                                                                            </apex:column>
+                                
+                                                                            <apex:column headerClass="evt_quickevent_price_col" style="white-space:nowrap;" rendered="{!NOT(event.evt__Free_Event__c)}">
+                                                                                <apex:facet name="header">Price</apex:facet>
+                                                                                <apex:outputPanel rendered="{!item.fee.evt__Amount__c > 0}">
+                                                                                    <apex:outputText value="{0, Number, Currency}">
+                                                                                        <apex:param value="{!item.fee.evt__Amount__c}"/>
+                                                                                    </apex:outputText>
+                                                                                </apex:outputPanel>
+                                
+                                                                                <apex:outputPanel rendered="{!NOT(item.fee.evt__Amount__c > 0)}">FREE</apex:outputPanel>                                                
+                                                                            </apex:column>
+                                
+                                                                            <apex:column headerClass="evt_quickevent_qty_col">
+                                                                                <apex:facet name="header">Quantity</apex:facet>
+                                                                                <apex:selectList id="qtySelectList" size="1" value="{!item.quantity}" 
+                                                                                                styleClass="css-select">
+                                                                                    <apex:selectOptions value="{!item.ticketCountOptions}"/>
+                                                                                </apex:selectList>
+                                                                            </apex:column>
+                        
+                                                                        </apex:dataTable>
+                                
+                                                                        <apex:panelGrid columns="2" styleClass="evt_quickevent_register_table" columnClasses="labelColumn, fieldColumn" id="evt__quickevent_register_grid" >
+                                                                            <apex:outputLabel value="Invitation Code" styleclass="evt_invitation_code_label" rendered="{!event.evt__By_Invitation__c}"/>
+                                                                            <apex:input type="text" required="true" id="invitationCode" value="{!invitationCode}" styleclass="evt_invitation_code_field" rendered="{!event.evt__By_Invitation__c}"/>
+                                                                            <apex:outputText value=""/>
+                                                                            <apex:commandButton styleClass="css-button" value="Register" action="{!gotoRegistration}" disabled="{!disableRegButton}" reRender="errorMsg, redirect" oncomplete="redirect();" />
+                                                                        </apex:panelGrid>
+                                                                    </div>
+                                                                </div>                                                                          
+                                                            </div>
+                                                            <!-- EVENT FEES SECTION ENDS -->
+
+                                                            <!-- EVENT DETAILS STARTS -->
+                                                            <div id="eventDetails" data-order="{!eventDetailsOrder}" class=" eachItem {!eventDetailsClasses}" style="margin-top:10px;">
+                                                                
+                                                                <div id="evt_quickevent_details_box" class="evt_page_box" style="overflow:auto;border-radius: 5px;">
+                                                                    <div class="evt_box_header">
+                                                                        <h2>Event Details</h2>
+                                                                    </div>
+                                                                    <div class="evt_box_body">
+                                                                        <apex:outputText value="{!event.evt__Landing_Page_HTML__c}" escape="false"/>
+                                                                    </div>
+                                                                </div>                                                                          
+                                                            </div>
+                                                            <!-- EVENT DETAILS ENDS -->
+
+                                                            <!-- WHEN AND WHERE STARTS -->
+                                                            <div id="whenWhere" data-order="{!eventVenueOrder}" class=" eachItem {!eventVenueClasses}" style="margin-top:10px;">
+                                                                
+                                                                <aside id="evt_quickevent_where" style="overflow:auto;">
+                                                                    <div id="evt_quickevent_where_box" class="evt_page_box">
+                                                                        <div class="evt_box_header">
+                                                                            <h2><apex:outputText value="Where & When" /></h2>
+                                                                        </div>
+                                
+                                                                        <div class="evt_box_body">
+                                                                            <div id="evt_quickevent_detail_grid" class="evt_event_details_grid" >
+                                                                                <div class="icon_column"><i class="far fa-clock" title="When"/></div>
+                                                                                <div class="text_column">
+                                                                                    <div class="text_content">
+                                                                                        <apex:outputPanel layout="none">
+                                                                                            <apex:outputPanel layout="inline" rendered="{!multiday}">
+                                                                                                <apex:outputText value="{!eventStartDate}"/>&nbsp;<apex:outputText value="{!eventStartTime}"/>&nbsp;-&nbsp;<apex:outputText value="{!eventEndDate}"/>&nbsp;<apex:outputText value="{!eventEndTime}"/>
+                                                                                            </apex:outputPanel>
+                                                                                            <apex:outputPanel layout="inline" rendered="{!NOT(multiday)}">
+                                                                                                <apex:outputText value="{!eventStartDate}"/>&nbsp;<apex:outputText value="{!eventStartTime}"/>&nbsp;-&nbsp;<apex:outputText value="{!eventEndTime}"/>
+                                                                                            </apex:outputPanel>
+                                                                                        </apex:outputPanel>
+                                
+                                                                                    </div>
+                                                                                </div>
+                    
+                                                                                <div class="icon_column">
+                                                                                    <i class="fas fa-map-marker-alt" title="Where"/>
+                                                                                </div>
+                                                                                <div class="text_column">
+                                                                                    <div class="text_content">
+                                                                                        <apex:outputPanel >
+                                                                                            <apex:outputField value="{!event.evt__Venue_Name__c}" /><br/>
+                                                                                                <apex:outputField value="{!event.evt__Street__c}" /><br/>
+                                                                                            <apex:outputField value="{!event.evt__City__c}" />,&nbsp;
+                                                                                            <apex:outputField value="{!event.evt__State__c}" />&nbsp;
+                                                                                            <apex:outputField value="{!event.evt__Postal_Code__c}" />&nbsp;
+                                                                                            <apex:outputField value="{!event.evt__Country__c}" />
+                                                                                        </apex:outputPanel>
+                                                                                        <apex:outputPanel layout="none" rendered="{!NOT(ISBLANK(event.evt__Venue_Notes__c))}">
+                                                                                            <br/>                                                                                           
+                                                                                            <apex:outputtext value="{!event.evt__Venue_Notes__c}" escape="false"/>
+                                                                                        </apex:outputPanel>                                                             
+                                                                                    </div>
+                                                                                </div>
+                                                                                <apex:outputPanel layout="none" rendered="{!event.evt__Show_Available_Seats__c == true}">                                                       
+                                                                                    <div class="icon_column"><i class="fas fa-users" title="Available Seats"/></div>
+                                                                                    <div class="text_column">
+                                                                                        <div class="text_content">
+                                                                                        <apex:outputText value="{!availSeats}"/>&nbsp;Available Seats
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </apex:outputPanel>
+                                                                            </div>
+
+                                                                            <!-- MAP STARTS -->
+                                                                            <apex:outputPanel rendered="{!event.evt__Display_Map__c}" styleClass="evt__quickevent_map_panel">
+                                                                                <div id="lightningMap" style="overflow: hidden;"/>
+                                                                                
+                                                                                <apex:outputPanel rendered="false">
+                                                                                    <div id="evt_other_map_links">
+                                                                                        Other Maps<br/>
+                                                                                        <a target="_blank" href="{!IF(BEGINS($Site.currentSiteURL,'https'),'http','http')}://maps.google.com?q={!URLENCODE(event.evt__Street__c&','&event.evt__City__c&','&event.evt__State__c&','&event.evt__Postal_Code__c&','&event.evt__Country__c)}">Google</a>
+                                                                                            &nbsp;|&nbsp;
+                                                                                        <a target="_blank" href="{!IF(BEGINS($Site.currentSiteURL,'https'),'http','http')}://maps.yahoo.com/maps_result?addr={!URLENCODE(event.evt__Street__c)}&csz={!URLENCODE(event.evt__City__c)},+{!URLENCODE(event.evt__State__c)}+{!URLENCODE(event.evt__Postal_Code__c)}&country={!URLENCODE(event.evt__Country__c)}">Yahoo</a>
+                                                                                            &nbsp;|&nbsp;
+                                                                                        <a target="_blank" href="{!IF(BEGINS($Site.currentSiteURL,'https'),'http','http')}://www.mapquest.com/maps/map.adp?country={!URLENCODE(event.evt__Country__c)}&address={!URLENCODE(event.evt__Street__c)}&city={!URLENCODE(event.evt__City__c)}&state={!URLENCODE(event.evt__State__c)}&zipcode={!URLENCODE(event.evt__Postal_Code__c)}">Mapquest</a>
+                                                                                            &nbsp;|&nbsp;
+                                                                                        <a target="_blank" href="{!IF(BEGINS($Site.currentSiteURL,'https'),'http','http')}://maps.live.com/default.aspx?v=2&style=r&lvl=100&where1={!URLENCODE(event.evt__Street__c&','&event.evt__City__c&','&event.evt__State__c&','&event.evt__Postal_Code__c&','&event.evt__Country__c)}">Bing</a>
+                                                                                    </div>
+                                                                                </apex:outputPanel> 
+                                                                            </apex:outputPanel> 
+                                                                            <!-- MAP ENDS -->
+
+                                                                        </div>
+                                                                    </div>
+                                                                </aside>                                                                            
+                                                            </div>                                                          
+                                                            <!-- WHEN AND WHERE ENDS -->
+
+                                                            <!-- EVENT AGENDA STARTS -->
+                                                            <apex:outputPanel rendered="{!event.evt__Publish_Agenda__c}">
+                                                                <div id="eventAgenda" data-order="{!eventAgendaOrder}" class=" eachItem {!eventAgendaClasses}" style="margin-top:10px;">
+                                                                        <div id="evt_quickevent_agenda_box" class="evt_page_box" style="overflow:auto;">
+                                                                            <div class="evt_box_body">
+                                                                            <apex:outputText value="{!event.evt__Agenda_HTML__c}" escape="false"/>
+                                                                            </div>
+                                                                            <div class="evt_box_bottom"/>
+
+                                                                        </div>
+                                                                                
+                                                                    <div class="evt_box_bottom"/>
+                                                                </div>
+                                                            </apex:outputPanel>                                                                         
+                                                            <!-- EVENT AGENDA ENDS -->  
+
+                                                            <!-- DISPLAY REGISTRANTS STARTS -->
+                                                            <apex:outputPanel rendered="{!event.Display_Registrants__c}">
+                                                                <div id="evt_quickevent_where_box" data-order="{!eventAttendeesOrder}" class=" eachItem {!eventAttendeesClasses}" style="margin-top: 10px;">
+                                                                    <div id="evt_quickevent_registeredAttendee_box" class="regList" style="max-height: 370px;overflow: auto;">
+                                                                        <div style="">
+                                                                            <h2 style="">
+                                                                                {!$Label.List_Heading}
+                                                                            </h2>
+                                                                        </div>
+                                                                        <apex:outputPanel layout="none" rendered="{!regWrapList.size != 0}" >
+                                                                            <div style="padding: 3px;">
+                                                                                <apex:selectList styleClass="css-select" value="{!orderBy}" size="1" multiselect="false" style="float:right;">
+                                                                                    <apex:selectOption itemValue="Name" />
+                                                                                    <apex:selectOption itemValue="Class" rendered="{!event.Display_Class__c}" />
+                                                                                    <apex:selectOption itemValue="School" rendered="{!event.Display_School__c}" />
+                                                                                    <apex:selectOption itemValue="Title" rendered="{!event.Display_Title__c}" />
+                                                                                    <apex:selectOption itemValue="Company" rendered="{!event.Display_Company__c}" />
+                                                                                    <apex:actionSupport event="onchange" action="{!sortList}" reRender="nameList, pageBusyIndicator" status="pageBusyIndicator"/>
+                                                                                </apex:selectList>
+                                                                            </div>
+                                                                            <br/>
+                                                                            <br/>
+                                                                            <apex:outputPanel layout="block" id="nameList" style="margin-top: 10px;padding: 5px;">
+                                                                                <apex:variable var="index" value="{!0}" />
+                                                                                
+                                                                                <div style="{!IF(attendeeColumn2Count > 0, 'width:50%;float:left;', '')}">
+                                                                                    <apex:repeat value="{!regWrapList}" var="reg" rendered="{!attendeeColumn1Count > 0}">
+                                                                                        <apex:outputPanel layout="none" rendered="{!index < attendeeColumn1Count}">
+                                                                                            <div>
+                                                                                                <apex:outputPanel layout="block" rendered="{!NOT(ISBLANK(regWrapList[index].name))}">
+                                                                                                    {!regWrapList[index].name}
+                                                                                                </apex:outputPanel>
+                                                                                                <apex:outputPanel layout="block" rendered="{!ISBLANK(regWrapList[index].name)}">
+                                                                                                    <br/>
+                                                                                                </apex:outputPanel>
+                                                                                                <apex:outputPanel layout="block" rendered="{!AND(NOT(ISBLANK(regWrapList[index].className)), event.Display_Class__c)}">
+                                                                                                    {!$Label.Preferred_Class + ' ' + regWrapList[index].className}
+                                                                                                </apex:outputPanel>
+                                                                                                <apex:outputPanel layout="block" rendered="{!AND(ISBLANK(regWrapList[index].className), event.Display_Class__c)}">
+                                                                                                    <br/>
+                                                                                                </apex:outputPanel>
+                                                                                                <apex:outputPanel layout="block" rendered="{!AND(NOT(ISBLANK(regWrapList[index].school)), event.Display_School__c)}">
+                                                                                                    {!regWrapList[index].school}
+                                                                                                </apex:outputPanel>
+                                                                                                <apex:outputPanel layout="block" rendered="{!AND(ISBLANK(regWrapList[index].school), event.Display_School__c)}">
+                                                                                                    <br/>
+                                                                                                </apex:outputPanel>
+                                                                                                <apex:outputPanel layout="block" rendered="{!AND(NOT(ISBLANK(regWrapList[index].title)), event.Display_Title__c)}">
+                                                                                                    {!regWrapList[index].title}
+                                                                                                </apex:outputPanel>
+                                                                                                <apex:outputPanel layout="block" rendered="{!AND(ISBLANK(regWrapList[index].title), event.Display_Title__c)}">
+                                                                                                    <br/>
+                                                                                                </apex:outputPanel>
+                                                                                                <apex:outputPanel layout="block" rendered="{!AND(NOT(ISBLANK(regWrapList[index].company)), event.Display_Company__c)}">
+                                                                                                    {!regWrapList[index].company}
+                                                                                                </apex:outputPanel>
+                                                                                                <apex:outputPanel layout="block" rendered="{!AND(ISBLANK(regWrapList[index].company), event.Display_Company__c)}">
+                                                                                                    <br/>
+                                                                                                </apex:outputPanel>
+                                                                                                <apex:variable value="{!index + 1}" var="index"/>
+                                                                                            </div>
+                                                                                        </apex:outputPanel>                                                                                                     
+                                                                                    </apex:repeat>
+                                                                                </div>
+
+                                                                                
+                                                                                <apex:outputPanel layout="none" rendered="{!attendeeColumn2Count > 0}">
+                                                                                    <div style="{!IF(attendeeColumn2Count > 0, 'width:50%;float:right;', '')}">                                                                                             
+                                                                                        <apex:repeat value="{!regWrapList}" var="reg">
+                                                                                            <apex:outputPanel layout="none" rendered="{!index < regWrapList.size}">
+                                                                                                <div>
+                                                                                                    <apex:outputPanel layout="block" rendered="{!NOT(ISBLANK(regWrapList[index].name))}">
+                                                                                                        {!regWrapList[index].name}
+                                                                                                    </apex:outputPanel>
+                                                                                                    <apex:outputPanel layout="block" rendered="{!ISBLANK(regWrapList[index].name)}">
+                                                                                                        <br/>
+                                                                                                    </apex:outputPanel>
+                                                                                                    <apex:outputPanel layout="block" rendered="{!AND(NOT(ISBLANK(regWrapList[index].className)), event.Display_Class__c)}">
+                                                                                                        {!$Label.Preferred_Class + ' ' + regWrapList[index].className}
+                                                                                                    </apex:outputPanel>
+                                                                                                    <apex:outputPanel layout="block" rendered="{!AND(ISBLANK(regWrapList[index].className), event.Display_Class__c)}">
+                                                                                                        <br/>
+                                                                                                    </apex:outputPanel>
+                                                                                                    <apex:outputPanel layout="block" rendered="{!AND(NOT(ISBLANK(regWrapList[index].school)), event.Display_School__c)}">
+                                                                                                        {!regWrapList[index].school}
+                                                                                                    </apex:outputPanel>
+                                                                                                    <apex:outputPanel layout="block" rendered="{!AND(ISBLANK(regWrapList[index].school), event.Display_School__c)}">
+                                                                                                        <br/>
+                                                                                                    </apex:outputPanel>
+                                                                                                    <apex:outputPanel layout="block" rendered="{!AND(NOT(ISBLANK(regWrapList[index].title)), event.Display_Title__c)}">
+                                                                                                        {!regWrapList[index].title}
+                                                                                                    </apex:outputPanel>
+                                                                                                    <apex:outputPanel layout="block" rendered="{!AND(ISBLANK(regWrapList[index].title), event.Display_Title__c)}">
+                                                                                                        <br/>
+                                                                                                    </apex:outputPanel>
+                                                                                                    <apex:outputPanel layout="block" rendered="{!AND(NOT(ISBLANK(regWrapList[index].company)), event.Display_Company__c)}">
+                                                                                                        {!regWrapList[index].company}
+                                                                                                    </apex:outputPanel>
+                                                                                                    <apex:outputPanel layout="block" rendered="{!AND(ISBLANK(regWrapList[index].company), event.Display_Company__c)}">
+                                                                                                        <br/>
+                                                                                                    </apex:outputPanel>
+                                                                                                    <apex:variable value="{!index + 1}" var="index"/>
+                                                                                                </div>
+                                                                                            </apex:outputPanel>
+                                                                                        </apex:repeat>
+                                                                                    </div>
+                                                                                </apex:outputPanel>
+                                                                                <!--                                                                        
+                                                                                <div style="{!IF(attendeeColumn2Count > 0, 'width:50%;float:right;', '')}">
+                                                                                    Test 2
+                                                                                </div>
+                                                                                -->
+                                                                            </apex:outputPanel>                                                                                                                                                         
+                                                                        </apex:outputPanel>
+                                                                        <apex:outputPanel layout="none" rendered="{!regWrapList.size == 0}" >
+                                                                            <div>
+                                                                                {!$Label.No_Registrants}
+                                                                            </div>
+                                                                        </apex:outputPanel>
+                                                                    </div>
+                                                                </div>
+                                                            </apex:outputPanel>
+                                                            <!-- DISPLAY REGISTRANTS ENDS -->
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </apex:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                var divList = $j(".eachItem");
+                divList.sort(function(a, b){
+                    return $j(a).data("order")-$j(b).data("order")
+                });
+                $j("#blockContainer").html(divList);
+            </script>
+            <script type="text/javascript"> 
+                $Lightning.use("evt:lcvfEventMap", function() {
+                $Lightning.createComponent("evt:EventLocationMap",
+                {"recordId" : "{!event.Id}",
+                "sObjectName" : "evt__Special_Event__c"},
+                "lightningMap",
+                function(cmp) {
+                    // do some stuff
+                });
+                });
+            </script>
+
+            <apex:outputPanel id="redirect" layout="block">
+                <script>
+                    function redirect() {
+                        if('{!noTcktsSelected}' == 'false' && '{!atndeLimit}' == 'false') {
+                            window.location = '/quickEventRegistration' + '{!param}' + ('{!param}' == '' ? window.location.search : window.location.search.replace('?','&'));
+                        }
+                        else {
+                            document.documentElement.scrollTop = 0;
+                        }
+                    }
+                </script>
+            </apex:outputPanel>
+        </apex:define>
+    </apex:composition>
+</apex:page>

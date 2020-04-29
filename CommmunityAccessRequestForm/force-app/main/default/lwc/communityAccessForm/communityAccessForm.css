@@ -1,0 +1,16 @@
+h1 {
+    color: rgb(131, 131, 127);
+}
+p {
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+    color: rgb(0, 0, 0);
+}
+ul{
+    color: rgb(121, 118, 118);
+    overflow: hidden;
+    padding-right: 15;
+}
+.app {
+    background-color: #ffffff;
+    text-align-last: left
+}
