@@ -116,14 +116,4 @@ public with sharing class FinancialsTriggerHandler_Test {
         Test.stopTest();
 
     }
-
-
-
-
-
-
-
-
-
-
 }
