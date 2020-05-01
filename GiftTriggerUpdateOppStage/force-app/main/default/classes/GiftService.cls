@@ -64,8 +64,9 @@ public class GiftService {
             WHERE Id IN :giftsToProcess
             AND RecordTypeId IN :pledgeGiftGrantMatchingRTIds
         ]) {
-            if (gift.AQB__CreditedOpportunity__r.StageName != OpportunityService.ACCEPTED
-                && OpportunityService.majorLifeEstateRTIds.contains(gift.AQB__CreditedOpportunity__r.RecordTypeId)
+            if (gift.AQB__CreditedOpportunity__r.StageName != OpportunityService.ACCEPTED &&
+                (OpportunityService.majorLifeEstateRTIds.contains(gift.AQB__CreditedOpportunity__r.RecordTypeId||
+                gift.AQB__CreditedOpportunity__r.RecordTypeId == Schema.SObjectType.Opportunity.getRecordTypeInfosByName().get('Gift_IP').getRecordTypeId() ))  //added this OR to include GIFT IP recType JH 5.1.20
             ) {
                 opportunitiesToUpdate.add(new Opportunity(
                     Id = gift.AQB__CreditedOpportunity__c,
