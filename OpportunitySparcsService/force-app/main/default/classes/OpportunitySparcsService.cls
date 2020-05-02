@@ -7,7 +7,7 @@
 * Also generates the Sparcs AG NUMBER from a custom setting
 */
 
-public class OpportunitySparcsService {
+public without sharing class OpportunitySparcsService {
         
     
       //invoked Before Insert by the OpportunityTriggerHandler
@@ -16,8 +16,15 @@ public class OpportunitySparcsService {
       //queries the AGNum custom setting which stores the last AGNumber generated, adds 1, 
       //updates the 'Associated_Contract_Number__c' field, sets and saves the customer setting record.   
     public static void createAgNumber(List<Opportunity> opps){
-    AGNum__c agNum = [SELECT Id, Name, AGNumber__c FROM AGNum__c WHERE Name = 'LastAGNum' ];
-    Integer lastAGNumber = (Integer)agNum.AGNumber__c;
+    //AGNum__c agNum = [SELECT Id, Name, AGNumber__c FROM AGNum__c WHERE Name = 'LastAGNum' ];
+    agNum__c agNum = agNum__c.getInstance('LastAGNum');
+    Integer lastAGNumber = integer.valueOf(agNum.AGNumber__c);
+    //Integer lastAGNumber = (Integer)agNum.AGNumber__c;
+    System.debug('agNum = '+agNum);
+    System.debug('agNum.AGNumber__c==='+agNum.AGNumber__c);
+    
+   
+    
     Map<String,String> stages = new Map<String,String>{
         'Draft' => 'Proposal In Development',
         'Revised Budget Created' => 'Negotiation/Review',
