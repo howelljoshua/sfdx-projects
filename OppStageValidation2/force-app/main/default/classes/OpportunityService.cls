@@ -644,7 +644,7 @@ public class OpportunityService {
             SELECT AQB__Date__c, CreatedById, AQB__Opportunity__c
             FROM AQB__ActivityReport__c
             WHERE AQB__ReportStatus__c = 'Final'
-            AND AQB__Type__c IN ('Visit in', 'Visit out', 'Phone Cultivation')
+            AND AQB__Type__c IN ('Visit in', 'Visit out', 'Phone Cultivation', 'Mail Cultivation', 'Virtual Visit')
             AND AQB__Opportunity__c IN :newOpps
         ]) {
             if (!activityReportsMap.containsKey(report.AQB__Opportunity__c)) {

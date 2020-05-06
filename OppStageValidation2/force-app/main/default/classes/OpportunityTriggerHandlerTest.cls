@@ -28,6 +28,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     private static void testQualificationCreationNegative() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -80,6 +83,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     private static void testQualificationCreationPositive() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -136,6 +142,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     private static void testErrorOnDisqualification() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -181,6 +190,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     private static void testQualificationCaseCreation() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -226,6 +238,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testValidationToCultivationNegative() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -288,6 +303,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testValidationToCultivationPositive() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -336,7 +354,7 @@ private class OpportunityTriggerHandlerTest {
         System.runAs(testUser) {
             try {
                 AQB__OpportunityComponent__c testComponent = new AQB__OpportunityComponent__c(
-                    School__c = 'Library',
+                    School__c = 'University Libraries',
                     AQB__Opportunity__c = testOpportunity.Id
                 );
                 insert testComponent;
@@ -363,6 +381,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testValidationToSolicitationPositive() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -398,7 +419,7 @@ private class OpportunityTriggerHandlerTest {
         System.runAs(testUser) {
             try {
                 AQB__OpportunityComponent__c testComponent = new AQB__OpportunityComponent__c(
-                    School__c = 'Library',
+                    School__c = 'University Libraries',
                     Account_Type__c = 'Expendable',
                     Account_Sub_Type__c = 'Emerging Opportunities',
                     AQB__Opportunity__c = testOpportunity.Id
@@ -449,6 +470,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     private static void testDelete() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -487,6 +511,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testRejectQualification() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         User testUser = [SELECT Id FROM User WHERE Alias = 'queueMan' LIMIT 1];
 
         Account testAccount = TestDataFactory.createTestAccount('Household');
@@ -532,6 +559,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testApprovedQualification() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         User testUser = [SELECT Id FROM User WHERE Alias = 'queueMan' LIMIT 1];
 
         Account testAccount = TestDataFactory.createTestAccount('Household');
@@ -586,6 +616,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testSpouseFieldsCopy() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         User testUser = [SELECT Id FROM User WHERE Alias = 'queueMan' LIMIT 1];
 
         Account testAccount = TestDataFactory.createTestAccount('Household');
@@ -637,6 +670,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     private static void testEstateMoveToAcceptedStageNegative() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -675,6 +711,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     private static void testEstateMoveToAcceptedStagePositive() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -714,6 +753,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testValidationCultivationToSolicitationStageNegative() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         OpportunityTriggerHandler.disable = true;
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
@@ -760,7 +802,7 @@ private class OpportunityTriggerHandlerTest {
 
         AQB__OpportunityComponent__c testComponent = new AQB__OpportunityComponent__c(
             AQB__Opportunity__c = testOpportunity.Id,
-            School__c = 'Library',
+            School__c = 'University Libraries',
             Account_Type__c = 'Undesignated'
         );
         insert testComponent;
@@ -785,6 +827,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testValidationDiscoveryToAnticipatedSolicitationStageNegative() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -814,7 +859,7 @@ private class OpportunityTriggerHandlerTest {
         Test.startTest();
         AQB__OpportunityComponent__c testComponent = new AQB__OpportunityComponent__c(
             AQB__Opportunity__c = testOpportunity.Id,
-            School__c = 'Library',
+            School__c = 'University Libraries',
             Account_Type__c = 'Undesignated'
         );
         insert testComponent;
@@ -851,6 +896,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testValidationDiscoveryToAnticipatedSolicitationStagePositive() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -882,7 +930,7 @@ private class OpportunityTriggerHandlerTest {
         System.runAs(testUser) {
             AQB__OpportunityComponent__c testComponent = new AQB__OpportunityComponent__c(
                 AQB__Opportunity__c = testOpportunity.Id,
-                School__c = 'Library',
+                School__c = 'University Libraries',
                 Account_Type__c = 'Undesignated'
             );
             insert testComponent;
@@ -914,6 +962,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testValidationDiscoveryToSolicitationStageNegative() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -943,7 +994,7 @@ private class OpportunityTriggerHandlerTest {
 
         AQB__OpportunityComponent__c testComponent = new AQB__OpportunityComponent__c(
             AQB__Opportunity__c = testOpportunity.Id,
-            School__c = 'Library',
+            School__c = 'University Libraries',
             Account_Type__c = 'Undesignated'
         );
         insert testComponent;
@@ -980,6 +1031,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testValidationDiscoveryToSolicitationStagePositive() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -1011,7 +1065,7 @@ private class OpportunityTriggerHandlerTest {
         System.runAs(testUser) {
             AQB__OpportunityComponent__c testComponent = new AQB__OpportunityComponent__c(
                 AQB__Opportunity__c = testOpportunity.Id,
-                School__c = 'Library',
+                School__c = 'University Libraries',
                 Account_Type__c = 'Undesignated',
                 Account_Sub_Type__c = 'Student Support'
             );
@@ -1060,6 +1114,9 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void ipProposalStages() {
         // Arrange
+        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
+        insert agn;
+
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -1124,7 +1181,7 @@ private class OpportunityTriggerHandlerTest {
 
             
             //POSITIVE TEST for Moving to Prop In Dev...(added school to OppComp, added Ask Date to Opp)
-            testComponent.School__c = 'Library';
+            testComponent.School__c = 'University Libraries';
             update testComponent;
             testOpportunity.StageName = OpportunityService.PROPOSAL_IN_DEVELOPMENT;
             testOpportunity.Ask_Date__c = Date.today().addDays(5);
