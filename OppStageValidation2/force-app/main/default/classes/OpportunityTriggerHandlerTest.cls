@@ -6,9 +6,10 @@
 */
 @IsTest(IsParallel=false)
 private class OpportunityTriggerHandlerTest {
+    public static final Id EVENT_RECORD_TYPE_ID = Schema.SObjectType.AQB__ActivityReport__c.getRecordTypeInfosByDeveloperName().get('Event').getRecordTypeId();
+
     @TestSetup
     static void setUpTest() {
-
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         testUser.FirstName = 'Queue';
         testUser.LastName = 'Manager';
@@ -26,10 +27,7 @@ private class OpportunityTriggerHandlerTest {
 
     @IsTest
     private static void testQualificationCreationNegative() {
-        // Arrange        
-        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
-        insert agn;   
-
+        // Arrange
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -64,7 +62,7 @@ private class OpportunityTriggerHandlerTest {
                 AQB__Account__c = testAccount.Id,
                 AQB__ReportStatus__c = 'Final',
                 AQB__Date__c = System.today().addDays(-30),
-                AQB__Type__c = 'Visit in'
+                AQB__Type__c = 'Visit In'
             );
             insert testCultivationReport;
 
@@ -82,9 +80,6 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     private static void testQualificationCreationPositive() {
         // Arrange
-        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
-        insert agn; 
-
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -105,11 +100,16 @@ private class OpportunityTriggerHandlerTest {
         insert testOpportunity;
 
         AQB__ActivityReport__c testReport = new AQB__ActivityReport__c(
+            RecordTypeId = EVENT_RECORD_TYPE_ID,
             AQB__Opportunity__c = testOpportunity.Id,
             AQB__Account__c = testAccount.Id,
             AQB__ReportStatus__c = 'Final',
+            AQB__Subject__c = 'Test',
+            AQB__Objective__c = 'Test',
             AQB__Date__c = System.today().addDays(-30),
-            AQB__Type__c = 'Visit in'
+            AQB__StartDateTime__c = System.today().addDays(-30),
+            AQB__EndDateTime__c = System.today().addDays(-30),
+            AQB__Type__c = 'Visit In'
         );
         insert testReport;
 
@@ -122,40 +122,6 @@ private class OpportunityTriggerHandlerTest {
 
         // Act
         Test.startTest();
-        System.debug('THis is the Opportunity: '+ testOpportunity + 'before adding the ACtiv Report');
-        System.debug('THis is the Account: '+ testAccount + 'before adding the Activ Report');
-        AQB__ActivityReport__c testCultivationReport = new AQB__ActivityReport__c(
-            AQB__Opportunity__c = testOpportunity.Id,
-            AQB__Account__c = testAccount.Id,
-            AQB__ReportStatus__c = 'Final',
-            AQB__Date__c = System.today().addDays(-30),
-            AQB__Type__c = 'Visit out'
-        );
-        system.debug('Activity Report before insert has:' + testCultivationReport);
-        insert testCultivationReport;
-        AQB__ActivityReport__c arpt = [SELECT Id, AQB__ReportStatus__c, AQB__Date__c, AQB__Type__c
-                                        FROM AQB__ActivityReport__c 
-                                        WHERE Id = :testCultivationReport.Id];
-        System.debug('Activity Report after query has: '+ arpt);
-
-        //EVENT ADDED FOR BROKEN TESTS 
-        Event event = new Event( 
-            AQB__Account__c = testAccount.Id,
-            OwnerId = testUser.Id,
-            AQB__ActivityReport__c = testCultivationReport.Id,
-            Subject =  'Close Gift',
-            StartDateTime = System.now().addHours(-24),
-            EndDateTime = System.now().addHours(-23),
-            Type = 'Visit In'     
-        );
-        insert event;
-        AQB__ActivityReport__c arpt2 = [SELECT Id, AQB__ReportStatus__c, AQB__Date__c, AQB__Type__c
-        FROM AQB__ActivityReport__c 
-        WHERE Id = :testCultivationReport.Id];
-        System.debug('Activity Report after the Event added has: '+ arpt2);
-
-
-
         testOpportunity.StageName = OpportunityService.CULTIVATION;
         update testOpportunity;
         Test.stopTest();
@@ -170,9 +136,6 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     private static void testErrorOnDisqualification() {
         // Arrange
-        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
-        insert agn; 
-
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -218,9 +181,6 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     private static void testQualificationCaseCreation() {
         // Arrange
-        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
-        insert agn; 
-
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -266,9 +226,6 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testValidationToCultivationNegative() {
         // Arrange
-        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
-        insert agn; 
-
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -288,14 +245,19 @@ private class OpportunityTriggerHandlerTest {
         testOpportunity.OwnerId = testUser.Id;
         insert testOpportunity;
 
-        AQB__ActivityReport__c testCultivationReport = new AQB__ActivityReport__c(
+        AQB__ActivityReport__c testReport = new AQB__ActivityReport__c(
+            RecordTypeId = EVENT_RECORD_TYPE_ID,
             AQB__Opportunity__c = testOpportunity.Id,
             AQB__Account__c = testAccount.Id,
             AQB__ReportStatus__c = 'Final',
+            AQB__Subject__c = 'Test',
+            AQB__Objective__c = 'Test',
             AQB__Date__c = System.today().addDays(-30),
-            AQB__Type__c = 'Visit in'
+            AQB__StartDateTime__c = System.today().addDays(-30),
+            AQB__EndDateTime__c = System.today().addDays(-30),
+            AQB__Type__c = 'Visit In'
         );
-        insert testCultivationReport;
+        insert testReport;
 
         testOpportunity.StageName = OpportunityService.CULTIVATION;
         update testOpportunity;
@@ -304,11 +266,11 @@ private class OpportunityTriggerHandlerTest {
         testRating.End_Date__c = System.today() - 25;
         insert testRating;
 
+        Test.startTest();
         OpportunityTeamMember testLeadMember = TestDataFactory.createTestOpptyTeamMember(testOpportunity.Id, testUser.Id, 'Team Leader');
         insert testLeadMember;
 
         // Act
-        Test.startTest();
         System.runAs(testUser) {
             try {
                 testOpportunity.StageName = OpportunityService.ANTICIPATED_SOLICITATION;
@@ -326,9 +288,6 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testValidationToCultivationPositive() {
         // Arrange
-        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
-        insert agn; 
-
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -348,14 +307,19 @@ private class OpportunityTriggerHandlerTest {
         testOpportunity.OwnerId = testUser.Id;
         insert testOpportunity;
 
-        AQB__ActivityReport__c testCultivationReport = new AQB__ActivityReport__c(
+        AQB__ActivityReport__c testReport = new AQB__ActivityReport__c(
+            RecordTypeId = EVENT_RECORD_TYPE_ID,
             AQB__Opportunity__c = testOpportunity.Id,
             AQB__Account__c = testAccount.Id,
             AQB__ReportStatus__c = 'Final',
+            AQB__Subject__c = 'Test',
+            AQB__Objective__c = 'Test',
             AQB__Date__c = System.today().addDays(-30),
-            AQB__Type__c = 'Visit in'
+            AQB__StartDateTime__c = System.today().addDays(-30),
+            AQB__EndDateTime__c = System.today().addDays(-30),
+            AQB__Type__c = 'Visit In'
         );
-        insert testCultivationReport;
+        insert testReport;
 
         testOpportunity.StageName = OpportunityService.CULTIVATION;
         update testOpportunity;
@@ -364,15 +328,15 @@ private class OpportunityTriggerHandlerTest {
         testRating.End_Date__c = System.today() - 25;
         insert testRating;
 
+        Test.startTest();
         OpportunityTeamMember testLeadMember = TestDataFactory.createTestOpptyTeamMember(testOpportunity.Id, testUser.Id, 'Team Leader');
         insert testLeadMember;
 
         // Act
-        Test.startTest();
         System.runAs(testUser) {
             try {
                 AQB__OpportunityComponent__c testComponent = new AQB__OpportunityComponent__c(
-                    School__c = 'University Libraries',
+                    School__c = 'Library',
                     AQB__Opportunity__c = testOpportunity.Id
                 );
                 insert testComponent;
@@ -399,9 +363,6 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testValidationToSolicitationPositive() {
         // Arrange
-        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
-        insert agn; 
-
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -437,27 +398,32 @@ private class OpportunityTriggerHandlerTest {
         System.runAs(testUser) {
             try {
                 AQB__OpportunityComponent__c testComponent = new AQB__OpportunityComponent__c(
-                    School__c = 'University Libraries',
+                    School__c = 'Library',
                     Account_Type__c = 'Expendable',
                     Account_Sub_Type__c = 'Emerging Opportunities',
                     AQB__Opportunity__c = testOpportunity.Id
                 );
                 insert testComponent;
 
-                AQB__ActivityReport__c testActivityReport = new AQB__ActivityReport__c(
-                    AQB__Date__c = Date.today().addDays(-5),
+                AQB__ActivityReport__c testReport = new AQB__ActivityReport__c(
+                    RecordTypeId = EVENT_RECORD_TYPE_ID,
                     AQB__Opportunity__c = testOpportunity.Id,
                     AQB__Account__c = testAccount.Id,
                     AQB__ReportStatus__c = 'Final',
-                    AQB__Type__c = 'Visit in'
+                    AQB__Subject__c = 'Test',
+                    AQB__Objective__c = 'Test',
+                    AQB__Date__c = System.today().addDays(-30),
+                    AQB__StartDateTime__c = System.today().addDays(-30),
+                    AQB__EndDateTime__c = System.today().addDays(-30),
+                    AQB__Type__c = 'Visit In'
                 );
-                insert testActivityReport;
+                insert testReport;
 
                 testOpportunity.StageName = OpportunityService.ANTICIPATED_SOLICITATION;
                 update testOpportunity;
 
                 AQB__ActivityReportParticipant__c testParticipant = new AQB__ActivityReportParticipant__c(
-                    AQB__ActivityReport__c = testActivityReport.Id,
+                    AQB__ActivityReport__c = testReport.Id,
                     AQB__User__c = testUser.Id
                 );
                 insert testParticipant;
@@ -483,9 +449,6 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     private static void testDelete() {
         // Arrange
-        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
-        insert agn; 
-
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -524,9 +487,6 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testRejectQualification() {
         // Arrange
-        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
-        insert agn; 
-
         User testUser = [SELECT Id FROM User WHERE Alias = 'queueMan' LIMIT 1];
 
         Account testAccount = TestDataFactory.createTestAccount('Household');
@@ -572,9 +532,6 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testApprovedQualification() {
         // Arrange
-        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
-        insert agn; 
-
         User testUser = [SELECT Id FROM User WHERE Alias = 'queueMan' LIMIT 1];
 
         Account testAccount = TestDataFactory.createTestAccount('Household');
@@ -629,9 +586,6 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testSpouseFieldsCopy() {
         // Arrange
-        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
-        insert agn; 
-
         User testUser = [SELECT Id FROM User WHERE Alias = 'queueMan' LIMIT 1];
 
         Account testAccount = TestDataFactory.createTestAccount('Household');
@@ -683,9 +637,6 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     private static void testEstateMoveToAcceptedStageNegative() {
         // Arrange
-        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
-        insert agn; 
-
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -724,9 +675,6 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     private static void testEstateMoveToAcceptedStagePositive() {
         // Arrange
-        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
-        insert agn; 
-        
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -767,10 +715,6 @@ private class OpportunityTriggerHandlerTest {
     static void testValidationCultivationToSolicitationStageNegative() {
         // Arrange
         OpportunityTriggerHandler.disable = true;
-
-        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
-        insert agn; 
-
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -790,14 +734,19 @@ private class OpportunityTriggerHandlerTest {
         testOpportunity.OwnerId = testUser.Id;
         insert testOpportunity;
 
-        AQB__ActivityReport__c testCultivationReport = new AQB__ActivityReport__c(
+        AQB__ActivityReport__c testReport = new AQB__ActivityReport__c(
+            RecordTypeId = EVENT_RECORD_TYPE_ID,
             AQB__Opportunity__c = testOpportunity.Id,
             AQB__Account__c = testAccount.Id,
             AQB__ReportStatus__c = 'Final',
+            AQB__Subject__c = 'Test',
+            AQB__Objective__c = 'Test',
             AQB__Date__c = System.today().addDays(-30),
-            AQB__Type__c = 'Visit in'
+            AQB__StartDateTime__c = System.today().addDays(-30),
+            AQB__EndDateTime__c = System.today().addDays(-30),
+            AQB__Type__c = 'Visit In'
         );
-        insert testCultivationReport;
+        insert testReport;
 
         testOpportunity.StageName = OpportunityService.CULTIVATION;
         update testOpportunity;
@@ -811,7 +760,7 @@ private class OpportunityTriggerHandlerTest {
 
         AQB__OpportunityComponent__c testComponent = new AQB__OpportunityComponent__c(
             AQB__Opportunity__c = testOpportunity.Id,
-            School__c = 'University Libraries',
+            School__c = 'Library',
             Account_Type__c = 'Undesignated'
         );
         insert testComponent;
@@ -836,9 +785,6 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testValidationDiscoveryToAnticipatedSolicitationStageNegative() {
         // Arrange
-        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
-        insert agn; 
-
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -865,22 +811,29 @@ private class OpportunityTriggerHandlerTest {
         OpportunityTeamMember testLeadMember = TestDataFactory.createTestOpptyTeamMember(testOpportunity.Id, testUser.Id, 'Team Leader');
         insert testLeadMember;
 
+        Test.startTest();
         AQB__OpportunityComponent__c testComponent = new AQB__OpportunityComponent__c(
             AQB__Opportunity__c = testOpportunity.Id,
-            School__c = 'University Libraries',
+            School__c = 'Library',
             Account_Type__c = 'Undesignated'
         );
         insert testComponent;
 
         AQB__ActivityReport__c testReport = new AQB__ActivityReport__c(
+            RecordTypeId = EVENT_RECORD_TYPE_ID,
             AQB__Opportunity__c = testOpportunity.Id,
             AQB__Account__c = testAccount.Id,
-            AQB__ReportStatus__c = 'Final'
+            AQB__ReportStatus__c = 'Final',
+            AQB__Subject__c = 'Test',
+            AQB__Objective__c = 'Test',
+            AQB__Date__c = System.today().addDays(-30),
+            AQB__StartDateTime__c = System.today().addDays(-30),
+            AQB__EndDateTime__c = System.today().addDays(-30),
+            AQB__Type__c = 'Visit In'
         );
         insert testReport;
 
         // Act
-        Test.startTest();
         System.runAs(testUser) {
             try {
                 testOpportunity.StageName = OpportunityService.ANTICIPATED_SOLICITATION;
@@ -898,9 +851,6 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testValidationDiscoveryToAnticipatedSolicitationStagePositive() {
         // Arrange
-        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
-        insert agn; 
-
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -932,17 +882,22 @@ private class OpportunityTriggerHandlerTest {
         System.runAs(testUser) {
             AQB__OpportunityComponent__c testComponent = new AQB__OpportunityComponent__c(
                 AQB__Opportunity__c = testOpportunity.Id,
-                School__c = 'University Libraries',
+                School__c = 'Library',
                 Account_Type__c = 'Undesignated'
             );
             insert testComponent;
 
             AQB__ActivityReport__c testReport = new AQB__ActivityReport__c(
+                RecordTypeId = EVENT_RECORD_TYPE_ID,
                 AQB__Opportunity__c = testOpportunity.Id,
                 AQB__Account__c = testAccount.Id,
                 AQB__ReportStatus__c = 'Final',
-                AQB__Type__c = 'Visit in',
-                AQB__Date__c = Date.today().addDays(-20)
+                AQB__Subject__c = 'Test',
+                AQB__Objective__c = 'Test',
+                AQB__Date__c = System.today().addDays(-30),
+                AQB__StartDateTime__c = System.today().addDays(-30),
+                AQB__EndDateTime__c = System.today().addDays(-30),
+                AQB__Type__c = 'Visit In'
             );
             insert testReport;
 
@@ -959,9 +914,6 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testValidationDiscoveryToSolicitationStageNegative() {
         // Arrange
-        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
-        insert agn; 
-
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -985,25 +937,32 @@ private class OpportunityTriggerHandlerTest {
         testRating.End_Date__c = System.today() - 25;
         insert testRating;
 
+        Test.startTest();
         OpportunityTeamMember testLeadMember = TestDataFactory.createTestOpptyTeamMember(testOpportunity.Id, testUser.Id, 'Team Leader');
         insert testLeadMember;
 
         AQB__OpportunityComponent__c testComponent = new AQB__OpportunityComponent__c(
             AQB__Opportunity__c = testOpportunity.Id,
-            School__c = 'University Libraries',
+            School__c = 'Library',
             Account_Type__c = 'Undesignated'
         );
         insert testComponent;
 
         AQB__ActivityReport__c testReport = new AQB__ActivityReport__c(
+            RecordTypeId = EVENT_RECORD_TYPE_ID,
             AQB__Opportunity__c = testOpportunity.Id,
             AQB__Account__c = testAccount.Id,
-            AQB__ReportStatus__c = 'Final'
+            AQB__ReportStatus__c = 'Final',
+            AQB__Subject__c = 'Test',
+            AQB__Objective__c = 'Test',
+            AQB__Date__c = System.today().addDays(-30),
+            AQB__StartDateTime__c = System.today().addDays(-30),
+            AQB__EndDateTime__c = System.today().addDays(-30),
+            AQB__Type__c = 'Visit In'
         );
         insert testReport;
 
         // Act
-        Test.startTest();
         System.runAs(testUser) {
             try {
                 testOpportunity.StageName = OpportunityService.SOLICITATION;
@@ -1021,9 +980,6 @@ private class OpportunityTriggerHandlerTest {
     @IsTest
     static void testValidationDiscoveryToSolicitationStagePositive() {
         // Arrange
-        AGNum__c agn = new AGNum__c(Name='LastAGNum', AGNumber__c=1);
-        insert agn; 
-
         User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
         insert testUser;
 
@@ -1055,17 +1011,23 @@ private class OpportunityTriggerHandlerTest {
         System.runAs(testUser) {
             AQB__OpportunityComponent__c testComponent = new AQB__OpportunityComponent__c(
                 AQB__Opportunity__c = testOpportunity.Id,
-                School__c = 'University Libraries',
+                School__c = 'Library',
                 Account_Type__c = 'Undesignated',
                 Account_Sub_Type__c = 'Student Support'
             );
             insert testComponent;
 
             AQB__ActivityReport__c testReport = new AQB__ActivityReport__c(
+                RecordTypeId = EVENT_RECORD_TYPE_ID,
                 AQB__Opportunity__c = testOpportunity.Id,
                 AQB__Account__c = testAccount.Id,
                 AQB__ReportStatus__c = 'Final',
-                AQB__Date__c = Date.today().addDays(-20)
+                AQB__Subject__c = 'Test',
+                AQB__Objective__c = 'Test',
+                AQB__Date__c = System.today().addDays(-30),
+                AQB__StartDateTime__c = System.today().addDays(-30),
+                AQB__EndDateTime__c = System.today().addDays(-30),
+                AQB__Type__c = 'Visit In'
             );
             insert testReport;
 
@@ -1084,4 +1046,145 @@ private class OpportunityTriggerHandlerTest {
         List<Prospect_Rating__c> assertRatings = [SELECT Id FROM Prospect_Rating__c WHERE Account__c = :testAccount.Id];
         System.assertEquals(1, assertRatings.size(), 'A new Prospect Rating should have been created for the test Account.');
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    @IsTest
+    static void ipProposalStages() {
+        // Arrange
+        User testUser = TestDataFactory.createTestUser('UA Prospect Manager');
+        insert testUser;
+
+        Account testAccount = TestDataFactory.createTestAccount('Household');
+        insert testAccount;
+
+        Contact testContact = TestDataFactory.createTestContact();
+        testContact.AccountId = testAccount.Id;
+        insert testContact;
+
+        // NOTE: Must set the Primary Contact AFTER inserting the Contact for the Oppty Naming to work.
+        testAccount.AQB__PrimaryContact__c = testContact.Id;
+        update testAccount;
+
+        Opportunity testOpportunity = TestDataFactory.createTestOpportunity(OpportunityService.DISCOVERY, OpportunityService.MAJOR);
+        testOpportunity.AccountId = testAccount.Id;
+        testOpportunity.OwnerId = testUser.Id;
+        testOpportunity.Amount = 500;
+        testOpportunity.Anticipated_Amount__c = 500;
+        //testOpportunity.Ask_Date__c = Date.today().addDays(5);
+        testOpportunity.CloseDate = Date.today().addYears(1);
+        insert testOpportunity;
+
+        OpportunityTeamMember testLeadMember = TestDataFactory.createTestOpptyTeamMember(testOpportunity.Id, testUser.Id, 'Team Leader');
+        insert testLeadMember;
+
+        // Act
+        //Test.startTest();
+        System.runAs(testUser) {
+            AQB__OpportunityComponent__c testComponent = new AQB__OpportunityComponent__c(
+                AQB__Opportunity__c = testOpportunity.Id);
+            insert testComponent;
+
+            AQB__ActivityReport__c testReport = new AQB__ActivityReport__c(
+                RecordTypeId = EVENT_RECORD_TYPE_ID,
+                AQB__Opportunity__c = testOpportunity.Id,
+                AQB__Account__c = testAccount.Id,
+                AQB__ReportStatus__c = 'Final',
+                AQB__Subject__c = 'Test',
+                AQB__Objective__c = 'Test',
+                AQB__Date__c = System.today().addDays(-30),
+                AQB__StartDateTime__c = System.today().addDays(-30),
+                AQB__EndDateTime__c = System.today().addDays(-30),
+                AQB__Type__c = 'Visit In'
+            );
+            insert testReport;
+		//Test.stopTest();
+
+
+
+		Test.startTest();            
+            //NEGATIVE TEST for Moving to Prop In Dev...(no school on Opp Comp, no ask date)
+            try{
+                testOpportunity.StageName = OpportunityService.PROPOSAL_IN_DEVELOPMENT;
+                update testOpportunity;
+            } catch(Exception e) {
+                System.assert(
+                    e.getMessage().contains('In order to advance to the Proposal In Development stage'),
+                    'Validation Fired Correctly.'
+                );
+            }
+
+            
+            //POSITIVE TEST for Moving to Prop In Dev...(added school to OppComp, added Ask Date to Opp)
+            testComponent.School__c = 'Library';
+            update testComponent;
+            testOpportunity.StageName = OpportunityService.PROPOSAL_IN_DEVELOPMENT;
+            testOpportunity.Ask_Date__c = Date.today().addDays(5);
+            update testOpportunity;
+		//Test.stopTest();            
+            
+
+
+		//Test.startTest();            
+            //NEGATIVE TEST for Moving to Prop Out...(no Account Type/Subtype on OppComp, Bad Dates)
+            try{
+                testOpportunity.StageName = OpportunityService.PROPOSAL_OUTSTANDING;
+                update testOpportunity;
+            } catch(Exception e) {
+                System.assert(
+                    e.getMessage().contains('In order to save the Opportunity in the Proposal Outstanding stage'),
+                    'Validation Fired Correctly.'
+                );
+            }
+
+
+            //POSITIVE TEST for Moving to Prop Outs...(added  Acct Type + Sub Type on OppComp, updated dates)
+            testComponent.Account_Type__c = 'Unknown';
+            testComponent.Account_Sub_type__c = 'Unknown';
+            update testComponent;
+            testOpportunity.StageName = OpportunityService.PROPOSAL_IN_DEVELOPMENT;
+            testOpportunity.Ask_Date__c = Date.today().addDays(-5);
+            testOpportunity.CloseDate = Date.today().addDays(60);
+            update testOpportunity;            
+        Test.stopTest();
+        }
+
+        
+    
+        
+
+        // Assert
+       // List<Prospect_Rating__c> assertRatings = [SELECT Id FROM Prospect_Rating__c WHERE Account__c = :testAccount.Id];
+       // System.assertEquals(1, assertRatings.size(), 'A new Prospect Rating should have been created for the test Account.');
+    }    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

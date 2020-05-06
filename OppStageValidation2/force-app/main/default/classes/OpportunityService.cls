@@ -605,28 +605,24 @@ public class OpportunityService {
             SELECT AQB__Date__c, CreatedById, AQB__Opportunity__c
             FROM AQB__ActivityReport__c
             WHERE AQB__ReportStatus__c = 'Final'
-            AND AQB__Type__c IN ('Visit in', 'Visit out', 'Phone Cultivation')
-            //AND AQB__Type__c IN ('Visit in', 'Visit out', 'Phone Cultivation', 'Mail Cultivation', 'Virtual Visit')
+            AND AQB__Type__c IN ('Visit in', 'Visit out', 'Phone Cultivation', 'Mail Cultivation', 'Virtual Visit')
             AND AQB__Date__c = LAST_N_DAYS:60
             AND AQB__Opportunity__c IN :newOpps
         ]) {
-            
             if (!activityReportMap.containsKey(report.AQB__Opportunity__c)) {
                 activityReportMap.put(report.AQB__Opportunity__c, new List<AQB__ActivityReport__c>{report});
             } else {
                 activityReportMap.get(report.AQB__Opportunity__c).add(report);
             }
         }
-        System.debug('after querying and putting the Activity Reports into a map, size is: ' + activityReportMap.size() );
-        System.debug('after querying and putting the Activity Reports into a map, size is: ' + activityReportMap );
 
         for (Opportunity opp : newOpps) {
             if (!activityReportMap.containsKey(opp.Id) || (activityReportMap.containsKey(opp.Id) && activityReportMap.get(opp.Id).size() == 0)) {
                 opp.addError(
                     'You must enter an Activity Report in this Discovery stage before moving on to Cultivation ' +
-                    'Stage. Enter and save a final Activity report type must be Visit in, Visit out, Phone Cultivation, ' +
-                    'Mail Cultivation, or Virtual Visit, with Date in the last 60 days, Report Status = Final on either the Account ' +
-                    'or the Opportunity, then return to the Opportunity and save in the Cultivation stage.'
+                    'Stage. Enter and save a final Activity report (type must be Visit in, Visit out or Phone ' +
+                    'Cultivation, Date in the last 60 days, Report Status must be Final) on either the account ' +
+                    'or the opportunity, then return to the Opportunity and save in the Cultivation stage.'
                 );
             }
         }
