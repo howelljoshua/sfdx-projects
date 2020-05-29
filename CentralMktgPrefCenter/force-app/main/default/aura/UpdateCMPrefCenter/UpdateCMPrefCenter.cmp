@@ -1,0 +1,140 @@
+<!--
+// Component Name : UpdateCMPrefCenter
+// Controller Class : UpdateAlumniPreferenceController
+// Description : Cloned from UpdateAlumniPrefCenter, hence some unneeded code thats still in here
+//
+// 15 May 2020    Lucas Dickson        Original
+-->
+<aura:component
+                controller="UpdateAlumniPreferenceController"
+                implements="forceCommunity:availableForAllPageTypes,lightning:isUrlAddressable"
+                access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{! v.country }" action="{! c.updateProvinces }"/>
+    <aura:attribute name="account" type="Account" default="{'sobjectType' : 'Account'}" />
+    <aura:attribute name="pref" type="Marketing_Preference__c" />
+    <aura:attribute name="category" type="Aura.Component[]" />
+    <aura:attribute name="schools_Colleges" type="Aura.Component[]" />
+    <aura:attribute name="schools_Colleges_Tepper" type="Aura.Component[]" />
+    <aura:attribute name="Identity_Networks" type="Aura.Component[]" />
+    <aura:attribute name="Other_Network" type="Aura.Component[]" />
+    <aura:attribute name="Student_Organizations" type="Aura.Component[]" />
+
+    <aura:attribute name="recTypeId" type="String"  />
+    <aura:attribute name="active" type="Boolean" default="true"/>
+    <aura:attribute name="isManual" type="Boolean" default="true"/>
+    <aura:attribute name="messageId" type="String" default=""/>
+    <aura:attribute name="email" type="String" default=""/>
+    <aura:attribute name="emailMasked" type="String" default=""/>
+    <aura:attribute name="conId" type="String" default=""/>
+    <aura:attribute name="accId" type="String" default=""/>
+
+    <aura:attribute name="provinceOptions" type="List" default="[]"/>
+    <aura:attribute name="countryOptions" type="List" default="[]"/>
+    <aura:attribute name="country" type="String" default=""/>
+
+    <aura:attribute name="regionPicklist" type="String[]" default=""/>
+    <aura:attribute name="region2" type="String" default=""/>
+    <aura:attribute name="region3" type="String" default=""/>
+    <aura:attribute name="none" type="String" default="--None--"/>
+
+    <aura:attribute name="noCommunication" type="Boolean" />
+    <aura:attribute name="noSolicitation" type="Boolean" />
+    <aura:attribute name="tepperPref" type="Boolean" />
+
+    <ltng:require styles="{!$Resource.cmuassets + '/cmuassets/cmu_style.css'}" />
+    <!-- <ltng:require scripts="{!$Resource.cmuassets + '/cmu_assets/cmu_scripts.js'}" /> -->
+    <ltng:require scripts="{!join(',',
+        $Resource.cmuassets + '/cmuassets/cmu_jquery.js',
+        $Resource.cmuassets + '/cmuassets/cmu_waypoints.js',
+        $Resource.cmuassets + '/cmuassets/cmu_scripts.js')}"
+    />
+
+
+    <aura:attribute name="options" type="List" default="[
+                                                        {'label': 'Home', 'value': 'Home'},
+                                                        {'label': 'Business', 'value': 'Business'}
+                                                        ]"/>
+    <aura:attribute name="value" type="String" default="Home"/>
+
+    <div class="prefpage">
+        <div class="ui--page-header-container" id="ui--global-nav">
+            <div class="ui--section slds-clearfix">
+                <div class="slds-grid slds-container_large">
+                    <div class="slds-float_left slds-size_12-of-12 slds-medium-size_5-of-12 ui--title-large">
+                        <div class = "slds-text-heading_large "><span>Email Subscriptions</span></div>
+                    </div>
+                    <div class="slds-col slds-size_7-of-12 slds-medium-size_7-of-12 oldEmail-wrap is-hidden">
+                        <div class = "slds-text-heading_medium oldEmail"><i><span>{!v.emailMasked}</span></i> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <div class="ui--section ui--mobile-hidden is-hidden">
+                <lightning:layout horizontalAlign="center">
+                    <p class="ui--input-container">
+                    <ui:inputCheckbox aura:id="unsubscribeAll" label="" change="{!c.onCheck}"/>
+                    <span>Unsubscribe from all email subscriptions</span></p>
+                    <lightning:button variant="brand" label="Update Preferences" title="Submit" type="submit" />
+                </lightning:layout>
+            </div>
+
+
+            <div class="ui--section">
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 ui--text-right">
+                        <span class="ui--form-label">Email Address</span>
+                    </div>
+                    <div class="slds-col slds-size_12-of-12 slds-medium-size_7-of-12">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                                {!v.emailMasked}
+                                <div class="editSection">
+                                    <lightning:button variant="base" label="" title="new email" iconName="utility:edit" onclick="{!c.showNewEmail}"/>
+                                </div>
+
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 ui--text-right slds-m-top_none slds-m-bottom_none">
+                        &nbsp;
+                    </div>
+                    <div class="newEmail slds-col slds-size_12-of-12 slds-medium-size_7-of-12" style="display : none">
+                        <lightning:input aura:id = "newEmail" type="email" name="email1" value="" placeholder="New email address" label="" />
+                        <div style="margin-top: 5px;">
+                            <lightning:button aura:id="emailButton" variant="brand" label="Save Email" title="Save Email" onclick="{!c.handleEmailChange}"/>
+                            <lightning:button variant="destructive" label="Cancel" title="Cancel" onclick="{!c.hideNewEmail}"/>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Hidden Fields-->
+            <div class="slds-hide">
+                <lightning:inputField fieldName="Active__c" value="{!v.active}"/>
+                <lightning:inputField fieldName="Is_Manual__c" value="{!v.isManual}"/>
+                <lightning:inputField fieldName="Message_Id__c" value="{!v.messageId}"/>
+            </div>
+        
+            <div class="ui--section">
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 ui--text-right">
+                        <span class="ui--form-label" id="prime-cat">Unsubscribe</span>
+                    </div>
+                    <div class="slds-col slds-size_12-of-12 slds-medium-size_7-of-12">
+                        <lightning:layout multipleRows="true" class="ui--checkbox-list">
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                                <lightning:input type="checkbox" name="Unsubscribe from all email subscriptions" aura:id="Unsubscribe_from_all_email_subscriptions__c" checked="{!v.pref.Unsubscribe_from_all_email_subscriptions__c}" label="Unsubscribe from all email subscriptions" value="{!v.pref.Unsubscribe_from_all_email_subscriptions__c}"/><br/>
+                                <lightning:button variant="brand" label="Update Preferences" title="Submit" type="submit" onclick="{!c.handleSubmit}"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</aura:component>
