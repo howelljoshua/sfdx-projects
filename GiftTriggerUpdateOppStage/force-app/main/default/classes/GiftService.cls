@@ -49,7 +49,7 @@ public class GiftService {
      */
     public static void setOpportunitiesToAccepted(List<AQB__Gift__c> newGifts, Map<Id, AQB__Gift__c> oldMap) {
         List<AQB__Gift__c> giftsToProcess = new List<AQB__Gift__c>();
-        List<Opportunity> opportunitiesToUpdate = new List<Opportunity>();
+        Set<Opportunity> opportunitiesToUpdate = new Set<Opportunity>();
 
         for (AQB__Gift__c gift : newGifts) {
             if (String.isNotBlank(gift.AQB__CreditedOpportunity__c) && (oldMap == null || String.isBlank(oldMap.get(gift.Id).AQB__CreditedOpportunity__c))) {
@@ -78,7 +78,9 @@ public class GiftService {
 
         if (!opportunitiesToUpdate.isEmpty()) {
             OpportunityService.disableAcceptedStage = false;
-            update opportunitiesToUpdate;
+            List<Opportunity> opps2Update = new List<Opportunity>();
+            opps2Update.addAll(opportunitiesToUpdate);
+            update opps2Update;
         }
     }
 
