@@ -31,7 +31,7 @@
                 "mode": 'sticky',
                 "type" : "error",
                 "title": "",
-                "message": "Something went wrong please contact CMU."
+                "message": "Something went wrong.  Please contact CMU."
             });
             toastEvent.fire();
             var elements = document.getElementsByClassName("prefpage");
@@ -83,10 +83,10 @@
             if(component.isValid() && (state === 'SUCCESS' || state === 'DRAFT')) {                
                 var toastEvent = $A.get("e.force:showToast");
                 toastEvent.setParams({
-                    "duration" : "3000",
+                    "duration" : "5000",
                     "type" : "success",
                     "title": "Success!",
-                    "message": "Your Email Preferences are updated successfully"
+                    "message": "Your Email Preferences have been recorded."
                 });
                 toastEvent.fire();
                 setInterval(function(){ window.location.reload(); }, 3000);
@@ -136,10 +136,10 @@
                 if(component.isValid() && (state === 'SUCCESS' || state === 'DRAFT')){                
                     var toastEvent = $A.get("e.force:showToast");
                     toastEvent.setParams({
-                        "duration" : "3000",
+                        "duration" : "5000",
                         "type" : "success",
                         "title": "Success!",
-                        "message": "Your Request Is submitted successfully"
+                        "message": "Your request to change your preferred email address has been received.  CMU's Bio Records Team will make this change as soon as possible."
                     });
                     toastEvent.fire();
                 }

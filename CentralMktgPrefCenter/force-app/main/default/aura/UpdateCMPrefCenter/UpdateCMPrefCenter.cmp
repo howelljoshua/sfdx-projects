@@ -75,7 +75,7 @@
                 <lightning:layout horizontalAlign="center">
                     <p class="ui--input-container">
                     <ui:inputCheckbox aura:id="unsubscribeAll" label="" change="{!c.onCheck}"/>
-                    <span>Unsubscribe from all email subscriptions</span></p>
+                    <span>Unsubscribe from The Piper</span></p>
                     <lightning:button variant="brand" label="Update Preferences" title="Submit" type="submit" />
                 </lightning:layout>
             </div>
@@ -89,7 +89,11 @@
                     <div class="slds-col slds-size_12-of-12 slds-medium-size_7-of-12">
                         <lightning:layout multipleRows="true">
                             <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+
+                                <i><lightning:formattedText value="Change your preferred Email Address for non-official communications"/></i><br/>
+                                
                                 {!v.emailMasked}
+                               
                                 <div class="editSection">
                                     <lightning:button variant="base" label="" title="new email" iconName="utility:edit" onclick="{!c.showNewEmail}"/>
                                 </div>
@@ -123,12 +127,14 @@
             <div class="ui--section">
                 <div class="slds-grid slds-gutters">
                     <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 ui--text-right">
-                        <span class="ui--form-label" id="prime-cat">Unsubscribe</span>
+                        <span class="ui--form-label" id="prime-cat">Subscriptons</span>
                     </div>
                     <div class="slds-col slds-size_12-of-12 slds-medium-size_7-of-12">
                         <lightning:layout multipleRows="true" class="ui--checkbox-list">
                             <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
-                                <lightning:input type="checkbox" name="Unsubscribe from all email subscriptions" aura:id="Unsubscribe_from_all_email_subscriptions__c" checked="{!v.pref.Unsubscribe_from_all_email_subscriptions__c}" label="Unsubscribe from all email subscriptions" value="{!v.pref.Unsubscribe_from_all_email_subscriptions__c}"/><br/>
+                                <i><lightning:formattedText value="To unsubscribe, uncheck and select 'Update Preferences' " /></i><br/>
+                                <lightning:input type="checkbox" name="Subscribe to The Piper" aura:id="The_Piper__c" checked="{!v.pref.The_Piper__c}" label="The Piper" value="{!v.pref.Unsubscribe_from_the_Piper__c}"/>
+                                <br/>                      
                                 <lightning:button variant="brand" label="Update Preferences" title="Submit" type="submit" onclick="{!c.handleSubmit}"/>
                             </lightning:layoutItem>
                         </lightning:layout>
