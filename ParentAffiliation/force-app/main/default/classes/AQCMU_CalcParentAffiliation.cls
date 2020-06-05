@@ -44,6 +44,8 @@ global class AQCMU_CalcParentAffiliation implements Database.Batchable<sObject>,
     global Database.QueryLocator start(Database.BatchableContext bc) {
         System.Debug('Start');
 
+
+/*
         String query = 'SELECT AQB__Contact__c, AQB__RelatedName__c,  AQB__relatedContact__c, Active__c ' +
             'FROM AQB__RelationshipContact__c ' +
             //'WHERE AQB__relatedContact__c = \'0030U00000hc6I4QAI\' AND AQB__ReverseRelationship__c in ';
@@ -54,8 +56,18 @@ global class AQCMU_CalcParentAffiliation implements Database.Batchable<sObject>,
         
 
         String subQuery = '(\'Child\',\'Stepchild\',\'Stepdaughter\',\'Stepson\',\'Ward\') ';
+*/ 
         
-        
+
+        String query = 'SELECT AQB__Contact__c, AQB__RelatedName__c,AQB__relatedContact__c, Active__c,AQB__Relationship__c,AQB__ReverseRelationship__c '+
+                       'FROM AQB__RelationshipContact__c ' +
+                       'WHERE AQB__relatedContact__c != NULL ' +
+                       'AND AQB__ReverseRelationship__c = \'Child\' ' ;
+
+ 
+
+
+        /*
         List<String> roles = new List<String>();
         
         settingMap = getParentAffiliationSettings();
@@ -65,15 +77,16 @@ global class AQCMU_CalcParentAffiliation implements Database.Batchable<sObject>,
             roles = AQCMU_Util.string2List(childRelationshipRoles.Value__c, ';');
             subQuery = ':roles ';
         }
+        */
         
         
+        System.debug('full query is: ' + query);
         
         
-        
-        System.debug('full query is: ' + query + ' ' + subquery);
-        
-        return Database.getQueryLocator(query + subQuery + 'ORDER BY AQB__relatedContact__c');
+        //return Database.getQueryLocator(query + subQuery + 'ORDER BY AQB__relatedContact__c');
+        return Database.getQueryLocator(query + 'ORDER BY AQB__relatedContact__c');
     }
+    
 
     /*  
     * Gathers the field information for the Parent Affiliation records to be created or updated based on the provided
@@ -84,6 +97,7 @@ global class AQCMU_CalcParentAffiliation implements Database.Batchable<sObject>,
     */
     global void execute(Database.BatchableContext bc, List<AQB__RelationshipContact__c> scope){
         System.debug('AQCMU_CalcParentAffiliation.execute -> scope: ' + scope.size());
+        System.debug('Query returned: ' + scope);
         System.debug('AQCMU_CalcParentAffiliation.execute -> settingMap: ' + settingMap);
         Map<Integer, AQB__RelationshipContact__c> relationshipContactsByIndex = new Map<Integer,  AQB__RelationshipContact__c>();
         Set<Id> relationshipContactId = new Set<Id>();
@@ -185,6 +199,7 @@ global class AQCMU_CalcParentAffiliation implements Database.Batchable<sObject>,
         Map<Id, List<Parent_Affiliation__c>> parentAffiliationsByEducationIds = new Map<Id, List<Parent_Affiliation__c>>();
 
         String educationStatus = 'In Progress';
+        
         Parent_Affiliation_Setting__mdt inProgressDegree = settingMap.get(AQCMU_Util.IN_PROGRESS_DEGREE);
         // If In Progress Degree is specified in the settings then use them
         if(inProgressDegree != null && !String.isBlank(inProgressDegree.Value__c)){
