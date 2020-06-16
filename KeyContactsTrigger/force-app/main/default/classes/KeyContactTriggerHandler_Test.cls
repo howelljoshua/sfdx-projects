@@ -7,11 +7,11 @@ public without sharing class KeyContactTriggerHandler_Test {
     
         //create Contact
         List<Contact> cons = new List<Contact>();
-        Contact con1 = new Contact(lastname = 'test1');
+        Contact con1 = new Contact(LastName = 'One', FirstName = 'Test');
         cons.add(con1);
-        Contact con2 = new Contact(lastname = 'test2');
+        Contact con2 = new Contact(LastName = 'Two', FirstName = 'Test');
         cons.add(con2);
-        Contact con3 = new Contact(lastname = 'test3');
+        Contact con3 = new Contact(LastName = 'Three', FirstName = 'Test');
         cons.add(con3);
         insert cons;
 
@@ -43,11 +43,19 @@ public without sharing class KeyContactTriggerHandler_Test {
         AQB__KeyContact__c kc3 = new AQB__KeyContact__c();
         kc3.AQB__RelatedChartofAccountItem__c = coa1.Id;
         kc3.AQB__Contact__c = con3.Id;
-        kc3.AQB__Role__c = 'Stewarship Manager';
+        kc3.AQB__Role__c = 'Stewardship Manager';
         kc3.AQB__StartDate__c = date.today()-3650;
         kcs.add(kc3); 
 
         insert kcs;
+
+        //Test#1 - Query for chart of Accounts and check that Biz Mgr is Contact 1
+        AQB__LLChartOfAccounts__c queryCOA  = [SELECT Id, Business_Manager__c, Business_Manager_Name__c
+                                              FROM AQB__LLChartOfAccounts__c
+                                              WHERE Name = 'TestCOA1'];
+        System.assertEquals(queryCOA.Business_Manager_Name__c, 'One, Test');
+
+
 
         //add new managers
         List<AQB__KeyContact__c> newkcs = new List<AQB__KeyContact__c>();
@@ -75,6 +83,13 @@ public without sharing class KeyContactTriggerHandler_Test {
 
         insert newkcs;
 
+        //Test#2 - Query for chart of Accounts and check that Biz Mgr was changed to Contact 3
+        AQB__LLChartOfAccounts__c queryCOA2  = [SELECT Id, Business_Manager__c, Business_Manager_Name__c
+                                               FROM AQB__LLChartOfAccounts__c
+                                               WHERE Name = 'TestCOA1'];
+        System.assertEquals(queryCOA2.Business_Manager_Name__c, 'Three, Test');
+
+
         //update old managers
         List<AQB__KeyContact__c> updatekcs = new List<AQB__KeyContact__c>();
 
@@ -88,6 +103,15 @@ public without sharing class KeyContactTriggerHandler_Test {
         updatekcs.add(kc3);
 
         update updatekcs;
+
+
+        //Test#3 - Query for chart of Accounts and check that Biz Mgr changed back to Contact 1 after updating the dates
+        AQB__LLChartOfAccounts__c queryCOA3  = [SELECT Id, Business_Manager__c, Business_Manager_Name__c
+                                              FROM AQB__LLChartOfAccounts__c
+                                              WHERE Name = 'TestCOA1'];
+        System.assertEquals(queryCOA3.Business_Manager_Name__c, 'One, Test');
+        
+
         
         //delete managers
         List<AQB__KeyContact__c> deletekcs = new List<AQB__KeyContact__c>();
@@ -95,5 +119,14 @@ public without sharing class KeyContactTriggerHandler_Test {
         deletekcs.add(kc2);
         deletekcs.add(kc3);
         delete deletekcs;
+
+        //Test#4 - Query for chart of Accounts and check that Biz Mgr was changed to Contact 3 after deleting KC1
+        AQB__LLChartOfAccounts__c queryCOA4  = [SELECT Id, Business_Manager__c, Business_Manager_Name__c
+                                               FROM AQB__LLChartOfAccounts__c
+                                               WHERE Name = 'TestCOA1'];
+        System.assertEquals(queryCOA4.Business_Manager_Name__c, 'Three, Test');
+
+
+
     }
 }
