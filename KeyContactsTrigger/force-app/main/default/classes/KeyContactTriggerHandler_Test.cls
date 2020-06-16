@@ -125,8 +125,72 @@ public without sharing class KeyContactTriggerHandler_Test {
                                                FROM AQB__LLChartOfAccounts__c
                                                WHERE Name = 'TestCOA1'];
         System.assertEquals(queryCOA4.Business_Manager_Name__c, 'Three, Test');
-
-
-
     }
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+    public static TestMethod void bulkTest_PopulateManagers() {
+
+        //create contacts
+        List<Contact> cons = new List<Contact>();
+        for(Integer i=0; i<100; i++){
+            Contact con = new Contact(LastName = 'con'+i , FirstName = 'Test');
+            cons.add(con);
+        }
+        insert cons;
+
+
+        //create Chart of Accounts
+        List<AQB__LLChartOfAccounts__c> coas = new List<AQB__LLChartOfAccounts__c>();        
+        AQB__LLChartOfAccounts__c coa = new AQB__LLChartOfAccounts__c();
+        coas.add(coa);
+        insert coas;
+
+        //create KeyContacts, 
+        List<AQB__KeyContact__c> kcs = new List<AQB__KeyContact__c>();
+
+        for(Integer i=0; i<100; i++){
+            AQB__KeyContact__c kc1 = new AQB__KeyContact__c();
+            kc1.AQB__RelatedChartofAccountItem__c = coa.Id;
+            kc1.AQB__Contact__c = cons[i].Id;
+            kc1.AQB__Role__c = 'Business Manager';
+            kc1.AQB__StartDate__c = date.today()-(i*10);
+            kcs.add(kc1);
+        }
+        for(Integer i=0; i<100; i++){
+            AQB__KeyContact__c kc2 = new AQB__KeyContact__c();
+            kc2.AQB__RelatedChartofAccountItem__c = coa.Id;
+            kc2.AQB__Contact__c = cons[i].Id;
+            kc2.AQB__Role__c = 'Impact Manager';
+            kc2.AQB__StartDate__c = date.today()-(i*10);
+            kcs.add(kc2);
+        }
+        for(Integer i=0; i<100; i++){
+            AQB__KeyContact__c kc3 = new AQB__KeyContact__c();
+            kc3.AQB__RelatedChartofAccountItem__c = coa.Id;
+            kc3.AQB__Contact__c = cons[i].Id;
+            kc3.AQB__Role__c = 'Stewardship Manager';
+            kc3.AQB__StartDate__c = date.today()-(i*10);
+            kcs.add(kc3);
+        }
+        insert kcs;
+
+        
+
+
+
+        
+        
+    }
+
 }
