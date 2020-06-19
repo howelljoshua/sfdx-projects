@@ -1,9 +1,8 @@
 /*
  * PachinkoCalc_Test  Author - Josh Howell, CMU
  * Single Test Class for PachinkoCalc class
- * Test PachinkoCalc at 93%
+ * Test PachinkoCalc at 94%
  * 
- * Final Updates and move to Production 4/10/2019
  * 
  */
 
@@ -122,27 +121,32 @@ global class PachinkoCalc_Test {
           //add 2 new sample Accounts
         Account a = new Account();
         a.Name = 'Account '+ 1;
-        a.Type = 'Household';
+        a.AQB__AccountType__c = 'Alumni';
+        a.AQB__AccountStatus__c = 'Active';
         a.RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Household').getRecordTypeId();
         a.Run_Pachinko_Assignment__c = TRUE;
         a.Primary_Contact_Alum__c = TRUE;
         a.Secondary_Contact_Alum__c =  TRUE;
         a.Parent_School_Affiliation__c = 'SCS'; 
         a.Contact_Count__c = 1;
+        a.Clean_Country__c = 'US';
         accountList.add(a);
         
         Account a2 = new Account();
         a2.Name = 'Account '+ 2;
-        a2.Type = 'Household';
+        a2.AQB__AccountType__c = 'Alumni';
+        a2.AQB__AccountStatus__c = 'Active';
         a2.RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Household').getRecordTypeId();
         a2.Run_Pachinko_Assignment__c = TRUE;
         a2.Dual_Affiliate__c = TRUE;
         a2.Contact_Count__c = 1;
+        a2.Clean_Country__c = 'US';
         accountList.add(a2);
         
         Account a3 = new Account();
         a3.Name = 'Account '+ 3;
-        a3.Type = 'Household';
+        a3.AQB__AccountType__c = 'Alumni';
+        a3.AQB__AccountStatus__c = 'Active';
         a3.RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Household').getRecordTypeId();
         a3.Run_Pachinko_Assignment__c = TRUE;
         a3.Primary_Contact_Alum__c = TRUE;
@@ -150,52 +154,74 @@ global class PachinkoCalc_Test {
         a3.Secondary_Contact_Alum__c =  TRUE;
         a3.Secondary_Contact_School__c = 'Heinz';
         a3.Parent_School_Affiliation__c = 'SCS'; 
+        a3.Clean_Country__c = 'US';
         a3.Contact_Count__c = 1;
         accountList.add(a3);
         
         Account a4 = new Account();
         a4.Name = 'Account '+ 4;
-        a4.Type = 'Household';
+        a4.AQB__AccountType__c = 'Alumni';
+        a4.AQB__AccountStatus__c = 'Active';
         a4.RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Household').getRecordTypeId();
         a4.Run_Pachinko_Assignment__c = TRUE;
         a4.Primary_Contact_Alum__c = TRUE;
         a4.Primary_Contact_School__c = 'Multiple';
         a4.Contact_Count__c = 1;
+        a4.Clean_Country__c = 'US';
         accountList.add(a4);
         
         Account a5 = new Account();
         a5.Name = 'Account '+ 5;
-        a5.Type = 'Household';
+        a5.AQB__AccountType__c = 'Alumni';
+        a5.AQB__AccountStatus__c = 'Active';
         a5.RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Household').getRecordTypeId();
         a5.Run_Pachinko_Assignment__c = TRUE;
         a5.Primary_Contact_Alum__c = TRUE;
         a5.Primary_Contact_School__c = 'Tepper';
         a5.Contact_Count__c = 1;
+        a5.Clean_Country__c = 'US';
         accountList.add(a5);
         
         
         Account a6 = new Account();
         a6.Name = 'Account '+ 6;
-        a6.Type = 'Household';
+        a6.AQB__AccountType__c = 'Faculty';
+        a6.AQB__AccountStatus__c = 'Active';
         a6.RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Household').getRecordTypeId();
         a6.Run_Pachinko_Assignment__c = TRUE;
         a6.Primary_Contact_Alum__c = FALSE;
         a6.Primary_Contact_School__c = '';
         a6.Contact_Count__c = 1;
+        a6.Clean_Country__c = 'US';
         accountList.add(a6);
         
         
         Account a7 = new Account();
         a7.Name = 'Account '+ 7;
-        a7.Type = 'Household';
+        a7.AQB__AccountType__c = 'Friend';
+        a7.AQB__AccountStatus__c = 'Active';
         a7.RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Household').getRecordTypeId();
         a7.Run_Pachinko_Assignment__c = TRUE;
         a7.Primary_Contact_Alum__c = FALSE;
         a7.Primary_Contact_School__c = '';
         a7.Contact_Count__c = 1;
+        a7.Clean_Country__c = 'US';
         accountList.add(a7);        
+      
         
-
+        Account a8 = new Account();
+        a8.Name = 'Account '+ 8;
+        a8.AQB__AccountType__c = 'Staff';
+        a8.AQB__AccountStatus__c = 'Active';
+        a8.RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Household').getRecordTypeId();
+        a8.Run_Pachinko_Assignment__c = TRUE;
+        a8.Primary_Contact_Alum__c = FALSE;
+        a8.Primary_Contact_School__c = '';
+        a8.Contact_Count__c = 1;
+        a8.Clean_Country__c = 'US';
+        a8.AQB__AccountType__c = 'Staff';
+        accountList.add(a8); 
+              
         insert accountList;
         
         
@@ -259,14 +285,32 @@ global class PachinkoCalc_Test {
         c8.Birthdate = Date.Today()-20000;
         contactList.add(c8);
         
+        Contact c9 = new Contact();
+        c9.AccountId = a8.Id;
+        c9.LastName = a8.Name; 
+        c9.AQB__Type__c = 'Staff';
+        contactList.add(c9);  
+        
+        Contact c10 = new Contact();
+        c10.AccountId = a5.Id;
+        c10.LastName = a5.Name; 
+        c10.AQB__Type__c = 'Faculty';
+        contactList.add(c10); 
    
         insert contactList;
 
+        
         a.AQB__PrimaryContact__c = c1.Id; 
+        a.AQB__SecondaryContact__c = c2.Id; 
         a2.AQB__PrimaryContact__c = c3.Id;
         a3.AQB__PrimaryContact__c = c4.Id;
+        a3.AQB__SecondaryContact__c = c5.Id;
         a4.AQB__PrimaryContact__c = c6.Id;
+        a5.AQB__PrimaryContact__c = c10.Id; 
+        a6.AQB__PrimaryContact__c = c7.Id; 
         a7.AQB__PrimaryContact__c = c8.Id;
+        a8.AQB__PrimaryContact__c = c9.Id; 
+
         
         update accountList;
         
@@ -483,10 +527,14 @@ global class PachinkoCalc_Test {
         transList.add(tr4);
         
         insert transList;
-
-      Test.startTest();
-          Database.executeBatch(new PachinkoCalc());
-      Test.stopTest();
+        
+        
+        Test.startTest();
+        
+            PachinkoCalc pc = new PachinkoCalc();
+            Database.executeBatch(pc);
+        
+        Test.stopTest();
        
     }
     
@@ -501,8 +549,8 @@ global class PachinkoCalc_Test {
  */    
   
     
-    global static testmethod void setUpData(){
-      
+    global static testmethod void testBatchPachinko(){
+
         List<Account> accountList = new List<Account>();  
         List<Contact> contactList = new List<Contact>();
         List<AQB__InterestAccount__c> acctInterests = new List<AQB__InterestAccount__c>();
@@ -518,8 +566,10 @@ global class PachinkoCalc_Test {
         List<String> contactTypes = new List<String>{'Alumni', 'Staff', 'Parent', 'Trustee', 'Faculty', 'Friend', 'Alumni', 'Staff', 'Parent', 'Friend', 'Parent'};
         List<String> colleges = new List<String>{'Carnegie Mellon University','College of Fine Arts','Computer Science','Graduate School of Industrial Admin.','Heinz College','Humanities and Social Sciences','Industrial Management','Margaret Morrison','Mellon College of Science','Printing Management','Tepper School of Business'};
     
-
-        //Test.startTest();  
+    
+    
+    
+        
           //add some new sample Pachinko Rules to the Custom Setting object
         Pachinko__c pach1 = new Pachinko__c();
         pach1.Name = 'PACHINKO1';
@@ -606,8 +656,7 @@ global class PachinkoCalc_Test {
         
         //insert bulk accounts
         
-        //for(Integer i=0; i<202; i++){ 
-        for(Integer i=0; i<202; i++){        
+        for(Integer i=0; i<101; i++){      
             Account a = new Account();
             a.Name = 'Account '+ i;
             a.Type = 'Household';
@@ -620,34 +669,7 @@ global class PachinkoCalc_Test {
             accountList.add(a);            
         }
         insert  accountlist;
-      //Test.stopTest();
-        insertContacts();
-    }      
-
-
-  
-    global static testmethod void insertContacts(){ 
-
-      List<Account> accountList = new List<Account>();
-      List<Contact> contactList = new List<Contact>();
-      List<AQB__InterestAccount__c> acctInterests = new List<AQB__InterestAccount__c>();
-      List<AQB__LLInterestType__c> llInterestTypes = new List<AQB__LLInterestType__c>(); 
-      List<AQB__LLChartofAccounts__c> coaList = new List<AQB__LLChartofAccounts__c>();
-      List<AQB__Transaction__c> transList = new List<AQB__Transaction__c>();
-      List<AQB__CampaignFund__c> fcList = new List<AQB__CampaignFund__c> ();
-      List<Campaign> campList = new List<Campaign>();
-      List<AQB__Gift__c> giftList = new List<AQB__Gift__c>();
-      List<AQB__Education__c> eduList = new List<AQB__Education__c>();
-      List<Pachinko__c> pachinkoList = new List<Pachinko__c>(); 
-      List<String> parentSchools = new List<String>{'CFA', 'MCS', 'CIT', 'DC', 'SCS', 'Heinz', 'Tepper', 'Multiple', 'Margaret Morrison', 'Print Management', 'Tepper'};  
-      List<String> contactTypes = new List<String>{'Alumni', 'Staff', 'Parent', 'Trustee', 'Faculty', 'Friend', 'Alumni', 'Staff', 'Parent', 'Friend', 'Parent'};
-      List<String> colleges = new List<String>{'Carnegie Mellon University','College of Fine Arts','Computer Science','Graduate School of Industrial Admin.','Heinz College','Humanities and Social Sciences','Industrial Management','Margaret Morrison','Mellon College of Science','Printing Management','Tepper School of Business'};
-
-
-
-      accountList = [SELECT Id, Name FROM Account];
-
-      //Test.startTest(); 
+        
         for (Account a : accountList){     
       
             Contact c1 = new Contact();
@@ -663,23 +685,7 @@ global class PachinkoCalc_Test {
             c2.LastName = a.Name+'2'; 
             c2.AQB__Type__c = contactTypes[Math.round(Math.random() * 10)] ;
             c2.AQB__SecondaryType__c = contactTypes[Math.round(Math.random() * 10)];
-            contactList.add(c2);
-            
-            
-
-            AQB__LLInterestType__c it1 = new AQB__LLInterestType__c();
-            it1.Name = 'Swartz Center';
-            llInterestTypes.add(it1);
-            
-            AQB__LLInterestType__c it2 = new AQB__LLInterestType__c();
-            it2.Name = 'Library'; 
-            llInterestTypes.add(it2);
-            
-            AQB__LLInterestType__c it3 = new AQB__LLInterestType__c();
-            it3.Name = 'MSCF'; 
-            llInterestTypes.add(it3);        
-
-
+            contactList.add(c2); 
             
             AQB__InterestAccount__c ai1 = new AQB__InterestAccount__c();
             ai1.AQB__LLInterestType__c = it1.Id;
@@ -703,17 +709,15 @@ global class PachinkoCalc_Test {
             eduList.add(edu);
         }
         insert eduList;
-      //Test.stopTest(); 
-      callBatch();
+        
+        Test.startTest();
+        
+            PachinkoCalc pc = new PachinkoCalc();
+            Database.executeBatch(pc);
+        
+        Test.stopTest();        
+        
     }  
-
-
-    global static testmethod void callBatch(){ 
-      Test.startTest();
-        Database.executeBatch(new PachinkoCalc(), 100);
-      Test.stopTest();
-    }  
-
-
-
+      
+    
 }
