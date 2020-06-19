@@ -30,19 +30,21 @@ global Map<String, String> schoolNameFix = new Map<String, String>{'College of F
                                                                    'Heinz School'=>'Heinz', 'Heinz College'=>'Heinz', 'Humanities and Social Sciences'=>'DC', 'Dietrich College of H and SS'=>'DC', 'Dietrich College'=>'DC', 
                                                                    'Industries'=>'Tepper', 'Industrial Management'=>'Tepper','Margaret Morrison'=>'Margaret Morrison', 'Printing Management'=>'Print Management', 
                                                                    'Indust Mgmt (Graphic Comms Mgmt)'=>'Tepper', 'Graduate School of Industrial Admin.'=>'Tepper', 'Tepper School of Business'=>'Tepper', 'Multiple Schools'=>'Multiple'};
-global List<Id> exclusions = new List<Id>{'001f400000oMAjCAAW', '001f400000oLkpZAAS' , '001f400000oLnTLAA0' , '001f400000oLzf9AAC' , '001f400000oLnT5AAK' , '001f400000oMCFCAA4'};                                                           
-//+
-global List<String> homeland = new List<String>{'US', 'U.S.', 'USA', 'U.S.A.', 'US of A', 'U.S. of A.', 'United States', 'United States of America', 'America', 'Merica', 'Land of the Free'};
+//global List<Id> exclusions = new List<Id>{'001f400000oMAjCAAW', '001f400000oLkpZAAS' , '001f400000oLnTLAA0' , '001f400000oLzf9AAC' , '001f400000oLnT5AAK' , '001f400000oMCFCAA4'};                                                           
+//global List<String> homeland = new List<String>{'US', 'U.S.', 'USA', 'U.S.A.', 'US of A', 'U.S. of A.', 'United States', 'United States of America', 'America', 'Merica', 'Land of the Free'};
+global Date yesterday = System.today()-1;
     
     global Database.QueryLocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator('SELECT Id, AQB__AccountType__c, AQB__Capacity__c, AQB__BillingAddressCountryId__c, Parent_School_Affiliation__c, '+
                                         'Strategic_Initiative_Interest__c, University_Priorities_Interest__c, University_Priorities_Gifts__c, Primary_Contact_Alum__c, Primary_Contact_School__c, ' +
                                         'Secondary_Contact_Alum__c, Secondary_Contact_School__c, Dual_Affiliate__c, MSCF_Gift_or_Interest__c, President_s_Global_Advisory_Council__c, ' +
-                                        'Pachinko_Input__c, General_Category__c, Specific_Category__c, BillingCountry, Clean_Country__c, Clean_Iso_Country__c, Capacity_Rating__c, Contact_Count__c, AQB__PrimaryContact__c, AQB__SecondaryContact__c  ' +
+                                        'Pachinko_Input__c, General_Category__c, Specific_Category__c, Clean_Country__c, Clean_Iso_Country__c, BillingCountry, BillingCity, BillingStreet, ' +
+                                        'Capacity_Rating__c, Contact_Count__c, AQB__PrimaryContact__c, AQB__SecondaryContact__c  ' +
                                         'FROM Account WHERE RecordType.Name = \'Household\' AND (AQB__AccountStatus__c = \'Active\' OR AQB__AccountStatus__c = \'Restricted Contact\')  ' +
-                                        'AND AQB__AccountType__c != \'Student\' AND AQB__PrimaryContact__c != NULL  AND Pachinko_Assignment_Comment__c = NULL  ');
+                                        'AND AQB__AccountType__c != \'Student\' AND AQB__PrimaryContact__c != NULL  AND Pachinko_Assignment_Comment__c = NULL ');
                                         
                                         
+                                        //'AND LastModifiedDate < yesterday   AND AQB__AccountType__c != \'Student\' AND AQB__PrimaryContact__c != NULL  AND Pachinko_Assignment_Comment__c = NULL  ');
                                         //'AND AQB__AccountType__c != \'Student\' AND Contact_Count__c > 0');
                                         //'AND ID NOT IN : exclusions AND AQB__AccountType__c != \'Student\'  ');
                                         //'FROM Account WHERE Run_Pachinko_Assignment__c = FALSE AND Pachinko_Assignment_Comment__c = null');
@@ -350,6 +352,7 @@ global List<String> homeland = new List<String>{'US', 'U.S.', 'USA', 'U.S.A.', '
     
     global void findDonorComp(){
         
+            
      System.debug('In findDonorCompScore method, checking the contents of acctMap: ' + acctMap);
      System.debug('In findDonorCompScore method, acctMap Size is: ' + acctMap.size() );   
      System.debug('In findDonorCompScore method, checking the contents of contactMap: ' + contactMap);    
@@ -362,14 +365,21 @@ global List<String> homeland = new List<String>{'US', 'U.S.', 'USA', 'U.S.A.', '
                                               AND Account__c IN :acctList];
 
     System.debug('In findDonorCompScore method, donorComps found: ' +donorComps.size() );
-        if(donorComps.size() > 0){
+        if(donorComps.size() > 0){            
             for (Prospect_rating__c dc : donorComps){
                 Account a = acctMap.get(dc.Account__c); 
                 Contact c = contactMap.get(a.AQB__PrimaryContact__c);
-                if (c.AQB__Age__c >= 51){
-                    a.Donor_Compass_Prospect__c = TRUE;        
-                }         
-            }
+
+                try{
+                    if(c.AQB__Age__c >= 51){
+                        a.Donor_Compass_Prospect__c = TRUE; 
+                    }
+                } catch(Exception e){
+                    System.debug('Exception in Donor Comp Score '+ e.getMessage());
+                } finally{
+                    return;      
+                }                      
+            }            
         }
     } //END of findDonorComp()==========================================================================================================================================
 
@@ -384,7 +394,7 @@ global List<String> homeland = new List<String>{'US', 'U.S.', 'USA', 'U.S.A.', '
                 else if(a.President_s_Global_Advisory_Council__c == TRUE){a.Pachinko_Input__c = 'President\'s Global Advisory Council';}  
                     else if(capValues.contains(a.Capacity_Rating__c)) {a.Pachinko_Input__c = 'Rated $5M+' ;}
                         //else if(a.BillingCountry!=NULL  &&   !homeland.contains(a.BillingCountry) ) {a.Pachinko_Input__c = 'International';}
-                        else if(a.Clean_Country__c != 'US') {a.Pachinko_Input__c = 'International';}
+                        else if(a.Clean_Country__c != 'US' && (a.BillingCity != NULL && a.BillingStreet != NULL) ) {a.Pachinko_Input__c = 'International';}
                             else if(a.AQB__AccountType__c == 'Parent') {a.Pachinko_Input__c = 'Parents (Non-Alum/Trustee) / ' + a.Parent_School_Affiliation__c;}
 								else if(a.Strategic_Initiative_Gift__c != NULL) {a.Pachinko_Input__c = a.Strategic_Initiative_Gift__c;}            
                                 	else if(a.Strategic_Initiative_Interest__c != NULL) {a.Pachinko_Input__c = a.Strategic_Initiative_Interest__c;}

@@ -547,7 +547,8 @@ global class PachinkoCalc_Test {
  * BULK TEST BELOW
  * *************************************************************************************************************
  */    
-  
+
+    /*
     
     global static testmethod void testBatchPachinko(){
 
@@ -718,6 +719,6 @@ global class PachinkoCalc_Test {
         Test.stopTest();        
         
     }  
-      
+*/
     
 }
