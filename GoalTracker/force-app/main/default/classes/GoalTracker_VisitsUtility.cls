@@ -46,8 +46,10 @@ public static String currentFiscalYear = [SELECT FiscalYearSettings.Name FROM Pe
                                                            AND Fiscal_Year__c IN : fiscalYears
                                                            AND AQB__User__c IN : users
                                                            AND AQB__ActivityReport__r.AQB__ReportStatus__c = 'Final'
-                                                           AND(AQB__ActivityReport__r.AQB__Type__c = 'Visit In' OR AQB__ActivityReport__r.AQB__Type__c = 'Visit Out')
+                                                           AND(Fiscal_Year_Num__c < 2020 AND (AQB__ActivityReport__r.AQB__Type__c = 'Visit In' OR AQB__ActivityReport__r.AQB__Type__c = 'Visit Out'))
+                                                           AND(Fiscal_Year_Num__c >= 2020 AND (AQB__ActivityReport__r.AQB__Type__c = 'Visit In' OR AQB__ActivityReport__r.AQB__Type__c = 'Visit Out' OR AQB__ActivityReport__r.AQB__Type__c = 'Virtual Visit'))
                                                            AND(AQB__UserRole__c = 'Assigned To' OR AQB__UserRole__c = 'Participant')];
+
 															   
                                            					        
           System.debug('arpList query had: ' + arpList.size() + ' Elements');  
