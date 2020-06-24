@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Active_Count__c</fullName>
+    <description>Catches the Active Indicator in a numeric field so the Account Roll-up Summary field can use it.  Hidden field, do not add to page layout.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Catches the Active Indicator in a numeric field so the Account Roll-up Summary field can use it.  Hidden field, do not add to page layout.</inlineHelpText>
+    <label>Active Count</label>
+    <precision>1</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

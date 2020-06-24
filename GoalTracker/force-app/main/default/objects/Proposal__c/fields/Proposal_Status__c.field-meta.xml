@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Proposal_Status__c</fullName>
+    <externalId>false</externalId>
+    <label>Proposal Status</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Revised Budget Created</fullName>
+                <default>false</default>
+                <label>Revised Budget Created</label>
+            </value>
+            <value>
+                <fullName>Awarded</fullName>
+                <default>false</default>
+                <label>Awarded</label>
+            </value>
+            <value>
+                <fullName>Not Funded</fullName>
+                <default>false</default>
+                <label>Not Funded</label>
+            </value>
+            <value>
+                <fullName>Not Submitted</fullName>
+                <default>false</default>
+                <label>Not Submitted</label>
+            </value>
+            <value>
+                <fullName>Pending Sponsor Review</fullName>
+                <default>false</default>
+                <label>Pending Sponsor Review</label>
+            </value>
+            <value>
+                <fullName>Award Notification Received</fullName>
+                <default>false</default>
+                <label>Award Notification Received</label>
+            </value>
+            <value>
+                <fullName>Pending Sponsor Review Award Anticipated</fullName>
+                <default>false</default>
+                <label>Pending Sponsor Review Award Anticipated</label>
+            </value>
+            <value>
+                <fullName>Final SPO Review</fullName>
+                <default>false</default>
+                <label>Final SPO Review</label>
+            </value>
+            <value>
+                <fullName>Withdrawn From Sponsor</fullName>
+                <default>false</default>
+                <label>Withdrawn From Sponsor</label>
+            </value>
+            <value>
+                <fullName>Draft</fullName>
+                <default>false</default>
+                <label>Draft</label>
+            </value>
+            <value>
+                <fullName>SPO Status Confirmation</fullName>
+                <default>false</default>
+                <label>SPO Status Confirmation</label>
+            </value>
+            <value>
+                <fullName>Specialist Review: Pending Changes by PI</fullName>
+                <default>false</default>
+                <label>Specialist Review: Pending Changes by PI</label>
+            </value>
+            <value>
+                <fullName>Department Review</fullName>
+                <default>false</default>
+                <label>Department Review</label>
+            </value>
+            <value>
+                <fullName>Specialist Review</fullName>
+                <default>false</default>
+                <label>Specialist Review</label>
+            </value>
+            <value>
+                <fullName>Department Review: Response Pending from PI</fullName>
+                <default>false</default>
+                <label>Department Review: Response Pending from PI</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

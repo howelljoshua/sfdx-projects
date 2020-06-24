@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CMU_Event_Organizer</fullName>
+    <fields>Name</fields>
+    <fields>Event_Organizer__c</fields>
+    <fields>Contact__c</fields>
+    <fields>Event__c</fields>
+    <label>CMU Event Organizer</label>
+</CompactLayout>

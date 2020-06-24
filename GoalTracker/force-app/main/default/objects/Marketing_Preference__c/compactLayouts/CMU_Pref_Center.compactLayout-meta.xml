@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CMU_Pref_Center</fullName>
+    <fields>Contact__c</fields>
+    <fields>No_Communication__c</fields>
+    <fields>No_Solicitations__c</fields>
+    <fields>Unsubscribe_from_all_email_subscriptions__c</fields>
+    <fields>Preferred_Region_2__c</fields>
+    <fields>Preferred_Region_3__c</fields>
+    <label>CMU Pref Center</label>
+</CompactLayout>

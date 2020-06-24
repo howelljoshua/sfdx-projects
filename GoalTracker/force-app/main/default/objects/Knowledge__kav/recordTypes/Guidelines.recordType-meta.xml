@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Guidelines</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>CMU_Knowledge</compactLayoutAssignment>
+    <description>Documents which describe the rules people should be following</description>
+    <label>Guidelines</label>
+</RecordType>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Qualification_Credit__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>AQ_Custom</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Look up field to select who is the user to receive credit.</inlineHelpText>
+    <label>Qualification Credit</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Prospect_Ratings</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

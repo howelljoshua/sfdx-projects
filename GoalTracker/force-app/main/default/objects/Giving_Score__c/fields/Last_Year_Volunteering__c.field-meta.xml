@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_Year_Volunteering__c</fullName>
+    <description>Count of the number of Volunteer records from the LAST fiscal year.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Count of the number of Volunteer records from the LAST fiscal year.</inlineHelpText>
+    <label>Last Year Volunteering</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

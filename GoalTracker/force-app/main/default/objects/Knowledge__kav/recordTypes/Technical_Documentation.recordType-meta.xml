@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Technical_Documentation</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>CMU_Knowledge</compactLayoutAssignment>
+    <description>Used to document internally-focussed technical programs/practices -- similar to how the old Twiki was used.</description>
+    <label>Technical Documentation</label>
+</RecordType>

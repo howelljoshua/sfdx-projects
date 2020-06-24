@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Doctorate_Indicator__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>CHECKED If the Contact has an Institutional Education Record from CMU containing some type of DOCTORATE.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>CHECKED If the Contact has an Institutional Education Record from CMU containing some type of DOCTORATE.</inlineHelpText>
+    <label>Doctorate Indicator</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

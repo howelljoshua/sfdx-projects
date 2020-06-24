@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Monetary_Score__c</fullName>
+    <description>Max score 50 from 2 areas:
+
+LARGEST GIFT SCORE:
+$5000 = 25 
+$2000-$4999 = 15 pts
+$1000-$1999 = 10 pts
+$500-$999 = 5 pts
+&lt;$500 = 1 pt
+No Giving = 0 pts
++
+CUMULATIVE GIFTS SCORE:
+&gt;$20,000 = 25 pts
+$10,000-$19,999 = 15 pts
+$5000-$9999 = 5 pts</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Max score 50 from 2 areas:
+
+LARGEST GIFT SCORE:
+$5000 = 25 
+$2000-$4999 = 15 pts
+$1000-$1999 = 10 pts
+$500-$999 = 5 pts
+&lt;$500 = 1 pt
+No Giving = 0 pts
++
+CUMULATIVE GIFTS SCORE:
+&gt;$20,000 = 25 pts
+$10,000-$19,999 = 15 pts
+$5000-$9999 = 5 pts</inlineHelpText>
+    <label>Monetary Score</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

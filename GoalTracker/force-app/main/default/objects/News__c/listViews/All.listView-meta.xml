@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>OBJECT_ID</columns>
+    <columns>NAME</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Author__c</columns>
+    <columns>OWNER.ALIAS</columns>
+    <columns>Publish_DateTime__c</columns>
+    <columns>Group_Access__c</columns>
+    <columns>Private_Group__c</columns>
+    <columns>School__c</columns>
+    <columns>Selected_Record_Type__c</columns>
+    <columns>RECORDTYPE</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

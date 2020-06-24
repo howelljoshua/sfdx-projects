@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Degree_Levels</fullName>
+    <columns>Source__c</columns>
+    <columns>Option__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>SIS_Translation__c.Degree_Level</value>
+    </filters>
+    <label>Degree Levels</label>
+</ListView>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Class_Note_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Class Note Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Careers</fullName>
+                <default>false</default>
+                <label>Careers</label>
+            </value>
+            <value>
+                <fullName>Awards and Recognition</fullName>
+                <default>false</default>
+                <label>Awards and Recognition</label>
+            </value>
+            <value>
+                <fullName>Births and Adoptions</fullName>
+                <default>false</default>
+                <label>Births and Adoptions</label>
+            </value>
+            <value>
+                <fullName>Education</fullName>
+                <default>false</default>
+                <label>Education</label>
+            </value>
+            <value>
+                <fullName>Engagements and Marriages</fullName>
+                <default>false</default>
+                <label>Engagements and Marriages</label>
+            </value>
+            <value>
+                <fullName>Books and Publications</fullName>
+                <default>false</default>
+                <label>Books and Publications</label>
+            </value>
+            <value>
+                <fullName>In Memorium</fullName>
+                <default>false</default>
+                <label>In Memorium</label>
+            </value>
+            <value>
+                <fullName>Speaking Engagements</fullName>
+                <default>false</default>
+                <label>Speaking Engagements</label>
+            </value>
+            <value>
+                <fullName>Personal Highlights</fullName>
+                <default>false</default>
+                <label>Personal Highlights</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LL_Chart_of_Accounts__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <externalId>false</externalId>
+    <label>LL- Chart of Accounts</label>
+    <lookupFilter>
+        <active>false</active>
+        <errorMessage>This fund is inactive or not available for display online.</errorMessage>
+        <filterItems>
+            <field>AQB__LLChartofAccounts__c.AQB__Active__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <filterItems>
+            <field>AQB__LLChartofAccounts__c.Display_Online__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>AQB__LLChartofAccounts__c</referenceTo>
+    <relationshipLabel>Gift Area Entries</relationshipLabel>
+    <relationshipName>Gift_Area_Entries</relationshipName>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

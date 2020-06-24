@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Active__c</fullName>
+    <description>AQ_Custom(BP)</description>
+    <externalId>false</externalId>
+    <formula>IF ( ISBLANK ( Start_Date__c) 
+, IF ( ISBLANK ( End_Date__c)
+, TRUE
+, IF ( End_Date__c&gt; TODAY(), TRUE, FALSE) 
+)
+, IF ( Start_Date__c &lt;= TODAY()
+, IF (ISBLANK ( End_Date__c)
+, TRUE
+, IF (End_Date__c &gt; TODAY(), TRUE, FALSE))
+, FALSE
+)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Active</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

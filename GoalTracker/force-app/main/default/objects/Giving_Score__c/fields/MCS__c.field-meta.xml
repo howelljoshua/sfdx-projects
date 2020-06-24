@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MCS__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Checked if Mellon College of Science is the Preferred School.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Checked if Mellon College of Science is the Preferred School.</inlineHelpText>
+    <label>MCS</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

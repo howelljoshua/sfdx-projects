@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>Prospect_Manager__c</columns>
+    <columns>PM_Group__c</columns>
+    <columns>PM_Team__c</columns>
+    <columns>Visits_Count__c</columns>
+    <columns>Qualifications_Count__c</columns>
+    <columns>Accepted_Count__c</columns>
+    <columns>Submitted_Count__c</columns>
+    <columns>Commits_Team_Member__c</columns>
+    <columns>Revenue_Goal_PM__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

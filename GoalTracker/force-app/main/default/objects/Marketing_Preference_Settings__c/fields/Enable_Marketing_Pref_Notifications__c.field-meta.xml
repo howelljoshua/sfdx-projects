@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enable_Marketing_Pref_Notifications__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Enables Marketing Preference changes Notifications.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Enables Marketing Preference changes Notifications.</inlineHelpText>
+    <label>Enable Marketing Pref Notifications</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

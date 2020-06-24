@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lifetime_Commitment_Computer_Science__c</fullName>
+    <description>AQ_Custom</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Account&apos;s Lifetime Commitment to School of Computer Science designations</inlineHelpText>
+    <label>Lifetime Commitment Computer Science</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

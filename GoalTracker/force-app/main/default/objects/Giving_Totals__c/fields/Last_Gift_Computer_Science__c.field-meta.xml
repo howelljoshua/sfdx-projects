@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_Gift_Computer_Science__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>AQ_Custom</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Lookup to Account&apos;s last gift to School of Computer Science designation</inlineHelpText>
+    <label>Last Gift Computer Science</label>
+    <referenceTo>AQB__Gift__c</referenceTo>
+    <relationshipLabel>Giving Totals (Last Gift Computer Science)</relationshipLabel>
+    <relationshipName>Giving_Totals4</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

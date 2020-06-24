@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PORTAL_ACCOUNT_ID__c</fullName>
+    <defaultValue>&quot;abc&quot;</defaultValue>
+    <description>PORTAL_ACCOUNT_ID is the account on which the contact will be created on and then enabled as a portal user.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <label>PORTAL ACCOUNT ID</label>
+    <length>80</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

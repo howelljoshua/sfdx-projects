@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Events_Last_3_Years_Score__c</fullName>
+    <description>SUMS up the TRUE values in the Events history section for the past 3 fiscal years, giving one point for each fiscal year the person attended an event.</description>
+    <externalId>false</externalId>
+    <formula>IF((Last_Year_Event__c  == TRUE),1,0) 
++ 
+IF((Two_Years_Ago_Event__c  == TRUE),1,0)
++ 
+IF((Three_Years_Ago_Event__c  == TRUE),1,0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>SUMS up the TRUE values in the Events history section for the past 3 fiscal years, giving one point for each fiscal year the person attended an event.</inlineHelpText>
+    <label>Events Last 3 Years Score</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

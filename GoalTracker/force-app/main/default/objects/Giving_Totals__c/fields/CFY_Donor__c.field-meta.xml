@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CFY_Donor__c</fullName>
+    <description>y/n flag if the constituent is a donor in the current fiscal year</description>
+    <externalId>false</externalId>
+    <formula>IF (Cash_Giving_Total_CFY__c &gt;0, &apos;Y&apos;,&apos;N&apos;)</formula>
+    <inlineHelpText>y/n flag if the constituent is a donor in the current fiscal year</inlineHelpText>
+    <label>CFY_Donor</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

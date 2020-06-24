@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stylesheet_External__c</fullName>
+    <description>User-overrideable stylesheet attribute which gets displayed on the external calendar page.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>User-overrideable stylesheet attribute which gets displayed on the external calendar page.</inlineHelpText>
+    <label>Stylesheet (External)</label>
+    <length>100000</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

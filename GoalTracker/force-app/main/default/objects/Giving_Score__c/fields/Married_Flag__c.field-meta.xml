@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Married_Flag__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Checked if the Contact&apos;s Marital Status is &apos;Married&apos;, or if they have relationship records of &apos;Spouse&apos; or &apos;Spouse/Partner&apos;</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Checked if the Contact&apos;s Marital Status is &apos;Married&apos;, or if they have relationship records of &apos;Spouse&apos; or &apos;Spouse/Partner&apos;</inlineHelpText>
+    <label>Married Flag</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

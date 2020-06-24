@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Current_Contract_Status__c</fullName>
+    <externalId>false</externalId>
+    <label>Current Contract Status</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Initial Submission - Incomplete</fullName>
+                <default>false</default>
+                <label>Initial Submission - Incomplete</label>
+            </value>
+            <value>
+                <fullName>New</fullName>
+                <default>false</default>
+                <label>New</label>
+            </value>
+            <value>
+                <fullName>Under Review</fullName>
+                <default>false</default>
+                <label>Under Review</label>
+            </value>
+            <value>
+                <fullName>Parking Lot</fullName>
+                <default>false</default>
+                <label>Parking Lot</label>
+            </value>
+            <value>
+                <fullName>Negotiation Complete - Waiting for Department/PI</fullName>
+                <default>false</default>
+                <label>Negotiation Complete - Waiting for Department/PI</label>
+            </value>
+            <value>
+                <fullName>Negotiation Complete - Waiting for Compliance/Other Impacted Units</fullName>
+                <default>false</default>
+                <label>Negotiation Complete - Waiting for Compliance/Other Impacted Units</label>
+            </value>
+            <value>
+                <fullName>OSP Waiting for CMU signature</fullName>
+                <default>false</default>
+                <label>OSP Waiting for CMU signature</label>
+            </value>
+            <value>
+                <fullName>OSP Waiting for signed copy from Sponsor/Subcontractor</fullName>
+                <default>false</default>
+                <label>OSP Waiting for signed copy from Sponsor/Subcontractor</label>
+            </value>
+            <value>
+                <fullName>Complete</fullName>
+                <default>false</default>
+                <label>Complete</label>
+            </value>
+            <value>
+                <fullName>Withdrawn</fullName>
+                <default>false</default>
+                <label>Withdrawn</label>
+            </value>
+            <value>
+                <fullName>Early Center/Award Extension Processing</fullName>
+                <default>false</default>
+                <label>Early Center/Award Extension Processing</label>
+            </value>
+            <value>
+                <fullName>EC – Initial Review</fullName>
+                <default>false</default>
+                <label>EC – Initial Review</label>
+            </value>
+            <value>
+                <fullName>EC – Initial Review Complete</fullName>
+                <default>false</default>
+                <label>EC – Initial Review Complete</label>
+            </value>
+            <value>
+                <fullName>CTTEC</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>CTTEC</label>
+            </value>
+            <value>
+                <fullName>OSP</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>OSP</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

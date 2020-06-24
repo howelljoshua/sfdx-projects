@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cumulative_Giving__c</fullName>
+    <description>Summary of all giving credits for this person</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Summary of all giving credits for this person</inlineHelpText>
+    <label>Cumulative Giving</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

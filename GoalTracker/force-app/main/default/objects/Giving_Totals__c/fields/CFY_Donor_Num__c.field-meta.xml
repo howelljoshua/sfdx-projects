@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CFY_Donor_Num__c</fullName>
+    <description>Uses 1 to denote yes/true and 0 to denote no/false</description>
+    <externalId>false</externalId>
+    <formula>IF ( Cash_Giving_Total_CFY__c &gt; 0 , 1, 0)</formula>
+    <inlineHelpText>Uses 1 to denote yes/true and 0 to denote no/false</inlineHelpText>
+    <label>CFY_Donor (Num)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

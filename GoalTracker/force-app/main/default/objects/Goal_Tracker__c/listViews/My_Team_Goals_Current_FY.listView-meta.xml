@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Team_Goals_Current_FY</fullName>
+    <columns>NAME</columns>
+    <columns>Prospect_Manager__c</columns>
+    <columns>Fiscal_Year__c</columns>
+    <columns>PM_Group__c</columns>
+    <columns>PM_Team__c</columns>
+    <columns>Visits_Count__c</columns>
+    <columns>Qualifications_Count__c</columns>
+    <columns>Submitted_Count__c</columns>
+    <columns>Accepted_Count__c</columns>
+    <columns>Commits_Team_Member__c</columns>
+    <columns>Revenue_Goal_PM__c</columns>
+    <columns>Manager__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Effective_Date__c</field>
+        <operation>equals</operation>
+        <value>THIS_FISCAL_YEAR</value>
+    </filters>
+    <label>My Team Goals Current FY</label>
+</ListView>

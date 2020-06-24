@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CSS_Class__c</fullName>
+    <description>If specified, the event on the calendar page will be given this CSS class. Multiple classes may be specified space-delimited. This field may be populated by workflows or process builder or triggers; any custom fields with &quot;CSS&quot; as part of the field name will also be used as sources of CSS class data.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If specified, the event on the calendar page will be given this CSS class. Multiple classes may be specified space-delimited. This field may be populated by workflows or process builder or triggers.</inlineHelpText>
+    <label>CSS Class</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

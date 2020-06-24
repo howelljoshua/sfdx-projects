@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Category__c</fullName>
+    <externalId>false</externalId>
+    <label>Category</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Alumni Groups</fullName>
+                <default>false</default>
+                <label>Alumni Groups</label>
+            </value>
+            <value>
+                <fullName>Areas of Excellence</fullName>
+                <default>false</default>
+                <label>Areas of Excellence</label>
+            </value>
+            <value>
+                <fullName>Athletics</fullName>
+                <default>false</default>
+                <label>Athletics</label>
+            </value>
+            <value>
+                <fullName>Campuses, Colleges and Interdisciplinary Programs</fullName>
+                <default>false</default>
+                <label>Campuses, Colleges and Interdisciplinary Programs</label>
+            </value>
+            <value>
+                <fullName>College of Engineering</fullName>
+                <default>false</default>
+                <label>College of Engineering</label>
+            </value>
+            <value>
+                <fullName>College of Fine Arts</fullName>
+                <default>false</default>
+                <label>College of Fine Arts</label>
+            </value>
+            <value>
+                <fullName>Dietrich College of Humanities and Social Sciences</fullName>
+                <default>false</default>
+                <label>Dietrich College of Humanities and Social Sciences</label>
+            </value>
+            <value>
+                <fullName>General Funds</fullName>
+                <default>false</default>
+                <label>General Funds</label>
+            </value>
+            <value>
+                <fullName>Heinz College</fullName>
+                <default>false</default>
+                <label>Heinz College</label>
+            </value>
+            <value>
+                <fullName>Interdisciplinary Programs</fullName>
+                <default>false</default>
+                <label>Interdisciplinary Programs</label>
+            </value>
+            <value>
+                <fullName>Mellon College of Science</fullName>
+                <default>false</default>
+                <label>Mellon College of Science</label>
+            </value>
+            <value>
+                <fullName>Miscellaneous Funds</fullName>
+                <default>false</default>
+                <label>Miscellaneous Funds</label>
+            </value>
+            <value>
+                <fullName>Other Fund</fullName>
+                <default>false</default>
+                <label>Other Fund</label>
+            </value>
+            <value>
+                <fullName>School of Computer Science</fullName>
+                <default>false</default>
+                <label>School of Computer Science</label>
+            </value>
+            <value>
+                <fullName>Student &amp; Faculty Support</fullName>
+                <default>false</default>
+                <label>Student &amp; Faculty Support</label>
+            </value>
+            <value>
+                <fullName>Student Experience</fullName>
+                <default>false</default>
+                <label>Student Experience</label>
+            </value>
+            <value>
+                <fullName>Tepper School of Business</fullName>
+                <default>false</default>
+                <label>Tepper School of Business</label>
+            </value>
+            <value>
+                <fullName>University Libraries</fullName>
+                <default>false</default>
+                <label>University Libraries</label>
+            </value>
+            <value>
+                <fullName>Endowments</fullName>
+                <default>false</default>
+                <label>Endowments</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>6</visibleLines>
+</CustomField>

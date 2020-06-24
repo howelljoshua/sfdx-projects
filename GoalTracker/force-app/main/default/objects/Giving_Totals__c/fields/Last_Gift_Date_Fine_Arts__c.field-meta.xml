@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_Gift_Date_Fine_Arts__c</fullName>
+    <description>AQ_Custom</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Account&apos;s last gift date to College of Fine Arts designation</inlineHelpText>
+    <label>Last Gift Date Fine Arts</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

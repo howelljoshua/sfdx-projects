@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Consecutive_Previous_Years_of_Giving__c</fullName>
+    <description>AQ_Custom</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Excludes current and previous years</inlineHelpText>
+    <label>Consecutive Previous Years of Giving</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

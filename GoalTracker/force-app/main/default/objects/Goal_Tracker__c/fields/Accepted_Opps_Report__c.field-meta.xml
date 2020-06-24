@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Accepted_Opps_Report__c</fullName>
+    <externalId>false</externalId>
+    <formula>HYPERLINK(&apos;https://cmu.lightning.force.com/lightning/r/Report/00Of4000007GXQOEA4/view?fv0=&apos;+ Prospect_Manager__r.ID_18_Digit__c
++ &apos;&amp;fv1=&apos;  +  Fiscal_Year__c
+
+,&apos;View Accepted Opps Report for this Fiscal Year&apos;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Accepted Opps Report</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

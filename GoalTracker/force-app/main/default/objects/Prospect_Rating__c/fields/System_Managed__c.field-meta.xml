@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>System_Managed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>AQ_Custom</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates that the prospect rating has been classified as one of the records that should be maintained by the system.</inlineHelpText>
+    <label>System Managed</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

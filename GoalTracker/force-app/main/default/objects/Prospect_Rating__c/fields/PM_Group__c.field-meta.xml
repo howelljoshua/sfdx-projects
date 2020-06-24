@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PM_Group__c</fullName>
+    <description>PM Group of the Prospect Manager that owns this Opportunity (Hidden field for Reporting)</description>
+    <externalId>false</externalId>
+    <formula>TEXT( Qualification_Credit__r.PM_Group__c )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>PM Group of the Prospect Manager that owns this Opportunity (Hidden field for Reporting)</inlineHelpText>
+    <label>PM Group</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

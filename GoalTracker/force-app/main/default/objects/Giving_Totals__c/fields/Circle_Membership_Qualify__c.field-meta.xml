@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Circle_Membership_Qualify__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Circle Membership the Account Qualifies for through Donor Reporting Total</description>
+    <externalId>false</externalId>
+    <label>Circle Membership Qualify</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Giving Totals (Circle Membership Qualify)</relationshipLabel>
+    <relationshipName>Giving_Totals_Cicle_Membership</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

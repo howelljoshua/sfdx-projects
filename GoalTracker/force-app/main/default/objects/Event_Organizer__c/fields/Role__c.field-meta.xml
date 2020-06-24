@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Role__c</fullName>
+    <description>AQB_Custom</description>
+    <externalId>false</externalId>
+    <label>Role</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Event Organizer</fullName>
+                <default>true</default>
+                <label>Event Organizer</label>
+            </value>
+            <value>
+                <fullName>Staff on Duty</fullName>
+                <default>false</default>
+                <label>Staff on Duty</label>
+            </value>
+            <value>
+                <fullName>Administrator</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Administrator</label>
+            </value>
+            <value>
+                <fullName>Caller</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Caller</label>
+            </value>
+            <value>
+                <fullName>Committee Member</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Committee Member</label>
+            </value>
+            <value>
+                <fullName>Door/Tickets/Programs</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Door/Tickets/Programs</label>
+            </value>
+            <value>
+                <fullName>Event Coordinator</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Event Coordinator</label>
+            </value>
+            <value>
+                <fullName>Event Logistics</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Event Logistics</label>
+            </value>
+            <value>
+                <fullName>Event Staff</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Event Staff</label>
+            </value>
+            <value>
+                <fullName>Host</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Host</label>
+            </value>
+            <value>
+                <fullName>Master/Mistress of Ceremonies</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Master/Mistress of Ceremonies</label>
+            </value>
+            <value>
+                <fullName>Mingler</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Mingler</label>
+            </value>
+            <value>
+                <fullName>Other Duties</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Duties</label>
+            </value>
+            <value>
+                <fullName>Presenter</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Presenter</label>
+            </value>
+            <value>
+                <fullName>Primary Organizer</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Primary Organizer</label>
+            </value>
+            <value>
+                <fullName>Reunion Host</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Reunion Host</label>
+            </value>
+            <value>
+                <fullName>SARC Reunion Host</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>SARC Reunion Host</label>
+            </value>
+            <value>
+                <fullName>Social Host</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Social Host</label>
+            </value>
+            <value>
+                <fullName>Speaker</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Speaker</label>
+            </value>
+            <value>
+                <fullName>Staff Contact</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Staff Contact</label>
+            </value>
+            <value>
+                <fullName>Student Host</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Student Host</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

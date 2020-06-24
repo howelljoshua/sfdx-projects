@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Goal_Fiscal__c</fullName>
+    <description>Hidden field for temporarily passing the Fiscal year of the Goal</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Hidden field for temporarily passing the Fiscal year of the Goal</inlineHelpText>
+    <label>Goal Fiscal</label>
+    <length>4</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

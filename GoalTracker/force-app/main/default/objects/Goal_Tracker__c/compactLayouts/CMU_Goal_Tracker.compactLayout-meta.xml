@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CMU_Goal_Tracker</fullName>
+    <fields>Prospect_Manager__c</fields>
+    <fields>Qualifications_Count__c</fields>
+    <fields>Visits_Count__c</fields>
+    <fields>Submitted_Count__c</fields>
+    <fields>Accepted_Count__c</fields>
+    <fields>Commits_Team_Leader__c</fields>
+    <fields>Commits_Team_Member__c</fields>
+    <label>CMU Goal Tracker</label>
+</CompactLayout>

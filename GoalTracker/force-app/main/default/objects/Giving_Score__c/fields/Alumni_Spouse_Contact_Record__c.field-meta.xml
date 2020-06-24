@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Alumni_Spouse_Contact_Record__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>LINK to the Contact record that proves a Spouse/Partner Dual Affiliate household relationship for this person.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>LINK to the Contact record that proves a Spouse/Partner Dual Affiliate household relationship for this person.</inlineHelpText>
+    <label>Alumni Spouse Contact Record</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Giving Scores (Alumni Spouse Contact Record)</relationshipLabel>
+    <relationshipName>Giving_Scores1</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

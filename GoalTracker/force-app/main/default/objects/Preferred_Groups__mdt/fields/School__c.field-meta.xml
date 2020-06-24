@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>School__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>School</label>
+    <required>true</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Tepper School of Business</fullName>
+                <default>false</default>
+                <label>Tepper School of Business</label>
+            </value>
+            <value>
+                <fullName>Carnegie Mellon University</fullName>
+                <default>false</default>
+                <label>Carnegie Mellon University</label>
+            </value>
+            <value>
+                <fullName>Default</fullName>
+                <default>true</default>
+                <label>Default</label>
+            </value>
+            <value>
+                <fullName>Carnegie Institute of Technology</fullName>
+                <default>false</default>
+                <label>Carnegie Institute of Technology</label>
+            </value>
+            <value>
+                <fullName>College of Fine Arts</fullName>
+                <default>false</default>
+                <label>College of Fine Arts</label>
+            </value>
+            <value>
+                <fullName>Computer Science</fullName>
+                <default>false</default>
+                <label>Computer Science</label>
+            </value>
+            <value>
+                <fullName>Dietrich College of H and SS</fullName>
+                <default>false</default>
+                <label>Dietrich College of H and SS</label>
+            </value>
+            <value>
+                <fullName>Graduate School of Industrial Admin.</fullName>
+                <default>false</default>
+                <label>Graduate School of Industrial Admin.</label>
+            </value>
+            <value>
+                <fullName>Heinz College</fullName>
+                <default>false</default>
+                <label>Heinz College</label>
+            </value>
+            <value>
+                <fullName>Heinz School</fullName>
+                <default>false</default>
+                <label>Heinz School</label>
+            </value>
+            <value>
+                <fullName>Humanities and Social Sciences</fullName>
+                <default>false</default>
+                <label>Humanities and Social Sciences</label>
+            </value>
+            <value>
+                <fullName>Indust Mgmt (Graphic Comms Mgmt)</fullName>
+                <default>false</default>
+                <label>Indust Mgmt (Graphic Comms Mgmt)</label>
+            </value>
+            <value>
+                <fullName>Industrial Management</fullName>
+                <default>false</default>
+                <label>Industrial Management</label>
+            </value>
+            <value>
+                <fullName>Industries</fullName>
+                <default>false</default>
+                <label>Industries</label>
+            </value>
+            <value>
+                <fullName>Library</fullName>
+                <default>false</default>
+                <label>Library</label>
+            </value>
+            <value>
+                <fullName>Margaret Morrison</fullName>
+                <default>false</default>
+                <label>Margaret Morrison</label>
+            </value>
+            <value>
+                <fullName>Mellon College of Science</fullName>
+                <default>false</default>
+                <label>Mellon College of Science</label>
+            </value>
+            <value>
+                <fullName>Printing Management</fullName>
+                <default>false</default>
+                <label>Printing Management</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

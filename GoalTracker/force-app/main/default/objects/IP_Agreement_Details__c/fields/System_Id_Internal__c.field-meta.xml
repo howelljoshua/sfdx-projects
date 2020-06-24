@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>System_Id_Internal__c</fullName>
+    <externalId>false</externalId>
+    <label>System Id (Internal)</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>OSP Activity Log/SharePoint</fullName>
+                <default>false</default>
+                <label>OSP Activity Log/SharePoint</label>
+            </value>
+            <value>
+                <fullName>SPARCS</fullName>
+                <default>false</default>
+                <label>SPARCS</label>
+            </value>
+            <value>
+                <fullName>Contracts System/Docusign</fullName>
+                <default>false</default>
+                <label>Contracts System/Docusign</label>
+            </value>
+            <value>
+                <fullName>Wellspring</fullName>
+                <default>false</default>
+                <label>Wellspring</label>
+            </value>
+            <value>
+                <fullName>FlintBox</fullName>
+                <default>false</default>
+                <label>FlintBox</label>
+            </value>
+            <value>
+                <fullName>CTTEC – Other</fullName>
+                <default>false</default>
+                <label>CTTEC – Other</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Revenue_Goal_Non_PM__c</fullName>
+    <description>Revenue Goal as a member of the Opportunity Team</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Revenue Goal as a member of the Opportunity Team</inlineHelpText>
+    <label>Revenue Goal (Non-PM)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

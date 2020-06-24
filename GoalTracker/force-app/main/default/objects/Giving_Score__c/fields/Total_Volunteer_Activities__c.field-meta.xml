@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Volunteer_Activities__c</fullName>
+    <description>Grand summary of all Volunteer Position records across all years for this Contact</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Grand summary of all Volunteer Position records across all years for this Contact</inlineHelpText>
+    <label>Total Volunteer Activities</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

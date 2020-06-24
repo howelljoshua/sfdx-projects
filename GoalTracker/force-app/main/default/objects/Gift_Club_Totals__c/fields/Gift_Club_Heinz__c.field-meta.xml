@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gift_Club_Heinz__c</fullName>
+    <description>Running Annual Total for Heinz College Dean&apos;s Circle - Expected Fiscal Year Cash - $2500.00US to Qualify in Heinz College allocation</description>
+    <externalId>false</externalId>
+    <label>Gift Club Heinz</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Current_Year_Giver__c</fullName>
+    <description>TRUE if the Contact has Gift/Pledge records from THIS fiscal year.</description>
+    <externalId>false</externalId>
+    <formula>IF( Current_Year_Gifts__c &gt; 0, True, False )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>TRUE if the Contact has Gift/Pledge records from THIS fiscal year.</inlineHelpText>
+    <label>Current Year Giver</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

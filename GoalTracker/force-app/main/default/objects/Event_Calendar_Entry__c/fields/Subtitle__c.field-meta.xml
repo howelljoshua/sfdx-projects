@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Subtitle__c</fullName>
+    <description>The subtitle of the calendar entry, shown below the event name in the standard calendar view. Usually a description of the event and/or venue.  If this is a linvio Event, auto populated from event description.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The subtitle of the calendar entry, shown below the event name in the standard calendar view. Usually a description of the event and/or venue.  If this is a linvio Event, auto populated from event description.</inlineHelpText>
+    <label>Subtitle</label>
+    <length>32768</length>
+    <trackTrending>false</trackTrending>
+    <type>Html</type>
+    <visibleLines>10</visibleLines>
+</CustomField>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CMU__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Checked for All Other CMU Degrees</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Checked for All Other CMU Degrees</inlineHelpText>
+    <label>CMU</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

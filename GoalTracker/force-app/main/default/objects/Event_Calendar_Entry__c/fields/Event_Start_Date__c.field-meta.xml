@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Event_Start_Date__c</fullName>
+    <description>If this is an external event (not a Linvio registered event), enter the start date/time here. If time is not relevant, check the &quot;hide time&quot; checkbox.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If this is an external event (not a Linvio registered event), enter the start date/time here. If time is not relevant, check the &quot;hide time&quot; checkbox.</inlineHelpText>
+    <label>Event Start Date</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

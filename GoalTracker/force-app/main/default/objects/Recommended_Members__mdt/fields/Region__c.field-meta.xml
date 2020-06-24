@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Region__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Region</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>-None-</fullName>
+                <default>true</default>
+                <label>-None-</label>
+            </value>
+            <value>
+                <fullName>AZ - Phoenix</fullName>
+                <default>false</default>
+                <label>AZ - Phoenix</label>
+            </value>
+            <value>
+                <fullName>CA - Los Angeles</fullName>
+                <default>false</default>
+                <label>CA - Los Angeles</label>
+            </value>
+            <value>
+                <fullName>CA - Sacramento</fullName>
+                <default>false</default>
+                <label>CA - Sacramento</label>
+            </value>
+            <value>
+                <fullName>CA - San Diego</fullName>
+                <default>false</default>
+                <label>CA - San Diego</label>
+            </value>
+            <value>
+                <fullName>CA - San Francisco</fullName>
+                <default>false</default>
+                <label>CA - San Francisco</label>
+            </value>
+            <value>
+                <fullName>CO - Denver</fullName>
+                <default>false</default>
+                <label>CO - Denver</label>
+            </value>
+            <value>
+                <fullName>CT - Hartford</fullName>
+                <default>false</default>
+                <label>CT - Hartford</label>
+            </value>
+            <value>
+                <fullName>DC - Washington DC</fullName>
+                <default>false</default>
+                <label>DC - Washington DC</label>
+            </value>
+            <value>
+                <fullName>FL - South Florida</fullName>
+                <default>false</default>
+                <label>FL - South Florida</label>
+            </value>
+            <value>
+                <fullName>FL - St Petersburg</fullName>
+                <default>false</default>
+                <label>FL - St Petersburg</label>
+            </value>
+            <value>
+                <fullName>FL - West Palm Beach</fullName>
+                <default>false</default>
+                <label>FL - West Palm Beach</label>
+            </value>
+            <value>
+                <fullName>GA - Atlanta</fullName>
+                <default>false</default>
+                <label>GA - Atlanta</label>
+            </value>
+            <value>
+                <fullName>HI - Hawaii</fullName>
+                <default>false</default>
+                <label>HI - Hawaii</label>
+            </value>
+            <value>
+                <fullName>IL - Chicago</fullName>
+                <default>false</default>
+                <label>IL - Chicago</label>
+            </value>
+            <value>
+                <fullName>IN - Indianapolis</fullName>
+                <default>false</default>
+                <label>IN - Indianapolis</label>
+            </value>
+            <value>
+                <fullName>LA - New Orleans</fullName>
+                <default>false</default>
+                <label>LA - New Orleans</label>
+            </value>
+            <value>
+                <fullName>MA - Boston</fullName>
+                <default>false</default>
+                <label>MA - Boston</label>
+            </value>
+            <value>
+                <fullName>MD - Baltimore</fullName>
+                <default>false</default>
+                <label>MD - Baltimore</label>
+            </value>
+            <value>
+                <fullName>MI - Detroit</fullName>
+                <default>false</default>
+                <label>MI - Detroit</label>
+            </value>
+            <value>
+                <fullName>MN - Minneapolis-St Paul</fullName>
+                <default>false</default>
+                <label>MN - Minneapolis-St Paul</label>
+            </value>
+            <value>
+                <fullName>MO - Kansas City</fullName>
+                <default>false</default>
+                <label>MO - Kansas City</label>
+            </value>
+            <value>
+                <fullName>MO - St. Louis</fullName>
+                <default>false</default>
+                <label>MO - St. Louis</label>
+            </value>
+            <value>
+                <fullName>NC - Charlotte</fullName>
+                <default>false</default>
+                <label>NC - Charlotte</label>
+            </value>
+            <value>
+                <fullName>NC - Raleigh</fullName>
+                <default>false</default>
+                <label>NC - Raleigh</label>
+            </value>
+            <value>
+                <fullName>NJ - Princeton</fullName>
+                <default>false</default>
+                <label>NJ - Princeton</label>
+            </value>
+            <value>
+                <fullName>NV - Las Vegas</fullName>
+                <default>false</default>
+                <label>NV - Las Vegas</label>
+            </value>
+            <value>
+                <fullName>NY - Buffalo</fullName>
+                <default>false</default>
+                <label>NY - Buffalo</label>
+            </value>
+            <value>
+                <fullName>NY - New York City</fullName>
+                <default>false</default>
+                <label>NY - New York City</label>
+            </value>
+            <value>
+                <fullName>NY - Rochester</fullName>
+                <default>false</default>
+                <label>NY - Rochester</label>
+            </value>
+            <value>
+                <fullName>OH - Cincinnati</fullName>
+                <default>false</default>
+                <label>OH - Cincinnati</label>
+            </value>
+            <value>
+                <fullName>OH - Cleveland</fullName>
+                <default>false</default>
+                <label>OH - Cleveland</label>
+            </value>
+            <value>
+                <fullName>OH - Columbus</fullName>
+                <default>false</default>
+                <label>OH - Columbus</label>
+            </value>
+            <value>
+                <fullName>OH - Youngstown</fullName>
+                <default>false</default>
+                <label>OH - Youngstown</label>
+            </value>
+            <value>
+                <fullName>OR - Portland</fullName>
+                <default>false</default>
+                <label>OR - Portland</label>
+            </value>
+            <value>
+                <fullName>PA - Harrisburg</fullName>
+                <default>false</default>
+                <label>PA - Harrisburg</label>
+            </value>
+            <value>
+                <fullName>PA - Philadelphia</fullName>
+                <default>false</default>
+                <label>PA - Philadelphia</label>
+            </value>
+            <value>
+                <fullName>PA - Pittsburgh</fullName>
+                <default>false</default>
+                <label>PA - Pittsburgh</label>
+            </value>
+            <value>
+                <fullName>TN - Nashville</fullName>
+                <default>false</default>
+                <label>TN - Nashville</label>
+            </value>
+            <value>
+                <fullName>TX - Austin</fullName>
+                <default>false</default>
+                <label>TX - Austin</label>
+            </value>
+            <value>
+                <fullName>TX - Dallas</fullName>
+                <default>false</default>
+                <label>TX - Dallas</label>
+            </value>
+            <value>
+                <fullName>TX - Houston</fullName>
+                <default>false</default>
+                <label>TX - Houston</label>
+            </value>
+            <value>
+                <fullName>WA - Seattle</fullName>
+                <default>false</default>
+                <label>WA - Seattle</label>
+            </value>
+            <value>
+                <fullName>Australia - Australian Capital Territory</fullName>
+                <default>false</default>
+                <label>Australia - Australian Capital Territory</label>
+            </value>
+            <value>
+                <fullName>Australia - New South Wales</fullName>
+                <default>false</default>
+                <label>Australia - New South Wales</label>
+            </value>
+            <value>
+                <fullName>Australia - Northern Territory</fullName>
+                <default>false</default>
+                <label>Australia - Northern Territory</label>
+            </value>
+            <value>
+                <fullName>Australia - Queensland</fullName>
+                <default>false</default>
+                <label>Australia - Queensland</label>
+            </value>
+            <value>
+                <fullName>Australia - South Australia</fullName>
+                <default>false</default>
+                <label>Australia - South Australia</label>
+            </value>
+            <value>
+                <fullName>Australia - Tasmania</fullName>
+                <default>false</default>
+                <label>Australia - Tasmania</label>
+            </value>
+            <value>
+                <fullName>Australia - Victoria</fullName>
+                <default>false</default>
+                <label>Australia - Victoria</label>
+            </value>
+            <value>
+                <fullName>Australia - Western Australia</fullName>
+                <default>false</default>
+                <label>Australia - Western Australia</label>
+            </value>
+            <value>
+                <fullName>Belgium</fullName>
+                <default>false</default>
+                <label>Belgium</label>
+            </value>
+            <value>
+                <fullName>Canada</fullName>
+                <default>false</default>
+                <label>Canada</label>
+            </value>
+            <value>
+                <fullName>Chile</fullName>
+                <default>false</default>
+                <label>Chile</label>
+            </value>
+            <value>
+                <fullName>China - Beijing and North China</fullName>
+                <default>false</default>
+                <label>China - Beijing and North China</label>
+            </value>
+            <value>
+                <fullName>China - Shanghai and East China</fullName>
+                <default>false</default>
+                <label>China - Shanghai and East China</label>
+            </value>
+            <value>
+                <fullName>China - Shenzhen and South China</fullName>
+                <default>false</default>
+                <label>China - Shenzhen and South China</label>
+            </value>
+            <value>
+                <fullName>France</fullName>
+                <default>false</default>
+                <label>France</label>
+            </value>
+            <value>
+                <fullName>Hong Kong</fullName>
+                <default>false</default>
+                <label>Hong Kong</label>
+            </value>
+            <value>
+                <fullName>India - Bangalore</fullName>
+                <default>false</default>
+                <label>India - Bangalore</label>
+            </value>
+            <value>
+                <fullName>India - Chennai</fullName>
+                <default>false</default>
+                <label>India - Chennai</label>
+            </value>
+            <value>
+                <fullName>India - Hyderabad</fullName>
+                <default>false</default>
+                <label>India - Hyderabad</label>
+            </value>
+            <value>
+                <fullName>India - Kolkata</fullName>
+                <default>false</default>
+                <label>India - Kolkata</label>
+            </value>
+            <value>
+                <fullName>India - Mumbai</fullName>
+                <default>false</default>
+                <label>India - Mumbai</label>
+            </value>
+            <value>
+                <fullName>India - New Delhi</fullName>
+                <default>false</default>
+                <label>India - New Delhi</label>
+            </value>
+            <value>
+                <fullName>India - Pune</fullName>
+                <default>false</default>
+                <label>India - Pune</label>
+            </value>
+            <value>
+                <fullName>Indonesia</fullName>
+                <default>false</default>
+                <label>Indonesia</label>
+            </value>
+            <value>
+                <fullName>Japan</fullName>
+                <default>false</default>
+                <label>Japan</label>
+            </value>
+            <value>
+                <fullName>Korea</fullName>
+                <default>false</default>
+                <label>Korea</label>
+            </value>
+            <value>
+                <fullName>Malaysia</fullName>
+                <default>false</default>
+                <label>Malaysia</label>
+            </value>
+            <value>
+                <fullName>Mexico</fullName>
+                <default>false</default>
+                <label>Mexico</label>
+            </value>
+            <value>
+                <fullName>Pakistan</fullName>
+                <default>false</default>
+                <label>Pakistan</label>
+            </value>
+            <value>
+                <fullName>Peru</fullName>
+                <default>false</default>
+                <label>Peru</label>
+            </value>
+            <value>
+                <fullName>Philippines</fullName>
+                <default>false</default>
+                <label>Philippines</label>
+            </value>
+            <value>
+                <fullName>Portugal</fullName>
+                <default>false</default>
+                <label>Portugal</label>
+            </value>
+            <value>
+                <fullName>Qatar</fullName>
+                <default>false</default>
+                <label>Qatar</label>
+            </value>
+            <value>
+                <fullName>Saudi Arabia</fullName>
+                <default>false</default>
+                <label>Saudi Arabia</label>
+            </value>
+            <value>
+                <fullName>Singapore</fullName>
+                <default>false</default>
+                <label>Singapore</label>
+            </value>
+            <value>
+                <fullName>Taiwan</fullName>
+                <default>false</default>
+                <label>Taiwan</label>
+            </value>
+            <value>
+                <fullName>Thailand</fullName>
+                <default>false</default>
+                <label>Thailand</label>
+            </value>
+            <value>
+                <fullName>Turkey</fullName>
+                <default>false</default>
+                <label>Turkey</label>
+            </value>
+            <value>
+                <fullName>United Arab Emirates</fullName>
+                <default>false</default>
+                <label>United Arab Emirates</label>
+            </value>
+            <value>
+                <fullName>United Kingdom</fullName>
+                <default>false</default>
+                <label>United Kingdom</label>
+            </value>
+            <value>
+                <fullName>Default</fullName>
+                <default>false</default>
+                <label>Default</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Registration_Link__c</fullName>
+    <description>If this event is not related to a Linvio Special Event, enter the external URL of the registration form or event landing page here. If it is related a Linvio Event that has the record type external event, it will automatically display the External Event Page.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If this event is not related to a Linvio Special Event, enter the external URL of the registration form or event landing page here.</inlineHelpText>
+    <label>Registration Link</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Url</type>
+</CustomField>

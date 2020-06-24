@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Giving_Frequency__c</fullName>
+    <description>Lifetime Total Gift Count / (Last Giving Year - Fist Giving Year)
+
+POINTS AWARDED: 
+100% = 10 pts 
+90-99% = 8 pts 
+80-89% = 6 pts 
+70-79% = 4 pts 
+60-69% = 2 pts 
+&lt;60% = 1 pt</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Lifetime Total Gift Count / (Last Giving Year - Fist Giving Year)
+
+POINTS AWARDED: 
+100% = 10 pts 
+90-99% = 8 pts 
+80-89% = 6 pts 
+70-79% = 4 pts 
+60-69% = 2 pts 
+&lt;60% = 1 pt</inlineHelpText>
+    <label>Giving Frequency</label>
+    <precision>5</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

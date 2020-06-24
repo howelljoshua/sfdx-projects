@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sub_Category__c</fullName>
+    <externalId>false</externalId>
+    <label>Sub Category</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>SCS Departmental Funds</fullName>
+                <default>false</default>
+                <label>SCS Departmental Funds</label>
+            </value>
+            <value>
+                <fullName>SCS Priority Funds</fullName>
+                <default>false</default>
+                <label>SCS Priority Funds</label>
+            </value>
+            <value>
+                <fullName>SCS Academic Program Funds</fullName>
+                <default>false</default>
+                <label>SCS Academic Program Funds</label>
+            </value>
+            <value>
+                <fullName>CFA General</fullName>
+                <default>false</default>
+                <label>CFA General</label>
+            </value>
+            <value>
+                <fullName>School of Architecture</fullName>
+                <default>false</default>
+                <label>School of Architecture</label>
+            </value>
+            <value>
+                <fullName>School of Art</fullName>
+                <default>false</default>
+                <label>School of Art</label>
+            </value>
+            <value>
+                <fullName>School of Design</fullName>
+                <default>false</default>
+                <label>School of Design</label>
+            </value>
+            <value>
+                <fullName>School of Drama</fullName>
+                <default>false</default>
+                <label>School of Drama</label>
+            </value>
+            <value>
+                <fullName>School of Music</fullName>
+                <default>false</default>
+                <label>School of Music</label>
+            </value>
+            <value>
+                <fullName>Programs and Research Centers</fullName>
+                <default>false</default>
+                <label>Programs and Research Centers</label>
+            </value>
+            <value>
+                <fullName>Engineering College-wide Funds</fullName>
+                <default>false</default>
+                <label>Engineering College-wide Funds</label>
+            </value>
+            <value>
+                <fullName>Engineering Department Funds</fullName>
+                <default>false</default>
+                <label>Engineering Department Funds</label>
+            </value>
+            <value>
+                <fullName>Engineering Program &amp; Institute Funds</fullName>
+                <default>false</default>
+                <label>Engineering Program &amp; Institute Funds</label>
+            </value>
+            <value>
+                <fullName>Engineering Campus Funds</fullName>
+                <default>false</default>
+                <label>Engineering Campus Funds</label>
+            </value>
+            <value>
+                <fullName>General Dietrich Gifts</fullName>
+                <default>false</default>
+                <label>General Dietrich Gifts</label>
+            </value>
+            <value>
+                <fullName>Departments</fullName>
+                <default>false</default>
+                <label>Departments</label>
+            </value>
+            <value>
+                <fullName>Heinz Current Giving Priorities</fullName>
+                <default>false</default>
+                <label>Heinz Current Giving Priorities</label>
+            </value>
+            <value>
+                <fullName>Heinz Industry Partners</fullName>
+                <default>false</default>
+                <label>Heinz Industry Partners</label>
+            </value>
+            <value>
+                <fullName>Heinz College Programs and Activities</fullName>
+                <default>false</default>
+                <label>Heinz College Programs and Activities</label>
+            </value>
+            <value>
+                <fullName>Mellon College of Science Funds</fullName>
+                <default>false</default>
+                <label>Mellon College of Science Funds</label>
+            </value>
+            <value>
+                <fullName>Biological Sciences</fullName>
+                <default>false</default>
+                <label>Biological Sciences</label>
+            </value>
+            <value>
+                <fullName>Chemistry</fullName>
+                <default>false</default>
+                <label>Chemistry</label>
+            </value>
+            <value>
+                <fullName>Mathematical Sciences</fullName>
+                <default>false</default>
+                <label>Mathematical Sciences</label>
+            </value>
+            <value>
+                <fullName>Physics</fullName>
+                <default>false</default>
+                <label>Physics</label>
+            </value>
+            <value>
+                <fullName>Tepper School Priorities</fullName>
+                <default>false</default>
+                <label>Tepper School Priorities</label>
+            </value>
+            <value>
+                <fullName>Tepper School Graduate Funds</fullName>
+                <default>false</default>
+                <label>Tepper School Graduate Funds</label>
+            </value>
+            <value>
+                <fullName>Tepper School Undergraduate Funds</fullName>
+                <default>false</default>
+                <label>Tepper School Undergraduate Funds</label>
+            </value>
+            <value>
+                <fullName>Programs, Centers and Activities</fullName>
+                <default>false</default>
+                <label>Programs, Centers and Activities</label>
+            </value>
+            <value>
+                <fullName>Class Funds</fullName>
+                <default>false</default>
+                <label>Class Funds</label>
+            </value>
+            <value>
+                <fullName>Corporate/Foundation Support</fullName>
+                <default>false</default>
+                <label>Corporate/Foundation Support</label>
+            </value>
+            <value>
+                <fullName>Other Tepper School Funds</fullName>
+                <default>false</default>
+                <label>Other Tepper School Funds</label>
+            </value>
+            <value>
+                <fullName>Featured Student Experience Designations</fullName>
+                <default>false</default>
+                <label>Featured Student Experience Designations</label>
+            </value>
+            <value>
+                <fullName>General Student Experience Designations</fullName>
+                <default>false</default>
+                <label>General Student Experience Designations</label>
+            </value>
+            <value>
+                <fullName>Health &amp; Well-Being Designations</fullName>
+                <default>false</default>
+                <label>Health &amp; Well-Being Designations</label>
+            </value>
+            <value>
+                <fullName>University-wide Endowments</fullName>
+                <default>false</default>
+                <label>University-wide Endowments</label>
+            </value>
+            <value>
+                <fullName>College and School Endowments</fullName>
+                <default>false</default>
+                <label>College and School Endowments</label>
+            </value>
+            <value>
+                <fullName>Other Endowed Funds</fullName>
+                <default>false</default>
+                <label>Other Endowed Funds</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Capacity</fullName>
+    <columns>NAME</columns>
+    <columns>Account__c</columns>
+    <columns>Capacity_Rating__c</columns>
+    <columns>Active__c</columns>
+    <columns>Active_Count__c</columns>
+    <columns>Start_Date__c</columns>
+    <columns>End_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Prospect_Rating__c.Capacity_Rating</value>
+    </filters>
+    <filters>
+        <field>Active__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>Capacity</label>
+</ListView>

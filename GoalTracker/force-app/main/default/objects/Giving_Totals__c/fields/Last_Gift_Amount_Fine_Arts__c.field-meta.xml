@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_Gift_Amount_Fine_Arts__c</fullName>
+    <description>AQ_Custom</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Account&apos;s last gift amount to a College of Fine Arts designation</inlineHelpText>
+    <label>Last Gift Amount Fine Arts</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>
