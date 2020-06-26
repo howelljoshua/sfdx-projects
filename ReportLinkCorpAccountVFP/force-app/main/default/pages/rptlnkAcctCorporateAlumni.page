@@ -1,0 +1,7 @@
+<apex:page standardcontroller="Account">
+  <!--queries on current employer name and shows alumni/ employees associated-->
+  <p>
+  <a href="https://cmu.lightning.force.com/lightning/r/Report/00Of4000007gcu6EAA/view?fv0={!Account.Id}&fv1={!Account.Id}">Click here</a>&nbsp; &nbsp; for the Corporate Alumni List Report which displays all CMU alumni that work at {!Account.Name} 
+ </p>
+  <!-- creating link from employer account -->
+</apex:page>
