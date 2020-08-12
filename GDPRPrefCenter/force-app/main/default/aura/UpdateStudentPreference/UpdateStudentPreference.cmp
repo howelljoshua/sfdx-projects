@@ -1,0 +1,192 @@
+<!--
+// Component Name : UpdateAlumniPreference
+// Controller Class : UpdateAlumniPreferenceController
+// Description :
+//
+// 16 Jan 2019    Shivani Bhatia        Original
+-->
+<aura:component
+        controller="UpdateAlumniPreferenceController"
+        implements="forceCommunity:availableForAllPageTypes,lightning:isUrlAddressable"
+        access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{! v.country }" action="{! c.updateProvinces }"/>
+    <aura:attribute name="account" type="Account" default="{'sobjectType' : 'Account'}" />
+    <aura:attribute name="pref" type="Marketing_Preference__c" default="{'sobjectType' : 'Marketing_Preference__c'}" />
+
+    <aura:attribute name="recTypeId" type="String"  />
+    <aura:attribute name="recId" type="String"  />
+    <aura:attribute name="active" type="Boolean" default="true"/>
+    <aura:attribute name="isManual" type="Boolean" default="true"/>
+    <aura:attribute name="messageId" type="String" default=""/>
+    <aura:attribute name="email" type="String" default=""/>
+    <aura:attribute name="emailMasked" type="String" default=""/>
+    <aura:attribute name="conId" type="String" default=""/>
+    <aura:attribute name="accId" type="String" default=""/>
+
+    <aura:attribute name="street" type="String" default=""/>
+    <aura:attribute name="city" type="String" default=""/>
+    <aura:attribute name="country2" type="String" default=""/>
+    <aura:attribute name="province" type="String" default=""/>
+    <aura:attribute name="postalcode" type="String" default=""/>
+
+    <aura:attribute name="provinceOptions" type="List" default="[]"/>
+    <aura:attribute name="countryOptions" type="List" default="[]"/>
+    <aura:attribute name="country" type="String" default=""/>
+
+    <aura:attribute name="studentPref" type="Boolean" default="false" />
+
+    <ltng:require styles="{!$Resource.cmuassets + '/cmuassets/cmu_style.css'}" />
+    <!-- <ltng:require scripts="{!$Resource.cmuassets + '/cmu_assets/cmu_scripts.js'}" /> -->
+    <ltng:require scripts="{!join(',',
+        $Resource.cmuassets + '/cmuassets/cmu_jquery.js',
+        $Resource.cmuassets + '/cmuassets/cmu_waypoints.js',
+        $Resource.cmuassets + '/cmuassets/cmu_scripts.js')}"
+    />
+
+
+    <aura:attribute name="options" type="List" default="[
+                                                        {'label': 'Home', 'value': 'Home'},
+                                                        ]"/>
+    <aura:attribute name="value" type="String" default="Home"/>
+
+    <div class="prefpage">
+        <div class="ui--page-header-container" id="ui--global-nav">
+            <div class="ui--section slds-clearfix">
+                <div class="slds-grid slds-container_large">
+                    <div class="slds-float_left slds-size_12-of-12 slds-medium-size_5-of-12 ui--title-large">
+                        <div class = "slds-text-heading_large "><span>Email Subscriptions</span></div>
+                    </div>
+                    <div class="slds-col slds-size_7-of-12 slds-medium-size_7-of-12 oldEmail-wrap is-hidden">
+                        <div class = "slds-text-heading_medium oldEmail"><i><span>{!v.emailMasked}</span></i> </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!--Form Start -->
+        <lightning:recordEditForm aura:id="editForm"
+                                  objectApiName="Marketing_Preference__c"
+                                  onsubmit="{!c.handleSubmit}"
+                                  onerror="{!c.handleError}"
+                                  onsuccess="{!c.handleSuccess}"
+        >
+            <lightning:messages />
+
+            <div class="ui--section">
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 ui--text-right">
+                        <span class="ui--form-label">Email Address</span>
+                    </div>
+                    <div class="slds-col slds-size_12-of-12 slds-medium-size_7-of-12">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                                {!v.emailMasked}
+                                <div class="editSection">
+                                    <lightning:button variant="base" label="" title="new email" iconName="utility:edit" onclick="{!c.showNewEmail}"/>
+                                </div>
+
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 ui--text-right slds-m-top_none slds-m-bottom_none">
+                        &nbsp;
+                    </div>
+                    <div class="newEmail slds-col slds-size_12-of-12 slds-medium-size_7-of-12" style="display : none">
+                        <lightning:input aura:id = "newEmail" type="email" name="email1" value="" placeholder="New email address" label="" />
+                        <div style="margin-top: 5px;">
+                            <lightning:button aura:id="emailButton" variant="brand" label="Save Email" title="Save Email" onclick="{!c.handleEmailChange}"/>
+                            <lightning:button variant="destructive" label="Cancel" title="Cancel" onclick="{!c.hideNewEmail}"/>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui--section">
+                <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12" padding="around-small">
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 ui--text-right">
+                            <span class="ui--form-label">Primary Address</span>
+                        </div>
+                        <div class="slds-col slds-size_12-of-12 slds-medium-size_7-of-12 oldAdd">
+                            <lightning:formattedAddress aura:id="paddress" street="" city="" country="" province=""
+                                                        postalCode="" />
+                            <div class="editSection">
+                                <lightning:button variant="base" label="" title="new address" iconName="utility:edit" onclick="{!c.showNewAddress}"/>
+                            </div>
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 ui--text-right slds-m-top_none slds-m-bottom_none">
+                        &nbsp;
+                    </div>
+                    <div class="newAdd slds-col slds-size_12-of-12 slds-medium-size_7-of-12" style="display : none">
+                        <lightning:radioGroup aura:id ="addressRadioGroup"
+                                              name="radioGroup"
+                                              label=""
+                                              options="{! v.options }"
+                                              value="{! v.value }"
+                                              type="radio"
+                                              onchange="{!c.handleAddressTypeChange}"/>
+
+                        <lightning:inputAddress
+                                aura:id="newAddress"
+                                addressLabel="Address"
+                                streetLabel="Street"
+                                cityLabel="City"
+                                countryLabel="Country"
+                                provinceLabel="Province/State"
+                                postalCodeLabel="Postal Code"
+                                street=""
+                                city=""
+                                province=""
+                                country="{!v.country}"
+                                postalCode=""
+                                countryOptions="{!v.countryOptions}"
+                                provinceOptions="{!v.provinceOptions}"
+                        />
+                        <div>
+                            <lightning:button aura:id="addressButton" variant="brand" label="Save" title="Save" onclick="{!c.handlePrimaryAddressChange}"/>
+                            <lightning:button variant="destructive" label="Cancel" title="Cancel" onclick="{!c.hideNewAddress}"/>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="ui--section">
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 ui--text-right">
+                        <span class="ui--form-label">Receive Weekly Event Emails: </span>
+                    </div>
+                    <div class="slds-col slds-size_12-of-12 slds-medium-size_7-of-12">
+                        <ui:inputCheckbox aura:id="studentCheckbox" label="" change="{!c.updateStudentPreference}" value="{!v.studentPref}"/>
+                    </div>
+
+                </div>
+            </div>
+            <!--/end of primary address change="{!c.updateStudentPref}" -->
+
+            <!--Hidden Fields-->
+            <div class="slds-hide">
+                <lightning:inputField fieldName="Active__c" value="{!v.active}"/>
+                <lightning:inputField fieldName="Is_Manual__c" value="{!v.isManual}"/>
+                <lightning:inputField fieldName="Message_Id__c" value="{!v.messageId}"/>
+            </div>
+
+
+            <!--SECTION06 - CATEGORY -->
+
+            <!-- SECTION07 - SCHOOLS -->
+
+            <!--Section05 - Groups/affinties -->
+
+
+        </lightning:recordEditForm>
+    </div>
+</aura:component>
