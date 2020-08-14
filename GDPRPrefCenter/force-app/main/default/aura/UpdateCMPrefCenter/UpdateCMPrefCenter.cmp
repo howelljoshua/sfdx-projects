@@ -62,7 +62,7 @@
             <div class="ui--section slds-clearfix">
                 <div class="slds-grid slds-container_large">
                     <div class="slds-float_left slds-size_12-of-12 slds-medium-size_5-of-12 ui--title-large">
-                        <div class = "slds-text-heading_large "><span>CMU Privacy Notice and Email Consent</span></div>
+                        <div class = "slds-text-heading_large "><span>Email Subscriptions</span></div>
                     </div>
                     <div class="slds-col slds-size_7-of-12 slds-medium-size_7-of-12 oldEmail-wrap is-hidden">
                         <div class = "slds-text-heading_medium oldEmail"><i><span>{!v.emailMasked}</span></i> </div>
@@ -74,32 +74,30 @@
             <div class="ui--section ui--mobile-hidden is-hidden">
                 <lightning:layout horizontalAlign="center">
                     <p class="ui--input-container">
-
                     <ui:inputCheckbox aura:id="unsubscribeAll" label="" change="{!c.onCheck}"/>
-
-                    <!--span>Unsubscribe from The Piper</span-->
-                    </p>
-                    <lightning:button variant="brand" label="Submit Consent" title="Submit" type="submit" />
+                    <span>Unsubscribe from The Piper</span></p>
+                    <lightning:button variant="brand" label="Update Preferences" title="Submit" type="submit" />
                 </lightning:layout>
             </div>
 
 
-
-<!-- PRIVACY NOTICE SECTION-->
-
             <div class="ui--section">
                 <div class="slds-grid slds-gutters">
                     <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 ui--text-right">
-                        <span class="ui--form-label">Privacy Notice</span>
+                        <span class="ui--form-label">Email Address</span>
                     </div>
                     <div class="slds-col slds-size_12-of-12 slds-medium-size_7-of-12">
                         <lightning:layout multipleRows="true">
                             <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
-                                <i><lightning:formattedText value="Review the Official CMU Privacy Notice here:"/></i>
-                                <br/>
-                                <b><lightning:formattedURL value="https://www.cmu.edu/legal/privacy-notice.html" label=" Privacy Notice Link"/></b>
-                                <br/><br/>
-                                <lightning:input type="checkbox" name="Privacy Opt In" aura:id="EU_Privacy_Statement__c" checked="{!v.pref.EU_Privacy_Statement__c}" label="I have read and agree to the CMU Privacy Notice" value="{!v.pref.EU_Privacy_Statement__c}"/>                                
+
+                                <i><lightning:formattedText value="Change your preferred Email Address for non-official communications"/></i><br/>
+                                
+                                {!v.emailMasked}
+                               
+                                <div class="editSection">
+                                    <lightning:button variant="base" label="" title="new email" iconName="utility:edit" onclick="{!c.showNewEmail}"/>
+                                </div>
+
                             </lightning:layoutItem>
                         </lightning:layout>
                     </div>
@@ -108,24 +106,35 @@
                     <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 ui--text-right slds-m-top_none slds-m-bottom_none">
                         &nbsp;
                     </div>
+                    <div class="newEmail slds-col slds-size_12-of-12 slds-medium-size_7-of-12" style="display : none">
+                        <lightning:input aura:id = "newEmail" type="email" name="email1" value="" placeholder="New email address" label="" />
+                        <div style="margin-top: 5px;">
+                            <lightning:button aura:id="emailButton" variant="brand" label="Save Email" title="Save Email" onclick="{!c.handleEmailChange}"/>
+                            <lightning:button variant="destructive" label="Cancel" title="Cancel" onclick="{!c.hideNewEmail}"/>
+
+                        </div>
+                    </div>
                 </div>
             </div>
 
-
-
-<!-- EMAIL CONSENT SECTION-->
+            <!--Hidden Fields-->
+            <div class="slds-hide">
+                <lightning:inputField fieldName="Active__c" value="{!v.active}"/>
+                <lightning:inputField fieldName="Is_Manual__c" value="{!v.isManual}"/>
+                <lightning:inputField fieldName="Message_Id__c" value="{!v.messageId}"/>
+            </div>
         
             <div class="ui--section">
                 <div class="slds-grid slds-gutters">
                     <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 ui--text-right">
-                        <span class="ui--form-label" id="prime-cat">Email Consent</span>
+                        <span class="ui--form-label" id="prime-cat">Subscriptions</span>
                     </div>
                     <div class="slds-col slds-size_12-of-12 slds-medium-size_7-of-12">
                         <lightning:layout multipleRows="true" class="ui--checkbox-list">
                             <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
-                                <lightning:input type="checkbox" name="Email Opt In" aura:id="EU_Email_Opt_In__c" checked="{!v.pref.EU_Email_Opt_In__c}" label="I wish to continue to receive Email from CMU Advancement" value="{!v.pref.EU_Email_Opt_In__c}"/>
-                                
-                                <br/><br/>                    
+                                <i><lightning:formattedText value="To unsubscribe, uncheck and select 'Update Preferences' " /></i><br/>
+                                <lightning:input type="checkbox" name="Subscribe to The Piper" aura:id="The_Piper__c" checked="{!v.pref.The_Piper__c}" label="The Piper" value="{!v.pref.The_Piper__c}"/>
+                                <br/>                      
                                 <lightning:button variant="brand" label="Update Preferences" title="Submit" type="submit" onclick="{!c.handleSubmit}"/>
                             </lightning:layoutItem>
                         </lightning:layout>
@@ -133,42 +142,5 @@
                 </div>
             </div>
 
-
-
-
-<!-- Test Section -->
-
-
-            <div class="ui--section">
-                <div class="slds-grid slds-gutters">
-                    <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 ui--text-right">
-                        <span class="ui--form-label" id="prime-cat">Using Record Edit Form</span>
-                    </div>
-                    <div class="slds-col slds-size_12-of-12 slds-medium-size_7-of-12">
-                        <lightning:layout multipleRows="true" class="ui--checkbox-list">
-                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
-                                <lightning:recordEditForm recordId="{!v.pref}" objectApiName="Marketing_Preference__c"  onsubmit="{!c.handleSubmit}">
-                                    <lightning:inputField fieldName="EU_Privacy_Statement__c" value="{!v.pref.EU_Privacy_Statement__c}"/>
-                                    <lightning:inputField fieldName="EU_Email_Opt_In__c"  value="{!v.pref.EU_Email_Opt_In__c}"/>
-                                    <lightning:button variant="brand" type="submit" name="save" label="Save" />
-                                </lightning:recordEditForm>
-                            </lightning:layoutItem>
-                        </lightning:layout>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-
-
-<!-- Hidden Fields -->
-            <div class="slds-hide">
-                <lightning:inputField fieldName="Active__c" value="{!v.active}"/>
-                <lightning:inputField fieldName="Is_Manual__c" value="{!v.isManual}"/>
-                <lightning:inputField fieldName="Message_Id__c" value="{!v.messageId}"/>
-            </div>
     </div>
 </aura:component>

@@ -1,0 +1,314 @@
+.THIS {}
+
+.THIS .customLabel .slds-form-element__label{
+    display: none;
+}
+
+.THIS .one {
+  float: left;
+  width: 50%;
+}
+
+.THIS .two {
+  float: right;
+  width: 50%;
+}
+
+/*CUSTOM CSS*/
+
+/*TEXT STYLES*/
+
+.THIS .ui--title-large{
+  max-width: 280px;
+}
+
+.THIS .oldEmail-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.THIS .oldEmail {
+  font-size: 16px;
+  text-transform: capitalize;
+}
+
+/*LAYOUT UTILS*/
+
+.THIS {
+  padding-top: 60px;
+}
+
+/*NAV ITEMS*/
+
+.THIS .ui--nav-global {
+  background: #efefef;
+  transition: all ease-in-out .3s;
+}
+
+.THIS .ui--nav-global ul {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.THIS .ui--nav-global ul li {
+  flex: 1 1 auto;
+  text-align: center;
+  padding: .5rem 0;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.THIS .ui--nav-global ul li:hover {
+  background: #cfcfcf;
+}
+
+.THIS .ui--nav-global ul li a {
+  display: block;
+  color: rgb(51, 51, 51);
+}
+
+.THIS .ui--section {
+  padding: 1rem 0;
+  border-bottom: solid 1px rgb(212, 212, 212);
+}
+
+
+/*ACCORDION STYLES */
+.THIS .ui--accordion .slds-accordion__section {
+  padding: 0;
+}
+
+.THIS .ui--accordion .slds-accordion__section .slds-accordion__summary {
+  margin: .75rem 0;
+  margin-top: 0;
+}
+.THIS .ui--accordion .slds-accordion__section .slds-accordion__content {
+  margin-bottom: .75rem;
+}
+
+.THIS .ui--accordion .slds-accordion__section .slds-wrap>div {
+  margin: .25rem 0;
+  padding-left: 1.5rem;
+}
+.THIS .ui--checkbox-list>div {
+  margin: .25rem 0;
+  padding-left: 0rem;
+}
+.THIS .slds-accordion__section:not(.slds-is-open) .ui--checkbox-list>div {
+  margin: .25rem 0;
+  padding-left: 1rem;
+}
+
+.THIS .ui--accordion.tepper .slds-accordion__section .slds-wrap>div{
+  padding-left: 1.5rem;
+}
+.THIS .ui--accordion.tepper .slds-accordion__section .slds-accordion__content {
+  margin-bottom: 0;
+}
+
+.THIS .ui--accordion.tepper .slds-accordion__summary-heading {
+  	font-size: .8125rem;
+    font-family: lato;
+    color: #696969;
+}
+
+
+
+
+.THIS .ui--input-container {
+  display: flex;
+  align-items: center;
+  line-height: 2;
+  margin-right: 1.5rem;
+}
+
+.THIS .ui--input-container.is-center {
+  display: block;
+}
+
+.THIS .ui--input-container>input {
+  display: inline-block;
+  margin-right: .5rem;
+  border-radius: 0;
+}
+
+/*FORM ELEMENTS */
+
+.THIS .ui--form-wrap .form-row {
+  margin: .75rem 0;
+}
+
+.THIS .ui--section .uiInput--checkbox input {
+  display: inline-block;
+}
+
+.THIS .ui--section .newAdd{
+  margin: 0 auto;
+}
+.THIS .ui--section .newAdd fieldset{
+  margin-bottom: 1rem;
+}
+.THIS .ui--section .newAdd .slds-radio{
+  display: inline-block;
+  margin-right: 1rem;
+}
+.THIS .ui--section .newAdd fieldset #input-39{
+  /*max-width: 200px;*/
+}
+
+.THIS .ui--section .newAdd fieldset .slds-form-element__group .slds-form-element__row:last-child{
+  max-width: 150px;
+}
+
+
+/*UTILITIES*/
+
+.THIS .is-hidden{
+  display: none!important;
+}
+
+.THIS .ui--form-label {
+  font-weight: bold;
+}
+
+.THIS .ui--text-right {
+  text-align: right;
+}
+
+.THIS .ui--btn {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding: .25rem 2.25rem;
+}
+.THIS .editSection{
+  display: inline-block;
+  max-height: 20px;
+}
+.THIS .stuck{
+  position: fixed;
+  top: 0;
+  background-color:white;
+  width:100%;
+  z-index:9;
+  max-width:calc(1140px - 1.5rem);
+
+}
+
+.THIS .ui--nav-global.sticky{
+
+}
+/*FIXED ITEMS */
+.THIS .ui--page-header-container.sticky {
+  z-index: 50;
+  position: fixed;
+  top: 0;
+  width: 80%;
+  background: white;
+}
+.THIS .ui--footer--global{
+  z-index: 10;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  display: block!important;
+  width: 100%;
+  padding: 1.5rem 0 .25rem;
+  box-shadow: 0 -2px 2px rgba(0,0,0,.1);
+  text-align: center;
+  background: white;
+}
+.THIS .ui--footer--global > button{
+  margin: 0 auto .5rem;
+}
+.THIS .ui--footer--global .ui--input-container{
+  display: block;
+}
+.THIS .ui--section.last-type {
+    padding-bottom: 7rem;
+  }
+
+/*MOBILE STYLES-------MEDIA QUERIES*/
+
+@media screen and (max-width:767px) {
+  .THIS .ui--section>.slds-gutters {
+    display: block;
+  }
+
+  .THIS .ui--text-right {
+    text-align: left;
+    margin: 20px 0;
+  }
+  .THIS .ui--accordion .slds-accordion__section .slds-wrap>div {
+    padding-left: 0rem;
+  }
+  .THIS .ui--checkbox-list>div {
+    padding-left: 0rem;
+  }
+  .THIS .ui--mobile-hidden {
+    display: none!important;
+  }
+  /*FIXED ITEMS */
+    .THIS .stuck {
+        width: calc(100% - 1.5rem);
+    }
+
+  .THIS .ui--page-header-container.sticky {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    background: white;
+  }
+  .THIS .ui--footer--global {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 1.5rem 0;
+    text-align: center;
+    border-top: solid 1px rgb(212, 212, 212);
+    background: white;
+  }
+}
+
+
+.THIS .tooltip-text {
+    color: white ;
+	background-color: black;
+    width: 15px;
+    height: 15px;
+    background-color: black;
+    text-align: center;
+    border-radius: 50%;
+    display: inline-block;
+    line-height: 15px;
+}
+
+.THIS .tooltip-text + .tooltip-summary{
+    opacity:0;
+    height:0;
+    transition: all ease-in .3s;
+}
+
+.THIS .tooltip-text:hover + .tooltip-summary{
+    opacity:1;
+    height:auto;
+}
+
+
+.THIS .tooltip-summary {
+    position: absolute;
+    max-width: 290px;
+    background-color: black;
+    right: 10px;
+    top: 25px;
+    color: white;
+    font-weight: normal;
+    padding: 10px;
+    text-align: left;
+    border-radius: 10px;
+    z-index:1;
+}
+
+/* ----- END OF CUSTOM CSS --------*/
