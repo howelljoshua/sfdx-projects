@@ -181,8 +181,10 @@ public without sharing class UpdateAlumniPreferenceController {
         schemaFieldSet.addAll(FieldSetUtility.readFieldSet('schools_Colleges_Tepper'));
         schemaFieldSet.addAll(FieldSetUtility.readFieldSet('Identity_Networks'));
         schemaFieldSet.addAll(FieldSetUtility.readFieldSet('Student_Organizations'));
+        schemaFieldSet.addAll(FieldSetUtility.readFieldSet('GDPR_Fields'));
         for(Schema.FieldSetMember fs : schemaFieldSet) {
             String str = fs.getFieldPath();
+            system.debug('adding field -> ' + str);
             pageFieldsSet.add(str);
         }
         return pageFieldsSet;
@@ -308,7 +310,7 @@ public without sharing class UpdateAlumniPreferenceController {
     @AuraEnabled 
     public static void updatePrefNew(Marketing_Preference__c m){
         system.debug('mid -> ' + m.id);
-        system.debug('unsub-> ' + m.Unsubscribe_from_all_email_subscriptions__c);
+        system.debug('lets see 1-> ' + m.EU_Email_Opt_In__c);
         Set<String> mpAllFields = getAllFields();
         Set<String> pageFields = getPreferencePageFields();
         Set<String> pageFieldsSet = new Set<String>{'Unsubscribe_from_all_email_subscriptions__c', 'Preferred_Region_2__c', 'Preferred_Region_3__c', 'Preferred_Region_1__c'
@@ -344,7 +346,7 @@ public without sharing class UpdateAlumniPreferenceController {
         }
         //insert mp1;
         m.id = null;
-        system.debug('lets see -> ' + m.AB_Tech_Alumni__c + ' m contact id -> ' + m.Contact__c);
+        system.debug('lets see -> ' + m.EU_Email_Opt_In__c + ' m contact id -> ' + m.Contact__c);
         insert m;
     }
     

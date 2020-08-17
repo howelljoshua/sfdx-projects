@@ -136,28 +136,6 @@
 
 
 
-<!-- Test Section -->
-
-
-            <div class="ui--section">
-                <div class="slds-grid slds-gutters">
-                    <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 ui--text-right">
-                        <span class="ui--form-label" id="prime-cat">Using Record Edit Form</span>
-                    </div>
-                    <div class="slds-col slds-size_12-of-12 slds-medium-size_7-of-12">
-                        <lightning:layout multipleRows="true" class="ui--checkbox-list">
-                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
-                                <lightning:recordEditForm recordId="{!v.pref}" objectApiName="Marketing_Preference__c"  onsubmit="{!c.handleSubmit}">
-                                    <lightning:inputField fieldName="EU_Privacy_Statement__c" value="{!v.pref.EU_Privacy_Statement__c}"/>
-                                    <lightning:inputField fieldName="EU_Email_Opt_In__c"  value="{!v.pref.EU_Email_Opt_In__c}"/>
-                                    <lightning:button variant="brand" type="submit" name="save" label="Save" />
-                                </lightning:recordEditForm>
-                            </lightning:layoutItem>
-                        </lightning:layout>
-                    </div>
-                </div>
-            </div>
-
 
 
 
