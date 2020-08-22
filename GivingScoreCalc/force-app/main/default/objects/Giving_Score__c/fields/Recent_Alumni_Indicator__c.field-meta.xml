@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Recent_Alumni_Indicator__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>TRUE if the Contact has graduate from CMU in the last 9 years</description>
+    <externalId>false</externalId>
+    <inlineHelpText>TRUE if the Contact has graduate from CMU in the last 9 years</inlineHelpText>
+    <label>Recent Alumni Indicator</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Single_Flag__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>CHECKED if the Contact is verifiably Single, UNCHECKED if the Contact is Married, Divorced, or Unknown.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>CHECKED if the Contact is verifiably Single, UNCHECKED if the Contact is Married, Divorced, or Unknown.</inlineHelpText>
+    <label>Single Flag</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

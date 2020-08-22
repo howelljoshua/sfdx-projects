@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Dual_Affiliate_Indicator__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>CHECKED if the person has a Contact-to-Contact Spousal Relationship with another CMU Alumnus.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>CHECKED if the person has a Contact-to-Contact Spousal Relationship with another CMU Alumnus.</inlineHelpText>
+    <label>Dual Affiliate Indicator</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

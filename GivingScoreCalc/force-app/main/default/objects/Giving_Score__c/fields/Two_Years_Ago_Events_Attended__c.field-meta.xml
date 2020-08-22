@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Two_Years_Ago_Events_Attended__c</fullName>
+    <description>Counts the Event Guest records for the Contact from TWO YEARS AGO.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Counts the Event Guest records for the Contact from TWO YEARS AGO.</inlineHelpText>
+    <label>Two Years Ago Events Attended</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

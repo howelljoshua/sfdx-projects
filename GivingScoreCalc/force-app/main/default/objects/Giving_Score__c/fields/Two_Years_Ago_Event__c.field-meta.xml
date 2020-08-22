@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Two_Years_Ago_Event__c</fullName>
+    <description>TRUE if the Contact has Event Guest records from 2 fiscals years ago.</description>
+    <externalId>false</externalId>
+    <formula>IF ( Two_Years_Ago_Events_Attended__c &gt; 0, True, False)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>TRUE if the Contact has Event Guest records from 2 fiscals years ago.</inlineHelpText>
+    <label>Two Years Ago Event</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

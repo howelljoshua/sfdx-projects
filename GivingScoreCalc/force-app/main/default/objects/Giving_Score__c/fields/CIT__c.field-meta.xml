@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CIT__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Checked if College of Engineering is the Preferred School</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Checked if College of Engineering is the Preferred School</inlineHelpText>
+    <label>CIT</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

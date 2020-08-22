@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Doctorate_Education_Record__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Shows the LINK to the Education record that was found containing some type of DOCTORATE from CMU.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Shows the LINK to the Education record that was found containing some type of DOCTORATE from CMU.</inlineHelpText>
+    <label>Doctorate Education Record</label>
+    <referenceTo>AQB__Education__c</referenceTo>
+    <relationshipLabel>Giving Scores (Doctorate)</relationshipLabel>
+    <relationshipName>Giving_Scores_Doctorate</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

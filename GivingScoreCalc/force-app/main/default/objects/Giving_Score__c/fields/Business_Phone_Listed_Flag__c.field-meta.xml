@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Business_Phone_Listed_Flag__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>CHECKED if Contact has a Business Phone listed</description>
+    <externalId>false</externalId>
+    <inlineHelpText>CHECKED if Contact has a Business Phone listed</inlineHelpText>
+    <label>Business Phone Listed Flag</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

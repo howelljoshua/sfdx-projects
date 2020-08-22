@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Recency_Score__c</fullName>
+    <description>POINTS AWARDED FOR LAST GIVING IN:
+Current fiscal year:  20 points
+Previous fiscal year:  15 points
+2 fiscal years back:  10 points
+3 fiscal years back:  5 points
+4 fiscal years back: 2 points
+5+ fiscal years back: 1 points
+Never gave: 0 points</description>
+    <externalId>false</externalId>
+    <inlineHelpText>POINTS AWARDED FOR LAST GIVING IN:
+Current fiscal year:  20 points
+Previous fiscal year:  15 points
+2 fiscal years back:  10 points
+3 fiscal years back:  5 points
+4 fiscal years back: 2 points
+5+ fiscal years back: 1 points
+Never gave: 0 points</inlineHelpText>
+    <label>Recency Score</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

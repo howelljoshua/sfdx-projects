@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RFM_Score__c</fullName>
+    <description>Recency Score
++
+Frequency Score
++
+Monetary Score
+
+(Out of a total of 100)</description>
+    <externalId>false</externalId>
+    <formula>Recency_Score__c 
++
+Frequency_Score__c 
++
+Monetary_Score__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Recency Score
++
+Frequency Score
++
+Monetary Score
+
+(Out of a total of 100)</inlineHelpText>
+    <label>RFM Score</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
