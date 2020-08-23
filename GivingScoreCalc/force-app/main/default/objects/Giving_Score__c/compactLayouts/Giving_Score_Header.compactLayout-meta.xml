@@ -2,8 +2,9 @@
 <CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Giving_Score_Header</fullName>
     <fields>Contact__c</fields>
-    <fields>Annual_Giving_Score__c</fields>
+    <fields>Volunteer_Grade__c</fields>
+    <fields>Annual_Giving_Grade__c</fields>
+    <fields>Research_Grade__c</fields>
     <fields>Calculated_On__c</fields>
-    <fields>Account__c</fields>
     <label>Giving Score Header</label>
 </CompactLayout>

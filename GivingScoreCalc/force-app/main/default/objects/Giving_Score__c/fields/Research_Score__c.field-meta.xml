@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Research_Score__c</fullName>
+    <externalId>false</externalId>
+    <formula>(Events_Last_3_Years_Score__c * 0.568982325) 
++
+(Volunteering_Last_3_Years_Score__c * 0.506558075) 
++
+(IF(Greek_Indicator__c=TRUE,1,0) * 0.149974541)
++
+(IF(Gmail_Indicator__c=TRUE,1,0) * 0.036467209) 
++
+(IF(Email_Listed_Flag__c=TRUE,1,0) * 0.541718159) 
++
+(IF(Home_Phone_Listed_Flag__c=TRUE,1,0) * 0.04435388) 
++
+(IF(Business_Phone_Listed_Flag__c=TRUE,1,0) * 0.286394794)
++
+(IF(Dual_Affiliate_Indicator__c=TRUE,1,0) * 0.09516913)
++
+(IF(Married_Flag__c=TRUE,1,0) * 0.969047089)
++
+(Consecutive_Years_of_Giving__c * 0.2347275)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Research Score</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>16</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

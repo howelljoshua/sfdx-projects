@@ -2,49 +2,47 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Annual_Giving_Score__c</fullName>
     <externalId>false</externalId>
-    <formula>(Female_Indicator__c * 0.849138865871)
+    <formula>(Female_Indicator__c * -0.108721482985)
 +
-(Male_Indicator__c * 0.773727894451)
+(IF(Undergrad_Indicator__c=TRUE,1,0) * -0.352980643366)
 +
-(IF(Undergrad_Indicator__c=TRUE,1,0) * -0.107694971157)
+(IF(Legacy_Indicator__c=TRUE,1,0) * 0.0924075344941)
 +
-(IF(Legacy_Indicator__c=TRUE,1,0) * 0.267937561244)
+(Events_Last_3_Years_Score__c * 0.778742556146)
 +
-(Events_Last_3_Years_Score__c * 0.414726245199)
+(Volunteering_Last_3_Years_Score__c * 0.559110068155)
 +
-(Volunteering_Last_3_Years_Score__c * 0.292215962353)
+(IF(Recent_Alumni_Indicator__c=TRUE,1,0) * -0.3622758866321)
 +
-(IF(Recent_Alumni_Indicator__c=TRUE,1,0) * -0.562204211063)
+(IF(Dual_Affiliate_Indicator__c=TRUE,1,0)  * 0.396072360354)
 +
-(IF(Dual_Affiliate_Indicator__c=TRUE,1,0)  * 0.10596591631)
+(IF(DC__c=TRUE,1,0) * -0.776690869788)
 +
-(IF(DC__c=TRUE,1,0) * -0.090275793621)
+(IF(CFA__c=TRUE,1,0) * -0.776442889171)
 +
-(IF(CFA__c=TRUE,1,0) * -0.277681590894)
+(IF(CIT__c=TRUE,1,0) * -0.162089946983)
 +
-(IF(CIT__c=TRUE,1,0) * 0.0496400924061)
+(IF(MCS__c=TRUE,1,0) * -0.0738900731853)
 +
-(IF(MCS__c=TRUE,1,0) * 0.208500409735)
+(IF(SCS__c=TRUE,1,0) * -0.406840258543)
 +
-(IF(SCS__c=TRUE,1,0) * -0.176259137435)
+(IF(Tepper__c=TRUE,1,0) * -0.320975961036)
 +
-(IF(Tepper__c=TRUE,1,0) * -0.0140335611067)
+(IF(Heinz__c=TRUE,1,0) * -0.377219036522)
 +
-(IF(Heinz__c=TRUE,1,0) * -0.493161838038)
+(IF(CMU__c=TRUE,1,0) * -0.583880636724)
 +
-(IF(CMU__c=TRUE,1,0) * -0.149037072948)
+(IF(Married_Flag__c=TRUE,1,0) * 0.46705153903)
 +
-(IF(Married_Flag__c=TRUE,1,0) * 0.798293717873)
+(IF(Email_Listed_Flag__c=TRUE,1,0) * 0.849726378933)
 +
-(IF(Email_Listed_Flag__c=TRUE,1,0) * 0.915958919207)
+(IF(Home_Phone_Listed_Flag__c=TRUE,1,0) * 0.435165415217)
 +
-(IF(Home_Phone_Listed_Flag__c=TRUE,1,0) * 0.495433308834)
+(IF(Business_Phone_Listed_Flag__c=TRUE,1,0) * 0.3567169349)
 +
-(IF(Business_Phone_Listed_Flag__c=TRUE,1,0) * -0.0128958149231)
+(Total_Volunteer_Activities__c * -0.0321739026328)
 +
-(Total_Volunteer_Activities__c * -0.00736520256849)
-+
-(Total_Events_Attended__c * 0.152569862292)</formula>
+(Total_Events_Attended__c * 0.194046128348)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Annual Giving Score</label>
     <precision>18</precision>
