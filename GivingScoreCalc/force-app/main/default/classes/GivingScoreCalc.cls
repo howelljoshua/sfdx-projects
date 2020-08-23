@@ -7,11 +7,12 @@ public List<Giving_Score__c> gsList = new List<Giving_Score__c>();
 public List<Id> accIds = new List<Id>();
 public List<Contact> demographics = new List<Contact>();
 public List<AQB__RelationshipContact__c> relationships = new List<AQB__RelationshipContact__c>();
+Map<Id,Giving_Score__c> gsMap = new Map<Id,Giving_Score__c>();
 
 
 
     global Database.QueryLocator start(Database.BatchableContext bc) {
-        return Database.getQueryLocator('SELECT Id, AccountId FROM Contact WHERE Update_Giving_Score__c = TRUE');        
+        return Database.getQueryLocator('SELECT Id, AccountId FROM Contact WHERE Update_Giving_Score__c = TRUE AND LastName = \'Howell\'');       
     }
 
 
@@ -46,6 +47,7 @@ public List<AQB__RelationshipContact__c> relationships = new List<AQB__Relations
                 gs.Relationship_with_Legacy_Contact__c = null; 
                 gs.Married_Flag__c = false;
                 gs.Email_Listed_Flag__c = false;
+                gs.Greek_Indicator__c = false;
                 gs.Home_Phone_Listed_Flag__c = false;
                 gs.Business_Phone_Listed_Flag__c = false; 
                 gs.Years_With_Event_Attendance__c = 0;
@@ -82,7 +84,12 @@ public List<AQB__RelationshipContact__c> relationships = new List<AQB__Relations
                 gs.Volunteer_Grade__c = null;               
             gsList.add(gs);                
             accIds.add(c.AccountId);            
-            }  
+            } 
+        //add contents of this List to a map with the Contact as the Key        
+        for(Giving_Score__c givScore : gsList){
+            gsMap.put(givScore.Contact__c, givScore);
+        }
+
         getCurrentFiscal();                      
         findDemFlags();
         findEducation(); 
@@ -90,7 +97,8 @@ public List<AQB__RelationshipContact__c> relationships = new List<AQB__Relations
         findSchool(); 
         findGifts();        
         findVolunteer();       
-        findEvents();           
+        findEvents();      
+        findStudentInterests();     
         insert gsList;
         recordsProcessed = gsList.size();
         deleteOldScores();
@@ -156,13 +164,13 @@ public List<AQB__RelationshipContact__c> relationships = new List<AQB__Relations
                         gs.Business_Phone_Listed_Flag__c = TRUE;
                     }
                     
-                                        
+                       //check the Contact's Gender                   
                     if (c.AQB__Gender__c != NULL) {
                        gs.Gender__c = c.AQB__Gender__c;
                     }   
                     
                     
-                    
+                      //get pref year
                     if (c.AQB__PreferredYear__c != NULL) {
                         Integer prefYear = Integer.valueOf(c.AQB__PreferredYear__c);
                         if(  (System.Today().Year() - prefYear) <= 9) {
@@ -181,8 +189,7 @@ public List<AQB__RelationshipContact__c> relationships = new List<AQB__Relations
 
 
 
-      //method for determining whether this Contact has a Relationship to another Contact indicating 'Spouse' or 'Partner/Spouse' as the Related Contact Role
-      
+      //method for determining whether this Contact has a Relationship to another Contact indicating 'Spouse' or 'Partner/Spouse' as the Related Contact Role      
     public Boolean hasSpouseRecord(Id contactId){         
         for (AQB__RelationshipContact__c rc : relationships) {
             if (rc.AQB__Contact__c == contactID) {
@@ -414,8 +421,10 @@ public List<AQB__RelationshipContact__c> relationships = new List<AQB__Relations
                     gs.Giving_Span__c = givingSpan;   
                                 
                       //step #2 of 4 ... calculate the 'Giving Percent' (GiftCount / GivingSpan) ...
-                    givingPercent = Double.valueOf( (gs.Lifetime_Total_Gifts__c / givingSpan) * 100);
-                    gs.Giving_Frequency__c = givingPercent;
+                    if(givingSpan > 0){
+                        givingPercent = Double.valueOf( (gs.Lifetime_Total_Gifts__c / givingSpan) * 100);
+                        gs.Giving_Frequency__c = givingPercent;
+                    }
                 }
 
                   //step #3 of 4 ... calculate the 'Years Giving Muliplier' by assigning the appropriate points for Giving Span years...
@@ -539,15 +548,51 @@ public List<AQB__RelationshipContact__c> relationships = new List<AQB__Relations
     } 
 
 
-      //Delete the old Giving Score object for every Contact that got a new one
-        
+
+    public void findStudentInterests(){
+    List<AQB__StudentInterest__c> studentInts = new List<AQB__StudentInterest__c>();
+    List<Id> theseContacts = new List<Id>();
+    List<Giving_Score__c> theseGS = new List<Giving_Score__c>();
+
+      //query student ints and get only Greek interests for these contacts
+    studentInts = [SELECT ID, AQB__InterestGroup__c, Contact__c
+                  FROM AQB__StudentInterest__c
+                  WHERE AQB__InterestGroup__c = 'Greek'
+                  AND Contact__c IN :conList];                     
+        System.debug('student interest greek list: '+ studentInts);
+                  
+          //add the contacts from these found Student interests to a small list         
+        for (AQB__StudentInterest__c stInt : studentInts) {
+            theseContacts.add(stInt.Contact__c);
+        }
+
+          //query the Map with the small contact list to get the Giving Scores into a small list 
+        for(Id thisCon : theseContacts){
+            theseGS.add(gsMap.get(thisCon));
+        }
+             
+          //iterate the small list of giving scores against the list of stundet intersts to check the Greek indictor field
+        for (Giving_Score__c gs : theseGS){
+            for (AQB__StudentInterest__c si : studentInts){
+                if (si.Contact__c == gs.Contact__c){
+                    gs.Greek_Indicator__c = TRUE;
+                }
+            }
+        }
+    }
+
+
+
+      //Delete the old Giving Score object for every Contact that got a new one        
     public void deleteOldScores(){    
+        System.debug('Hit the Delete old scores method');
         List<Giving_Score__c> oldScores = new List<Giving_Score__c>();
     
         oldScores = [SELECT Id, Contact__c FROM Giving_Score__c
                      WHERE Contact__c IN :conList
                      AND Id NOT IN :gsList];                       
-        delete oldScores;                         
+        delete oldScores;  
+        System.debug('finished the Delete old scores method');                       
     }
     
     
@@ -555,7 +600,8 @@ public List<AQB__RelationshipContact__c> relationships = new List<AQB__Relations
     
     global void finish(Database.BatchableContext bc){
     System.debug('Contacts processed with a new GivingScores: ' + recordsProcessed);
-    AGScoreDistribution agsd = new AGScoreDistribution();
-    Id batchId = Database.executeBatch(agsd);
+    System.debug('AGScore and VScore batches are turned off at the moment');
+    //AGScoreDistribution agsd = new AGScoreDistribution();
+    //Id batchId = Database.executeBatch(agsd);
     }    
 }
