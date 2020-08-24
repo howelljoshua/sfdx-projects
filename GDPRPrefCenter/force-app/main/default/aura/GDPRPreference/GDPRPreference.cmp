@@ -62,7 +62,7 @@
             <div class="ui--section slds-clearfix">
                 <div class="slds-grid slds-container_large">
                     <div class="slds-float_left slds-size_12-of-12 slds-medium-size_5-of-12 ui--title-large">
-                        <div class = "slds-text-heading_large "><span>CMU Privacy Notice and Email Consent</span></div>
+                        <div class = "slds-text-heading_large "><span>Privacy Notice and Email Consent</span></div>
                     </div>
                     <div class="slds-col slds-size_7-of-12 slds-medium-size_7-of-12 oldEmail-wrap is-hidden">
                         <div class = "slds-text-heading_medium oldEmail"><i><span>{!v.emailMasked}</span></i> </div>
