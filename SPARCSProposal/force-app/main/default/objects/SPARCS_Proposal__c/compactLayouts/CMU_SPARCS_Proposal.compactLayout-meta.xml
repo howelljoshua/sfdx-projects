@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CMU_SPARCS_Proposal</fullName>
+    <fields>Name</fields>
+    <fields>SPARCS_Proposal_Name__c</fields>
+    <fields>Account__c</fields>
+    <fields>Prime_Sponsor__c</fields>
+    <fields>Amount__c</fields>
+    <fields>Stage__c</fields>
+    <fields>Close_Date__c</fields>
+    <label>CMU SPARCS Proposal</label>
+</CompactLayout>

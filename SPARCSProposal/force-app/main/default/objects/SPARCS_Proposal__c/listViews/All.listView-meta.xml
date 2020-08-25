@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>Account__c</columns>
+    <columns>NAME</columns>
+    <columns>Prime_Sponsor_ID_Text__c</columns>
+    <columns>Ask_Date__c</columns>
+    <columns>Amount__c</columns>
+    <columns>SPARCS_Proposal_Name__c</columns>
+    <columns>Project_Purpose__c</columns>
+    <columns>Date_Proposal_Submitted__c</columns>
+    <columns>Stage__c</columns>
+    <columns>Close_Date__c</columns>
+    <columns>Application_Submission_Deadline__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All Records</label>
+</ListView>
