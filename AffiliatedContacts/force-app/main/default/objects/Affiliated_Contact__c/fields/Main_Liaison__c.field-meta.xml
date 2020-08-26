@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Main_Liaison__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The CMU employee cultivating the relationship with this person.  (Could be the CMU employee who identified them as a prospect, initiated contact, or holds a previous relationship with them).</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The CMU employee cultivating the relationship with this person.  (Could be the CMU employee who identified them as a prospect, initiated contact, or holds a previous relationship with them).</inlineHelpText>
+    <label>Main Liaison</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Affiliated_Contacts</relationshipName>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
