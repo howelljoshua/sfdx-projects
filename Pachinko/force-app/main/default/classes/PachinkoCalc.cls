@@ -318,7 +318,7 @@ global Date yesterday = System.today()-1;
         Set<String> schools = new Set<String>();
             for(AQB__Education__c ed : edus){           
                 if(ed.AQB__Contact__r.AccountID == ac.Id){ 
-                    schools.add(ed.AQB__School__c);
+                    schools.add(schoolNameFix.get(ed.AQB__School__c));
                     if(ed.AQB__DegreeLevel__c == 'Master\'s Degree' && ed.Major_1__r.Name == 'Computational Finance' ) {ac.MSCF_Gift_or_Interest__c = TRUE;}                
                 }   
             }
