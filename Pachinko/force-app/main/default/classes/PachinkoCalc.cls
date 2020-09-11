@@ -403,7 +403,7 @@ global Date yesterday = System.today()-1;
                                                 else if(a.MSCF_Gift_or_Interest__c == TRUE) {a.Pachinko_Input__c = 'MSCF';}
                                                     else if(a.Primary_Contact_School__c == 'Multiple') {a.Pachinko_Input__c = 'Attended 2+ schools';}
                                                         else if(  (a.Primary_Contact_School__c != NULL && a.Secondary_Contact_School__c !=NULL)  
-                                                                 && ( schoolNameFix.get(a.Primary_Contact_School__c) != schoolNameFix.get(a.Secondary_Contact_School__c) )  ) 
+                                                                 && ( a.Primary_Contact_School__c != a.Secondary_Contact_School__c )  ) 
                                                                  {a.Pachinko_Input__c = 'Spouse Attended Different School';}
                                                             else if(a.Primary_Contact_School__c == 'Margaret Morrison'){a.Pachinko_Input__c = 'MM School';}
                                                                 else if(a.Primary_Contact_School__c == 'Print Management'){a.Pachinko_Input__c = 'PM School';}
