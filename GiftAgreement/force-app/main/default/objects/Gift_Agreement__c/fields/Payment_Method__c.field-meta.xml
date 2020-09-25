@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_Method__c</fullName>
+    <description>Select all that apply</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Select all that apply</inlineHelpText>
+    <label>Funding Method</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Donor-Advised Fund</fullName>
+                <default>false</default>
+                <label>Donor-Advised Fund</label>
+            </value>
+            <value>
+                <fullName>Private Family Foundation</fullName>
+                <default>false</default>
+                <label>Private Family Foundation</label>
+            </value>
+            <value>
+                <fullName>Cash Gift</fullName>
+                <default>false</default>
+                <label>Cash Gift</label>
+            </value>
+            <value>
+                <fullName>Marketable Security (Stock)</fullName>
+                <default>false</default>
+                <label>Marketable Security (Stock)</label>
+            </value>
+            <value>
+                <fullName>Cryptocurrency (Bitcoin)</fullName>
+                <default>false</default>
+                <label>Cryptocurrency (Bitcoin)</label>
+            </value>
+            <value>
+                <fullName>CMU Match</fullName>
+                <default>false</default>
+                <label>CMU Match</label>
+            </value>
+            <value>
+                <fullName>Employer Match</fullName>
+                <default>false</default>
+                <label>Employer Match</label>
+            </value>
+            <value>
+                <fullName>Planned/Estate Gift</fullName>
+                <default>false</default>
+                <label>Planned/Estate Gift</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

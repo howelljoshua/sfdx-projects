@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>First_Payment_Date__c</fullName>
+    <description>If unknown, use June 30 or Dec 31.  (Must be within 1 year of Gift Agreement date, or requires VP Approval).</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If unknown, use June 30 or Dec 31.  (Must be within 1 year of Gift Agreement date, or requires VP Approval).</inlineHelpText>
+    <label>First Payment Date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

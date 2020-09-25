@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Draft_Deadilne__c</fullName>
+    <description>By when do you need the CMU-approved draft to share with the donor?</description>
+    <externalId>false</externalId>
+    <inlineHelpText>By when do you need the CMU-approved draft to share with the donor?</inlineHelpText>
+    <label>Draft Deadilne</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

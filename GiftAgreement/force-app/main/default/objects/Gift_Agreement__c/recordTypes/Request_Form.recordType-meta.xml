@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Request_Form</fullName>
+    <active>true</active>
+    <description>Request a Gift Agreement</description>
+    <label>Request Form</label>
+    <picklistValues>
+        <picklist>Fund_Type__c</picklist>
+        <values>
+            <fullName>Capital</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endowed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spendable</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Gift_Intent__c</picklist>
+        <values>
+            <fullName>Athletics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Career Development Professorship</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Center Support</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Facilities</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Financial Aid Scholarship</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Full Professorship</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Graduate Fellowship</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Library%2FArchives</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prize%2FAward</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SURG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Student Program</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Gift_Purpose__c</picklist>
+        <values>
+            <fullName>Establish New Fund%28s%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Support Existing Fund%28s%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_Method__c</picklist>
+        <values>
+            <fullName>CMU Match</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cash Gift</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cryptocurrency %28Bitcoin%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Donor-Advised Fund</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Employer Match</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Marketable Security %28Stock%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Planned%2FEstate Gift</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Private Family Foundation</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_Span__c</picklist>
+        <values>
+            <fullName>0 Years</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>1 Year</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2 Years</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3 Years</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4 Years</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5 Years</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Longer than 5 Years</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Circulating for Signature</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Draft Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Drafting Agreement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Initiate Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pre-Request</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

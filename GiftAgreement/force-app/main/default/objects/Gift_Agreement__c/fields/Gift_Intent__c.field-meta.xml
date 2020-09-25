@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gift_Intent__c</fullName>
+    <description>What will this gift support?  Select all that apply.  (Note: Prize/Award requires VP approval)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>What will this gift support?  Select all that apply.  (Note: Prize/Award requires VP approval)</inlineHelpText>
+    <label>Gift Intent</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Graduate Fellowship</fullName>
+                <default>false</default>
+                <label>Graduate Fellowship</label>
+            </value>
+            <value>
+                <fullName>Financial Aid Scholarship</fullName>
+                <default>false</default>
+                <label>Financial Aid Scholarship</label>
+            </value>
+            <value>
+                <fullName>Prize/Award</fullName>
+                <default>false</default>
+                <label>Prize/Award</label>
+            </value>
+            <value>
+                <fullName>Student Program</fullName>
+                <default>false</default>
+                <label>Student Program</label>
+            </value>
+            <value>
+                <fullName>Athletics</fullName>
+                <default>false</default>
+                <label>Athletics</label>
+            </value>
+            <value>
+                <fullName>Full Professorship</fullName>
+                <default>false</default>
+                <label>Full Professorship</label>
+            </value>
+            <value>
+                <fullName>Career Development Professorship</fullName>
+                <default>false</default>
+                <label>Career Development Professorship</label>
+            </value>
+            <value>
+                <fullName>Center Support</fullName>
+                <default>false</default>
+                <label>Center Support</label>
+            </value>
+            <value>
+                <fullName>SURG</fullName>
+                <default>false</default>
+                <label>SURG</label>
+            </value>
+            <value>
+                <fullName>Library/Archives</fullName>
+                <default>false</default>
+                <label>Library/Archives</label>
+            </value>
+            <value>
+                <fullName>Facilities</fullName>
+                <default>false</default>
+                <label>Facilities</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

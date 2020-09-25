@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gift_Agreement_Request_Form_CMU</fullName>
+    <fields>Name</fields>
+    <fields>Requestor__c</fields>
+    <fields>Donor_Account__c</fields>
+    <fields>Designation__c</fields>
+    <fields>Draft_Deadilne__c</fields>
+    <label>Gift Agreement Request Form CMU</label>
+</CompactLayout>

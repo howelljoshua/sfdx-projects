@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_Span__c</fullName>
+    <description>Over how many years will this donor pay on the gift?  (Longer than 5 years requires VP approval)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Over how many years will this donor pay on the gift?  (Longer than 5 years requires VP approval)</inlineHelpText>
+    <label>Payment Span</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>0 Years</fullName>
+                <default>false</default>
+                <label>0 Years</label>
+            </value>
+            <value>
+                <fullName>1 Year</fullName>
+                <default>false</default>
+                <label>1 Year</label>
+            </value>
+            <value>
+                <fullName>2 Years</fullName>
+                <default>false</default>
+                <label>2 Years</label>
+            </value>
+            <value>
+                <fullName>3 Years</fullName>
+                <default>false</default>
+                <label>3 Years</label>
+            </value>
+            <value>
+                <fullName>4 Years</fullName>
+                <default>false</default>
+                <label>4 Years</label>
+            </value>
+            <value>
+                <fullName>5 Years</fullName>
+                <default>false</default>
+                <label>5 Years</label>
+            </value>
+            <value>
+                <fullName>Longer than 5 Years</fullName>
+                <default>false</default>
+                <label>Longer than 5 Years</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
