@@ -67,7 +67,8 @@ public static String currentFiscalYear = [SELECT FiscalYearSettings.Name FROM Pe
         
         
         scList = [SELECT Id, Gift_Date_Fiscal__c, AQB__User__c, AQB__Contact__c, AQB__CreditAmount__c, Final_Credited_Amount__c, AQB__Contact__r.PM_User_Record__c,
-                  Opportunity_Team_Role__c, AQB__GiftPledge__c, AQB__GiftPledge__r.Name, Gift_Link__c
+                  Opportunity_Team_Role__c, AQB__GiftPledge__c, AQB__GiftPledge__r.Name, AQB__GiftPledge__r.AQB__Account__c, AQB__GiftPledge__r.AQB__Account__r.Name,
+                  AQB__GiftPledge__r.AQB__TotalGift__c, Gift_Link__c, AQB__PercentCredit__c
                   FROM AQB__Solicitation_Credit__c
                   WHERE Gift_Date_Fiscal__c IN : fiscalYears
                   AND (Opportunity_Team_Role__c = 'Team Leader' OR Opportunity_Team_Role__c = 'Team Member')
@@ -96,7 +97,7 @@ public static String currentFiscalYear = [SELECT FiscalYearSettings.Name FROM Pe
             } 
 
             for(AQB__Solicitation_Credit__c sc : scList) {
-                if (u == sc.AQB__User__c  || u == sc.AQB__Contact__r.PM_User_Record__c){
+                if(u == sc.AQB__User__c  || u == sc.AQB__Contact__r.PM_User_Record__c){
                     System.debug('found a matching solic credit: ' + sc.AQB__GiftPledge__r.Name);
                     System.debug('match on User: ' + sc.AQB__User__c);
                     System.debug('match on Contact: ' + sc.AQB__Contact__c);
@@ -104,28 +105,30 @@ public static String currentFiscalYear = [SELECT FiscalYearSettings.Name FROM Pe
                     
                     if(goalsByFiscalMap.keyset().contains(sc.Gift_Date_Fiscal__c))	{				
                         Goal_Tracker__c creditGoal = goalsByFiscalMap.get(sc.Gift_Date_Fiscal__c);
-                        
+
+                       
                         if(sc.Opportunity_Team_Role__c == 'Team Leader'){
-                            creditGoal.Solicitation_Credits_Count_Team_Leader__c = creditGoal.Solicitation_Credits_Count_Team_Leader__c + 1;
-                            if (sc.Final_Credited_Amount__c != NULL){
-                                creditGoal.Solicitation_Credits_Total_Team_Leader__c = creditGoal.Solicitation_Credits_Total_Team_Leader__c + sc.Final_Credited_Amount__c;
-                            }
-                            else {
-                                creditGoal.Solicitation_Credits_Total_Team_Leader__c = creditGoal.Solicitation_Credits_Total_Team_Leader__c + sc.AQB__CreditAmount__c;
-                            }
-                            creditGoal.Solicitation_Credits_Team_Leader__c = creditGoal.Solicitation_Credits_Team_Leader__c + sc.Gift_Link__c + '<br>';
-                            creditGoal.Last_Goals_Update__c = System.Now();
+                               creditGoal.Solicitation_Credits_Count_Team_Leader__c ++;
+                               if(sc.Final_Credited_Amount__c == NULL){
+                                   sc.Final_Credited_Amount__c = ((sc.AQB__PercentCredit__c * .01) * sc.AQB__GiftPledge__r.AQB__TotalGift__c) + 0;
+                               }                                    
+                               creditGoal.Solicitation_Credits_Total_Team_Leader__c += sc.Final_Credited_Amount__c; 
+                               String scLink = '<a href=' + System.URL.getSalesforceBaseUrl().toExternalForm()+'/' + sc.Id +' >' 
+                                   + sc.AQB__GiftPledge__r.AQB__Account__r.Name +' -- Gift# '+ sc.AQB__GiftPledge__r.Name + ' -- $' + sc.Final_Credited_Amount__c +' </a>';
+                               creditGoal.Solicitation_Credits_Team_Leader__c += scLink + '<br>';
+                               creditGoal.Last_Goals_Update__c = System.Now();
                         }
+
                                
-                        if(sc.Opportunity_Team_Role__c == 'Team Member'){
-                            creditGoal.Solicitation_Credits_Count_Team_Member__c = creditGoal.Solicitation_Credits_Count_Team_Member__c + 1;
-                            if (sc.Final_Credited_Amount__c != NULL){
-                                creditGoal.Solicitation_Credits_Total_Team_Member__c = creditGoal.Solicitation_Credits_Total_Team_Member__c + sc.Final_Credited_Amount__c;
-                            }
-                            else{
-                                creditGoal.Solicitation_Credits_Total_Team_Member__c = creditGoal.Solicitation_Credits_Total_Team_Member__c + sc.AQB__CreditAmount__c;    
-                            }
-                            creditGoal.Solicitation_Credits_Team_Member__c = creditGoal.Solicitation_Credits_Team_Member__c + sc.Gift_Link__c + '<br>';
+                        if(sc.Opportunity_Team_Role__c == 'Team Member'){                               
+                            creditGoal.Solicitation_Credits_Count_Team_Member__c ++;
+                            if(sc.Final_Credited_Amount__c == NULL){
+                                sc.Final_Credited_Amount__c = ((sc.AQB__PercentCredit__c * .01) * sc.AQB__GiftPledge__r.AQB__TotalGift__c) + 0;
+                            }                                    
+                            creditGoal.Solicitation_Credits_Total_Team_Member__c += sc.Final_Credited_Amount__c; 
+                            String scLink = '<a href=' + System.URL.getSalesforceBaseUrl().toExternalForm()+'/' + sc.Id +' >' 
+                                + sc.AQB__GiftPledge__r.AQB__Account__r.Name +' -- Gift# '+ sc.AQB__GiftPledge__r.Name + ' -- $' + sc.Final_Credited_Amount__c +' </a>';
+                            creditGoal.Solicitation_Credits_Team_Member__c += scLink + '<br>';
                             creditGoal.Last_Goals_Update__c = System.Now();
                         }
                     } 
@@ -190,6 +193,4 @@ public static String currentFiscalYear = [SELECT FiscalYearSettings.Name FROM Pe
             }           
         }         
     }
-
-    
 }
