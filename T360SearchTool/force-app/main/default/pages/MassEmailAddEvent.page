@@ -1,0 +1,29 @@
+<apex:page controller="MassEmailSearchController" tabStyle="Contact"  lightningStylesheets="true" id="page" action="{!loadEvents}"  docType="html-5.0">
+    <apex:form id="form">   
+        <apex:pageBlock id="pb1"> 
+            <apex:pageblockSection title="Choose the Event to which to add your Contacts:"  columns="2">         
+                
+                
+                <apex:selectList value="{!selectedEvent}" title="Choose an Event" required="True" >
+                    <apex:selectOptions value="{!events}" />
+                </apex:selectList>
+                
+                <apex:input value="{!regDate}" type="date" label="Registration Date for this List" required="True"/>
+                &nbsp;
+                
+                <apex:selectList value="{!regStatus}" label="Registration Status for this List" required="True" >
+                    <apex:selectOptions value="{!regStatuses}" />
+                </apex:selectList>  
+                &nbsp;
+                
+                <apex:inputCheckbox value="{!noShow}"  label="No-Show Indicator: Enter this list of Guests as No-Shows" /> 
+     
+            </apex:pageblockSection>  
+              
+            <apex:pageBlockButtons location="bottom">                    
+             <apex:commandButton value="Add Contacts to the Selected Event"    id="updateEvents"  action="{!updateEvent}" reRender="form" />  
+            </apex:pageBlockButtons> 
+                                        
+        </apex:pageBlock>   
+    </apex:form>
+</apex:page>

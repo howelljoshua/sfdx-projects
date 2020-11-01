@@ -1,0 +1,17 @@
+<apex:page controller="MassEmailSearchController" tabStyle="Contact"  lightningStylesheets="true" id="page" action="{!loadCampaigns}">
+    <apex:form id="form">   
+        <apex:pageBlock id="pb1"> 
+            <apex:pageblockSection title="Choose the Campaign to which to add your Contacts:" >         
+                <apex:selectList value="{!selectedCampaign}" title="Choose a Campaign" required="True" >
+                    <apex:selectOptions value="{!campaigns}" />
+                </apex:selectList>
+     
+            </apex:pageblockSection>  
+              
+            <apex:pageBlockButtons location="bottom">                    
+             <apex:commandButton value="Add Contacts to the Campaign"    id="addContacts"  action="{!updateCampaign}" reRender="form" />                   
+            </apex:pageBlockButtons> 
+                                        
+        </apex:pageBlock>   
+    </apex:form>
+</apex:page>

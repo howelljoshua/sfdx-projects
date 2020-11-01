@@ -1,0 +1,73 @@
+<apex:page controller="MassEmailSearchController" tabStyle="Contact"  lightningStylesheets="true" id="page" >
+    <apex:form id="form">   
+        <apex:pageBlock id="pb1"> 
+            <apex:messages />
+        
+            <apex:pageblockSection title="Choose your search type and paste a list (with leading zeros removed) below:" >     
+                
+                
+                <apex:selectRadio value="{!SearchType}" title="Choose a Search Type" required="True" >
+                    <apex:selectOptions value="{!searchTypes}" />
+                </apex:selectradio>
+                
+                <pb/>
+                
+                
+                <apex:inputTextarea value="{!input}" richText="false" rows="8" cols="165" />                                                    
+            </apex:pageblockSection>  
+              
+            <apex:pageBlockButtons location="bottom">                    
+             <apex:commandButton value="Search For Matching Contacts" id="Search"  action="{!search}" reRender="f2, f3" />                   
+            </apex:pageBlockButtons> 
+                                        
+        </apex:pageBlock>   
+    </apex:form> 
+    
+ 
+    <apex:form id="f2" >               
+        <apex:pageBlock id="pb2" rendered="{!input != NULL}">                   
+
+               <apex:outputText value="{!message}" style="color:blue; font-size:large; font-weight:900" />                            
+                <apex:pageBlockButtons location="bottom">                                       
+                    <apex:commandButton value="<<First Page" action="{!beginning}" disabled="{!DisablePrevious}" />
+                    <apex:commandButton value="<Previous Page" action="{!previous}" disabled="{!DisablePrevious}" />
+                    <apex:commandButton value="Next Page>" action="{!next}" disabled="{!DisableNext}"/>
+                    <apex:commandButton value="Last Page>>" action="{!last}" disabled="{!DisableNext}"/>                   
+                </apex:pageBlockButtons>   
+                 
+                <apex:pageBlockTable value="{!contactsToShow}" var="res" id="pgblcktbl"  > 
+                    <apex:column headerValue="Last Name" value="{!res.LastName}"/>                    
+                    <apex:column headerValue="FirstName" value="{!res.FirstName}"/> 
+                    <apex:column headerValue="Account" value="{!res.Account.Name}"/>
+                    <apex:column headerValue="Email"  value="{!res.Email}" /> 
+                    <apex:column headerValue="Advance ID"   value="{!res.Contact_External_ID_Clean__c}"/>
+                    <apex:column headerValue="Card ID"   value="{!res.Card_ID__c}"/>
+                    <apex:column headerValue="Institutional Suffix" value="{!res.Inst_Suffix__c}"/>
+                    <apex:column headerValue="15 Digit Salesforce ID"  value="{!res.Id}"/>
+                    <apex:column headerValue="18 Digit Salesforce ID" value="{!res.Contact_18_Digit_ID__c}"/>
+                    <apex:column headerValue="Contact Link" value="{!res.Link__c}"/>
+                    <apex:column headerValue="Account Link" value="{!res.Account_Link__c}"/>                                
+                </apex:pageBlockTable>                      
+        </apex:pageBlock>     
+     </apex:form>                   
+ 
+                      
+     <apex:form id="f3">
+        <apex:pageBlock id="pb3" rendered="{!input != NULL}">   
+            <apex:pageblockSection title="Type a name for your new Campaign or Event Below or select another option:"  />
+            <apex:outputText value="{!message2}" style="color:blue; font-size:large; font-weight:900" />    
+                <apex:pageblockButtons location="bottom"  >
+                    <apex:commandButton value="Create a NEW CAMPAIGN for these Contacts (Provide Name in textbox)" id="Campaign"  action="{!createCampaign}"/>
+                    <apex:commandButton value="Create a NEW EVENT for these Contacts (Provide Name in textbox)" id="Event"  action="{!createEvent}"/>
+                    <apex:commandButton value="Add Contacts to My EXISTING CAMPAIGN" id="getCamps" action="{!campaignPage}"/>
+                    <apex:commandButton value="Add Contacts to My EXISTING EVENT" id="getEvents" action="{!eventPage}" />
+                    <apex:commandButton value="Create and Email me a .CSV FILE" id="createCSV"  action="{!createCSV}" immediate="TRUE" reRender="f3"   />
+                </apex:pageblockButtons>
+            <!--apex:outputPanel layout="block" styleClass="requiredInput"-->
+            <apex:outputPanel layout="block">
+                  
+            <apex:inputText value="{!campOrEventName}"   size="60"  /> 
+            </apex:outputPanel>                                         
+        </apex:pageBlock>       
+    </apex:form>
+</apex:page>
