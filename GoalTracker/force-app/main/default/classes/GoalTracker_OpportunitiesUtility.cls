@@ -58,9 +58,9 @@ public static Set<Opportunity> oppSet = new Set<Opportunity>();
                                          OR StageName = 'Advisory'
                                          OR StageName = 'Accepted'
                                          OR StageName = 'Declined')
-                                      AND (RecordType.Name = 'Major Gift'
-                                         OR RecordType.Name = 'Estate Gift'
-                                         OR RecordType.Name = 'Life Income Gift')                  
+                                     // AND (RecordType.Name = 'Major Gift'
+                                      //   OR RecordType.Name = 'Estate Gift'
+                                      //   OR RecordType.Name = 'Life Income Gift')                  
 									  AND OwnerId IN : users];
                                            					        
           System.debug('oppQuery query had: ' + oppQuery.size() + ' Elements');  
