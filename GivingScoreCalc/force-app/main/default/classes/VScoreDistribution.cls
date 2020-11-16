@@ -1,19 +1,21 @@
-Global class VScoreDistribution implements Database.Batchable<sObject>, Database.Stateful{
+Global class VScoreDistribution implements Queueable{
 
 Global FINAL List<String> Vgrades = new List<String>{'B', 'B+', 'A-', 'A', 'A+'};    
 Global List<Giving_Score__c> gsList = new List<Giving_Score__c>();
 Global List<Giving_Score__c> vsLeftovers = new List<Giving_Score__c>();
 Global Integer counter;
 
-    
-    global Database.QueryLocator start(Database.BatchableContext bc) {
-        return Database.getQueryLocator('SELECT Id, Annual_Giving_Score__c, Annual_Giving_Grade__c, Volunteer_Score__c, Volunteer_Grade__c FROM Giving_Score__c ORDER BY Volunteer_Score__c ASC, Annual_Giving_Score__c ASC');        
-    } 
-  
-    global void execute(Database.BatchableContext bc, List<Giving_Score__c> scope){
-        this.gsList = scope;       
+    global void execute(QueueableContext qc){
+
+        gsList = [SELECT Id, Volunteer_Score__c, Volunteer_Grade__c, Annual_Giving_Score__c, Research_Score__c
+                 FROM Giving_Score__c ORDER BY Volunteer_Score__c ASC, Annual_Giving_Score__c ASC, Research_Score__c ASC];
+            
+
+          System.debug('Started VScoreDistribution with this many Giving Scores: ' + gsList);     
         Integer numberInVsBucket = (gsList.size() / VGrades.size());
+          System.debug('number in each bucket: '+ numberInVsBucket);
         Integer VsRemainder = Math.mod(gsList.size(), VGrades.size());
+          System.debug('number of remainders' + vsRemainder);
 
         For(Integer i=0; i<VsRemainder; i++){
             VsLeftovers.add(gsList[i]); 
@@ -33,11 +35,7 @@ Global Integer counter;
             gsList.add(gsc);
             counter ++;
         }        
-        update gsList; 
+    update gsList; 
+    ID jobID = System.enqueueJob(new PRScoreDistribution());
     }
-
-   
-    global void finish(Database.BatchableContext bc){
-    System.debug('Giving Scores updates with new Volunteers Grades: ' + counter);
-    }  
 }

@@ -8,14 +8,29 @@ public List<Id> accIds = new List<Id>();
 public List<Contact> demographics = new List<Contact>();
 public List<AQB__RelationshipContact__c> relationships = new List<AQB__RelationshipContact__c>();
 Map<Id,Giving_Score__c> gsMap = new Map<Id,Giving_Score__c>();
+public Date thirtyDaysAgo = Date.Today() - 90;
+public Id advancement = Schema.SObjectType.Contact.getRecordTypeInfosByName().get('Advancement Contact').getRecordTypeId();
+public Id household =  Schema.SObjectType.Account.getRecordTypeInfosByName().get('Household').getRecordTypeId();
 
 
 
     global Database.QueryLocator start(Database.BatchableContext bc) {
-        return Database.getQueryLocator('SELECT Id, AccountId FROM Contact WHERE Update_Giving_Score__c = TRUE AND LastName = \'Howell\'');       
+        return Database.getQueryLocator('SELECT Id, AQB__Full_Name__c, AccountId FROM Contact '+
+                                        'WHERE RecordTypeId = :advancement '+
+                                        'AND Account.RecordTypeId = :household '+
+                                        'AND Account.AQB__AccountStatus__c = \'Active\' '+
+                                        'AND LastModifiedDate >= :thirtyDaysAgo ');  
+        
+        
+
+
+        //return Database.getQueryLocator('SELECT Id, AQB__Full_Name__c, AccountId FROM Contact WHERE Update_Giving_Score__c = TRUE');   
+        //return Database.getQueryLocator('SELECT Id, AQB__Full_Name__c, AccountId FROM Contact WHERE Update_Giving_Score__c = TRUE AND LastName = \'Howell\'');    
     }
 
 
+
+    
       
     global void execute(Database.BatchableContext bc, List<Contact> scope){  
         this.conList = scope;   
@@ -25,6 +40,7 @@ Map<Id,Giving_Score__c> gsMap = new Map<Id,Giving_Score__c>();
         
         for(Contact c : conList) {
             Giving_Score__c gs = new Giving_Score__c();
+                gs.Name = c.AQB__Full_Name__c + ' -- Giving Score -- ' + Date.today().month() + '.' + Date.today().day() + '.' + Date.today().year();
                 gs.Contact__c = c.Id;
                 gs.Account__c = c.AccountID;
                 gs.Undergrad_Indicator__c = false;
@@ -47,6 +63,7 @@ Map<Id,Giving_Score__c> gsMap = new Map<Id,Giving_Score__c>();
                 gs.Relationship_with_Legacy_Contact__c = null; 
                 gs.Married_Flag__c = false;
                 gs.Email_Listed_Flag__c = false;
+                gs.Gmail_Indicator__c = false;
                 gs.Greek_Indicator__c = false;
                 gs.Home_Phone_Listed_Flag__c = false;
                 gs.Business_Phone_Listed_Flag__c = false; 
@@ -90,7 +107,7 @@ Map<Id,Giving_Score__c> gsMap = new Map<Id,Giving_Score__c>();
             gsMap.put(givScore.Contact__c, givScore);
         }
 
-        getCurrentFiscal();                      
+        getCurrentFiscal();                     
         findDemFlags();
         findEducation(); 
         findDualAlumOrLegacy();
@@ -99,12 +116,15 @@ Map<Id,Giving_Score__c> gsMap = new Map<Id,Giving_Score__c>();
         findVolunteer();       
         findEvents();      
         findStudentInterests();     
-        insert gsList;
-        recordsProcessed = gsList.size();
+        insertGivingScores(gsList);
         deleteOldScores();
     }
 
 
+
+
+
+      //Determine Fiscal Year for the Annual Giving Score
     public void getCurrentFiscal() {    
         Date t = System.Today();          
         if( (t.month()>= 7) && (t.month()<=12) ) {    
@@ -112,6 +132,8 @@ Map<Id,Giving_Score__c> gsMap = new Map<Id,Giving_Score__c>();
         }
         else{currentFiscal = t.year();}          
     }
+
+
 
 
       //Query demographic fields and relationships from the Contacts.     
@@ -142,16 +164,25 @@ Map<Id,Giving_Score__c> gsMap = new Map<Id,Giving_Score__c>();
 
 
                       //check the contact's 4 email address fields and update the 'Email Listed' flag on the giving score   
-                    gs.Email_Listed_Flag__c = TRUE;            
+                    gs.Email_Listed_Flag__c = TRUE;                            
                     if (c.AQB__PersonalEmail__c == NULL) {                       
                         if (c.AQB__BusinessEmail__c == NULL) {               
                             if (c.AQB__OtherEmail__c == NULL) {  
                                 if (c.Email == NULL) {                  
                                     gs.Email_Listed_Flag__c = FALSE;
-                                }                                    
+                                }                               
                             }
                         }
-                    }  
+                    }
+
+
+                      //check to see if the preferred email address is a 'Gmail' address
+                    if (c.Email != NULL && c.Email.containsIgnoreCase('gmail.com')){
+                        gs.Gmail_Indicator__c = TRUE;
+                    }    
+                    
+                    
+                    
                                                                          
                       //check the contact's Home Phone Field and update the 'Home Phone Listed flag' on the giving score
                     if (c.AQB__AccountPhone__c != NULL ) {
@@ -583,6 +614,16 @@ Map<Id,Giving_Score__c> gsMap = new Map<Id,Giving_Score__c>();
 
 
 
+        //insert the full gsList at once, set the count for the list size
+    public void insertGivingScores(List<Giving_Score__c> gsList){
+        Database.insert(gsList, FALSE);
+        recordsProcessed = gsList.size();
+    }
+
+
+
+
+
       //Delete the old Giving Score object for every Contact that got a new one        
     public void deleteOldScores(){    
         System.debug('Hit the Delete old scores method');
@@ -603,5 +644,6 @@ Map<Id,Giving_Score__c> gsMap = new Map<Id,Giving_Score__c>();
     System.debug('AGScore and VScore batches are turned off at the moment');
     //AGScoreDistribution agsd = new AGScoreDistribution();
     //Id batchId = Database.executeBatch(agsd);
+    ID jobID = System.enqueueJob(new AGScoreDistribution());
     }    
 }

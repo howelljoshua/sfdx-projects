@@ -1,4 +1,4 @@
-Global class AGScoreDistribution implements Database.Batchable<sObject>, Database.Stateful{
+Global class  AGScoreDistribution implements Queueable{
 
 Global FINAL List<String> AGgrades = new List<String>{'B', 'B+', 'A-', 'A', 'A+'};
 Global List<Giving_Score__c> gsList = new List<Giving_Score__c>();
@@ -7,14 +7,39 @@ Global Integer counter;
 
     
     global Database.QueryLocator start(Database.BatchableContext bc) {
-        return Database.getQueryLocator('SELECT Id, Annual_Giving_Score__c, Annual_Giving_Grade__c, Volunteer_Score__c, Volunteer_Grade__c FROM Giving_Score__c ORDER BY Annual_Giving_Score__c ASC, Volunteer_Score__c ASC'); 
-    } 
-    
-    global void execute(Database.BatchableContext bc, List<Giving_Score__c> scope){
-        this.gsList = scope;
-           System.debug('Started AGScoreDistribution with this many Giving Scores: ' + gsList);
-        Integer numberInAgsBucket = (gsList.size() / agGrades.size());        
+
+
+    }
+
+
+
+
+
+    global void execute(QueueableContext qc){
+
+        /*
+        gsList = [SELECT Id, Annual_Giving_Score__c, Annual_Giving_Grade__c, Volunteer_Score__c, Research_Score__c
+                  FROM Giving_Score__c ORDER BY Annual_Giving_Score__c ASC, Volunteer_Score__c ASC, Research_Score__c ASC];
+        */
+
+        /*
+        gsList = Database.QueryLocator('SELECT Id, Annual_Giving_Score__c, Annual_Giving_Grade__c, Volunteer_Score__c, Research_Score__c' +
+                                          'FROM Giving_Score__c ORDER BY Annual_Giving_Score__c ASC, Volunteer_Score__c ASC, Research_Score__c ASC' );
+        */
+
+        /*
+        gsList = Database.QueryLocator([SELECT Id, Annual_Giving_Score__c, Annual_Giving_Grade__c, Volunteer_Score__c, Research_Score__c
+                                        FROM Giving_Score__c ORDER BY Annual_Giving_Score__c 
+                                        ASC, Volunteer_Score__c ASC, Research_Score__c ASC]);
+        */
+
+        
+
+          System.debug('Started AGScoreDistribution with this many Giving Scores: ' + gsList); 
+        Integer numberInAgsBucket = (gsList.size() / agGrades.size());
+          System.debug('number in each bucket: '+ numberInAgsBucket);
         Integer agsRemainder = Math.mod(gsList.size(), agGrades.size());
+          System.debug('number of remainders' + agsRemainder);
 
         For(Integer i=0; i<agsRemainder; i++){
             agsLeftovers.add(gsList[i]); 
@@ -23,7 +48,7 @@ Global Integer counter;
         
         counter = 0;
         for(String grade : AGgrades) {            
-            for(Integer i=0; i<(numberInAgsBucket); i++){                       
+            for(Integer i=0; i<(numberInAgsBucket); i++){                         
                 gsList[counter].Annual_Giving_Grade__c = grade;            
                 counter ++;
             }
@@ -34,13 +59,7 @@ Global Integer counter;
             gsList.add(gsc);
             counter ++;
         }      
-        update gsList;          
+    update gsList;     
+    //ID jobID = System.enqueueJob(new VScoreDistribution());
     }
-    
-
-    global void finish(Database.BatchableContext bc){
-    System.debug('Giving Scores updates with new Annual Giving Grades: ' + counter);
-    VScoreDistribution vsd = new VScoreDistribution();
-    Id batchId = Database.executeBatch(vsd);
-    }  
 }

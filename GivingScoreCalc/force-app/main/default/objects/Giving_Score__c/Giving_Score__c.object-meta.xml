@@ -159,9 +159,8 @@
     <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>Giving Score</label>
     <nameField>
-        <displayFormat>GS-{0000}</displayFormat>
         <label>Giving Score Sequence Number</label>
-        <type>AutoNumber</type>
+        <type>Text</type>
     </nameField>
     <pluralLabel>Giving Scores</pluralLabel>
     <searchLayouts/>

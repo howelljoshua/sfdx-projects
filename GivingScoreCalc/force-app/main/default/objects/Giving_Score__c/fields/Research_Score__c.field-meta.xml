@@ -22,7 +22,7 @@
 +
 (Consecutive_Years_of_Giving__c * 0.2347275)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <label>Research Score</label>
+    <label>Prospect Research Score</label>
     <precision>18</precision>
     <required>false</required>
     <scale>16</scale>
