@@ -1,4 +1,4 @@
-Global class GivingScoreCalc implements Database.Batchable<sObject>, Database.Stateful{
+Global class GivingScoreCalc implements Database.Batchable<sObject>{
 
 global Integer recordsProcessed = 0;
 public Integer currentFiscal;
@@ -8,7 +8,7 @@ public List<Id> accIds = new List<Id>();
 public List<Contact> demographics = new List<Contact>();
 public List<AQB__RelationshipContact__c> relationships = new List<AQB__RelationshipContact__c>();
 Map<Id,Giving_Score__c> gsMap = new Map<Id,Giving_Score__c>();
-public Date thirtyDaysAgo = Date.Today() - 90;
+//public Date thirtyDaysAgo = Date.Today() - 30;
 public Id advancement = Schema.SObjectType.Contact.getRecordTypeInfosByName().get('Advancement Contact').getRecordTypeId();
 public Id household =  Schema.SObjectType.Account.getRecordTypeInfosByName().get('Household').getRecordTypeId();
 
@@ -18,14 +18,11 @@ public Id household =  Schema.SObjectType.Account.getRecordTypeInfosByName().get
         return Database.getQueryLocator('SELECT Id, AQB__Full_Name__c, AccountId FROM Contact '+
                                         'WHERE RecordTypeId = :advancement '+
                                         'AND Account.RecordTypeId = :household '+
-                                        'AND Account.AQB__AccountStatus__c = \'Active\' '+
-                                        'AND LastModifiedDate >= :thirtyDaysAgo ');  
-        
-        
 
+                                        'AND Account.AQB__AccountStatus__c = \'Active\' ' );
 
-        //return Database.getQueryLocator('SELECT Id, AQB__Full_Name__c, AccountId FROM Contact WHERE Update_Giving_Score__c = TRUE');   
-        //return Database.getQueryLocator('SELECT Id, AQB__Full_Name__c, AccountId FROM Contact WHERE Update_Giving_Score__c = TRUE AND LastName = \'Howell\'');    
+                                        //'AND Account.AQB__AccountStatus__c = \'Active\' '+
+                                        //'AND LastModifiedDate >= :thirtyDaysAgo');      
     }
 
 
@@ -49,6 +46,7 @@ public Id household =  Schema.SObjectType.Account.getRecordTypeInfosByName().get
                 gs.Last_Year_Volunteering__c = 0; 
                 gs.Two_Years_Ago_Volunteering__c = 0;
                 gs.Three_Years_Ago_Volunteering__c = 0; 
+                gs.Current_Year_Events_Attended__c = 0;
                 gs.Last_Year_Events_Attended__c = 0;
                 gs.Two_Years_Ago_Events_Attended__c = 0;
                 gs.Three_Years_Ago_Events_Attended__c = 0;  
@@ -99,13 +97,14 @@ public Id household =  Schema.SObjectType.Account.getRecordTypeInfosByName().get
                 gs.Cumulative_Giving__c = 0.00;
                 gs.Annual_Giving_Grade__c = null;
                 gs.Volunteer_Grade__c = null;               
-            gsList.add(gs);                
-            accIds.add(c.AccountId);            
+            gsList.add(gs);
+            gsMap.put(c.Id, gs);                 
+            accIds.add(c.AccountId);                       
             } 
         //add contents of this List to a map with the Contact as the Key        
-        for(Giving_Score__c givScore : gsList){
-            gsMap.put(givScore.Contact__c, givScore);
-        }
+        //for(Giving_Score__c givScore : gsList){
+            //gsMap.put(givScore.Contact__c, givScore);
+        //}
 
         getCurrentFiscal();                     
         findDemFlags();
@@ -139,7 +138,7 @@ public Id household =  Schema.SObjectType.Account.getRecordTypeInfosByName().get
       //Query demographic fields and relationships from the Contacts.     
     public void findDemFlags() {      
           
-        demographics = [SELECT AQB__PersonalEmail__c, AQB__BusinessEmail__c, AQB__OtherEmail__c, Email, AQB__School__c, 
+        demographics = [SELECT Id, AQB__PersonalEmail__c, AQB__BusinessEmail__c, AQB__OtherEmail__c, Email, AQB__School__c, 
                         AQB__MaritalStatus__c, Phone, AQB__BusinessPhone__c, AQB__AccountPhone__c, 
                         AQB__Gender__c, AQB__PreferredYear__c, AQB__DegreeYear__c 
                         FROM Contact WHERE id IN :conList];                                              
@@ -147,75 +146,71 @@ public Id household =  Schema.SObjectType.Account.getRecordTypeInfosByName().get
         relationships = [SELECT Id, AQB__Contact__c, AQB__RelatedContactRole__r.Name
                          FROM AQB__RelationshipContact__c  
                          WHERE AQB__Contact__c IN :conList];                    
-    
-    
-        for(Giving_Score__c gs : gsList) {
-            for(Contact c : demographics) {
-                if(gs.Contact__c == c.Id) { 
-                
-                    
-                      //check the contact's Marital Status and Relationships Records for a Spouse, and update the 'Married Flag' on the Giving Score                        
-                    if ( c.AQB__MaritalStatus__c == 'Married' || hasSpouseRecord(gs.Contact__c) ){              
-                        gs.Married_Flag__c = TRUE;
-                        }
-                        else{ 
-                            gs.Married_Flag__c = FALSE; 
-                        }
+  
 
-
-                      //check the contact's 4 email address fields and update the 'Email Listed' flag on the giving score   
-                    gs.Email_Listed_Flag__c = TRUE;                            
-                    if (c.AQB__PersonalEmail__c == NULL) {                       
-                        if (c.AQB__BusinessEmail__c == NULL) {               
-                            if (c.AQB__OtherEmail__c == NULL) {  
-                                if (c.Email == NULL) {                  
-                                    gs.Email_Listed_Flag__c = FALSE;
-                                }                               
-                            }
-                        }
-                    }
-
-
-                      //check to see if the preferred email address is a 'Gmail' address
-                    if (c.Email != NULL && c.Email.containsIgnoreCase('gmail.com')){
-                        gs.Gmail_Indicator__c = TRUE;
-                    }    
-                    
-                    
-                    
-                                                                         
-                      //check the contact's Home Phone Field and update the 'Home Phone Listed flag' on the giving score
-                    if (c.AQB__AccountPhone__c != NULL ) {
-                        gs.Home_Phone_Listed_Flag__c = TRUE;
-                    }                    
-                                     
-                    
-                      //check their Business Phone Field and update the 'Business Phone Listed flag' on the giving score
-                    if (c.AQB__BusinessPhone__c != NULL ) {
-                        gs.Business_Phone_Listed_Flag__c = TRUE;
-                    }
-                    
-                       //check the Contact's Gender                   
-                    if (c.AQB__Gender__c != NULL) {
-                       gs.Gender__c = c.AQB__Gender__c;
-                    }   
-                    
-                    
-                      //get pref year
-                    if (c.AQB__PreferredYear__c != NULL) {
-                        Integer prefYear = Integer.valueOf(c.AQB__PreferredYear__c);
-                        if(  (System.Today().Year() - prefYear) <= 9) {
-                            gs.Recent_Alumni_Indicator__c = TRUE;
-                            gs.Preferred_Graduation_Year__c = String.valueOf(prefYear);
-                        }
-                        else{
-                            gs.Preferred_Graduation_Year__c = String.valueOf(prefYear);
-                        }      
-                    }                                                                                                                                                                                                     
-                }                
+    for(Contact c : demographics) {
+        Giving_Score__c gs = gsMap.get(c.Id);   
+              //check the contact's Marital Status and Relationships Records for a Spouse, and update the 'Married Flag' on the Giving Score                        
+            if ( c.AQB__MaritalStatus__c == 'Married' || hasSpouseRecord(gs.Contact__c) ){              
+            gs.Married_Flag__c = TRUE;
             }
-        } 
+            else{ 
+                gs.Married_Flag__c = FALSE; 
+            }
+
+                //check the contact's 4 email address fields and update the 'Email Listed' flag on the giving score   
+            gs.Email_Listed_Flag__c = TRUE;                            
+            if (c.AQB__PersonalEmail__c == NULL) {                       
+                if (c.AQB__BusinessEmail__c == NULL) {               
+                    if (c.AQB__OtherEmail__c == NULL) {  
+                        if (c.Email == NULL) {                  
+                            gs.Email_Listed_Flag__c = FALSE;
+                        }                               
+                    }
+                }
+            }
+
+
+                //check to see if the preferred email address is a 'Gmail' address
+            if (c.Email != NULL && c.Email.containsIgnoreCase('gmail.com')){
+                gs.Gmail_Indicator__c = TRUE;
+            }    
+            
+            
+            
+                                                                    
+                //check the contact's Home Phone Field and update the 'Home Phone Listed flag' on the giving score
+            if (c.AQB__AccountPhone__c != NULL ) {
+                gs.Home_Phone_Listed_Flag__c = TRUE;
+            }                    
+                                
+            
+                //check their Business Phone Field and update the 'Business Phone Listed flag' on the giving score
+            if (c.AQB__BusinessPhone__c != NULL ) {
+                gs.Business_Phone_Listed_Flag__c = TRUE;
+            }
+            
+                //check the Contact's Gender                   
+            if (c.AQB__Gender__c != NULL) {
+                gs.Gender__c = c.AQB__Gender__c;
+            }   
+            
+            
+                //get pref year
+            if (c.AQB__PreferredYear__c != NULL) {
+                Integer prefYear = Integer.valueOf(c.AQB__PreferredYear__c);
+                if(  (System.Today().Year() - prefYear) <= 9) {
+                    gs.Recent_Alumni_Indicator__c = TRUE;
+                    gs.Preferred_Graduation_Year__c = String.valueOf(prefYear);
+                }
+                else{
+                    gs.Preferred_Graduation_Year__c = String.valueOf(prefYear);
+                }      
+            }                                                                                                                                                                                                     
+        }                
     }
+    
+    
     
 
 
@@ -248,58 +243,49 @@ public Id household =  Schema.SObjectType.Account.getRecordTypeInfosByName().get
         
         String[] bFilters = new String[]{'%Bachelor%'};  
         
-        bachRecs = [SELECT Id, RecordType.Name, Status__c, AQB__DegreeDiploma__c, AQB__Contact__c         
+        bachRecs = [SELECT Id, RecordType.Name, Status__c, AQB__DegreeDiploma__c, AQB__Contact__c, AQB__Contact__r.Id        
                     FROM AQB__Education__c  
                     WHERE AQB__Contact__c IN :conList
                     AND RecordType.Name = 'Institutional' 
-                    AND (AQB__DegreeLevel__c = 'Undergraduate'
+                    AND (AQB__DegreeLevel__c = 'Bachelor\'s degree'
                     OR AQB__DegreeDiploma__c LIKE :bFilters)];
             
         for (AQB__Education__c ed : bachRecs) {
-            for (Giving_Score__c gs : gsList) {
-                if (ed.AQB__Contact__c == gs.Contact__c) {
-                    gs.Undergrad_Indicator__c = TRUE;
-                    gs.Undergrad_Education_Record__c = ed.Id;           
-                }
-            }
+            Giving_Score__c gs = gsMap.get(ed.AQB__Contact__r.Id);
+                gs.Undergrad_Indicator__c = TRUE;
+                gs.Undergrad_Education_Record__c = ed.Id;   
         } 
         
 
         String[] mFilters = new String[]{'%Master%','%MBA%'};        
         
-        masterRecs = [SELECT Id, RecordType.Name, Status__c, AQB__DegreeDiploma__c, AQB__Contact__c         
+        masterRecs = [SELECT Id, RecordType.Name, Status__c, AQB__DegreeDiploma__c, AQB__Contact__c, AQB__Contact__r.Id          
                       FROM AQB__Education__c  
                       WHERE AQB__Contact__c IN :conList
                       AND RecordType.Name = 'Institutional' 
-                      AND (AQB__DegreeLevel__c = 'Masters'
+                      AND (AQB__DegreeLevel__c = 'Master\'s degree'
                       OR AQB__DegreeDiploma__c LIKE :mFilters)];
            
         for (AQB__Education__c ed : masterRecs) {
-            for (Giving_Score__c gs : gsList) {
-                if (ed.AQB__Contact__c == gs.Contact__c) {
-                    gs.Masters_Indicator__c = TRUE;
-                    gs.Masters_Education_Record__c = ed.Id;           
-                }
-            }
+            Giving_Score__c gs = gsMap.get(ed.AQB__Contact__r.Id);
+                gs.Masters_Indicator__c = TRUE;
+                gs.Masters_Education_Record__c = ed.Id;           
         }          
 
        
-        String[] dFilters = new String[]{'%Doctor%','%Doctorate%', '%PHD%'};        
+        String[] dFilters = new String[]{'%Doctor%','%Doctorate%', '%PHD%', '%Doctoral'};        
         
-        doctorRecs = [SELECT Id, RecordType.Name, Status__c, AQB__DegreeDiploma__c, AQB__Contact__c         
+        doctorRecs = [SELECT Id, RecordType.Name, Status__c, AQB__DegreeDiploma__c, AQB__Contact__c, AQB__Contact__r.Id         
                       FROM AQB__Education__c  
                       WHERE AQB__Contact__c IN :conList
                       AND RecordType.Name = 'Institutional'                        
-                      AND (AQB__DegreeLevel__c = 'Doctorate'
+                      AND (AQB__DegreeLevel__c = 'Doctoral degree'
                       OR AQB__DegreeDiploma__c LIKE :dFilters)];
            
         for (AQB__Education__c ed : doctorRecs) {
-            for (Giving_Score__c gs : gsList) {
-                if (ed.AQB__Contact__c == gs.Contact__c) {
-                    gs.Doctorate_Indicator__c = TRUE;
-                    gs.Doctorate_Education_Record__c = ed.Id;           
-                }
-            }
+            Giving_Score__c gs = gsMap.get(ed.AQB__Contact__r.Id);
+                gs.Doctorate_Indicator__c = TRUE;
+                gs.Doctorate_Education_Record__c = ed.Id;           
         }                            
     }
 
@@ -320,55 +306,45 @@ public Id household =  Schema.SObjectType.Account.getRecordTypeInfosByName().get
                    AND AQB__RelatedContactRole__r.Name IN ('Mother','Father','Brother','Sister','Grandfather','Grandmother','Aunt','Uncle','Guardian','Cousin', 'Spouse', 'Spouse/Partner')];    
             
         for(AQB__RelationshipContact__c rc : relCons) {
-            for (Giving_Score__c gs : gsList) {
-                if (rc.AQB__Contact__c == gs.Contact__c) {
-                           
-                    if (rc.AQB__RelatedContactRole__r.Name == 'Spouse' || rc.AQB__RelatedContactRole__r.Name == 'Spouse/Partner') {  
-                        gs.Dual_Affiliate_Indicator__c = TRUE;
-                        gs.Alumni_Spouse_Contact_Record__c = rc.AQB__RelatedContact__r.Id;
-                    }
-                                               
-                    else {                   
-                        gs.Legacy_Indicator__c = TRUE;
-                        gs.Legacy_Contact_Record__c = rc.AQB__RelatedContact__r.Id;
-                        gs.Relationship_with_Legacy_Contact__c = rc.AQB__RelatedContactRole__r.Name;                  
-                    }                                
-                }            
-            }              
+            Giving_Score__c gs = gsMap.get(rc.AQB__Contact__c);
+
+            if (rc.AQB__RelatedContactRole__r.Name == 'Spouse' || rc.AQB__RelatedContactRole__r.Name == 'Spouse/Partner') {  
+                gs.Dual_Affiliate_Indicator__c = TRUE;
+                gs.Alumni_Spouse_Contact_Record__c = rc.AQB__RelatedContact__r.Id;
+            }
+                                        
+            else {                   
+                gs.Legacy_Indicator__c = TRUE;
+                gs.Legacy_Contact_Record__c = rc.AQB__RelatedContact__r.Id;
+                gs.Relationship_with_Legacy_Contact__c = rc.AQB__RelatedContactRole__r.Name;                  
+            }                                                             
         }
     }
-
-
-
-
 
       //Get the name of the Preferred school from Affiniquest's field on the Contact, if it is populated.
       //Check the appropriate School Indicator checkbox on the Giving Score Object.
       
     public void findSchool() {     
         for (Contact c : demographics) {
-            for (Giving_Score__c gs : gsList) { 
-                if (c.Id == gs.Contact__c) { 
-                    if      (c.AQB__School__c == 'College of Fine Arts') {gs.CFA__c = TRUE;}                    
-                    else if (c.AQB__School__c == 'Carnegie Institute of Technology') {gs.CIT__c = TRUE;}
-                    else if (c.AQB__School__c == 'Margaret Morrison') {gs.CMU__c = TRUE;}
-                    else if (c.AQB__School__c == 'Carnegie Mellon University') {gs.CMU__c = TRUE;}                    
-                    else if (c.AQB__School__c == 'Library') {gs.CMU__c = TRUE;}
-                    else if (c.AQB__School__c == 'Printing Management') {gs.CMU__c = TRUE;}
-                    else if (c.AQB__School__c == 'Unspecified') {gs.CMU__c = TRUE;}                    
-                    else if (c.AQB__School__c == 'Humanities and Social Sciences') {gs.DC__c = TRUE;}
-                    else if (c.AQB__School__c == 'Dietrich College of H and SS') {gs.DC__c = TRUE;}                    
-                    else if (c.AQB__School__c == 'Heinz School') {gs.HEINZ__c = TRUE;}
-                    else if (c.AQB__School__c == 'Heinz College') {gs.HEINZ__c = TRUE;}
-                    else if (c.AQB__School__c == 'Mellon College of Science') {gs.MCS__c = TRUE;}                    
-                    else if (c.AQB__School__c == 'Computer Science') {gs.SCS__c = TRUE;}                    
-                    else if (c.AQB__School__c == 'Graduate School of Industrial Admin.') {gs.TEPPER__c = TRUE;}
-                    else if (c.AQB__School__c == 'Tepper School of Business') {gs.TEPPER__c = TRUE;} 
-                    else if (c.AQB__School__c == 'Industrial Management') {gs.TEPPER__c = TRUE;}
-                    else if (c.AQB__School__c == 'Indust Mgmt (Graphic Comms Mgmt)') {gs.TEPPER__c = TRUE;}   
-                    else if (c.AQB__School__c == 'Industries') {gs.TEPPER__c = TRUE;}                    
-                }      
-            }
+            Giving_Score__c gs = gsMap.get(c.Id);
+            if      (c.AQB__School__c == 'College of Fine Arts') {gs.CFA__c = TRUE;}                    
+            else if (c.AQB__School__c == 'Carnegie Institute of Technology') {gs.CIT__c = TRUE;}
+            else if (c.AQB__School__c == 'Margaret Morrison') {gs.CMU__c = TRUE;}
+            else if (c.AQB__School__c == 'Carnegie Mellon University') {gs.CMU__c = TRUE;}                    
+            else if (c.AQB__School__c == 'Library') {gs.CMU__c = TRUE;}
+            else if (c.AQB__School__c == 'Printing Management') {gs.CMU__c = TRUE;}
+            else if (c.AQB__School__c == 'Unspecified') {gs.CMU__c = TRUE;}                    
+            else if (c.AQB__School__c == 'Humanities and Social Sciences') {gs.DC__c = TRUE;}
+            else if (c.AQB__School__c == 'Dietrich College of H and SS') {gs.DC__c = TRUE;}                    
+            else if (c.AQB__School__c == 'Heinz School') {gs.HEINZ__c = TRUE;}
+            else if (c.AQB__School__c == 'Heinz College') {gs.HEINZ__c = TRUE;}
+            else if (c.AQB__School__c == 'Mellon College of Science') {gs.MCS__c = TRUE;}                    
+            else if (c.AQB__School__c == 'Computer Science') {gs.SCS__c = TRUE;}                    
+            else if (c.AQB__School__c == 'Graduate School of Industrial Admin.') {gs.TEPPER__c = TRUE;}
+            else if (c.AQB__School__c == 'Tepper School of Business') {gs.TEPPER__c = TRUE;} 
+            else if (c.AQB__School__c == 'Industrial Management') {gs.TEPPER__c = TRUE;}
+            else if (c.AQB__School__c == 'Indust Mgmt (Graphic Comms Mgmt)') {gs.TEPPER__c = TRUE;}   
+            else if (c.AQB__School__c == 'Industries') {gs.TEPPER__c = TRUE;}                    
         }
     }
 
@@ -380,52 +356,96 @@ public Id household =  Schema.SObjectType.Account.getRecordTypeInfosByName().get
       //Also calculates 'how many consecutive years the contact gave, starting with current year, going back.  This will now include Soft Credits from gifts the contact is linked to on other accounts.
       //Calculate RFM Score in 3 parts using the gift recognition data.
     public void findGifts() {
-    List<AQB__GiftCredit__c> gifts = new List<AQB__GiftCredit__c>();  
-    Set<String> fiscals = new Set<String>(); 
+    //List<AQB__GiftCredit__c> gifts = new List<AQB__GiftCredit__c>();  
+    //Set<String> fiscals = new Set<String>(); 
+    //List<Double> GiftAmounts = new List<Double>();  // add the amount to a list (doubles) as you loop over the gifts  
             
-    gifts = [SELECT ID, AQB__ContactCredited__c, AQB__GiftDate__c, Fiscal_Year__c, AQB__SecondaryGiftCreditAmount__c 
-             FROM AQB__GiftCredit__c 
-             WHERE AQB__ContactCredited__c IN :conList];                   
+    List<AQB__GiftCredit__c> gifts = [SELECT ID, AQB__ContactCredited__c, AQB__ContactCredited__r.Id, 
+                                        AQB__GiftDate__c, Fiscal_Year__c, AQB__SecondaryGiftCreditAmount__c 
+                                        FROM AQB__GiftCredit__c 
+                                        WHERE AQB__ContactCredited__c IN :conList
+                                        AND AQB__GiftDate__c != NULL 
+                                        AND AQB__SecondaryGiftCreditAmount__c != NULL];                                         
        
+    Map<Id, Set<String>> myYearsMap = new Map<Id, Set<String>>(); 
+    Map<Id, List<Double>> myGiftsMap = new Map<Id, List<Double>>();  
+
+
+
+
+        for (AQB__GiftCredit__c gc : gifts) { 
+
+            //giftAmounts.add(gc.AQB__SecondaryGiftCreditAmount__c); 
+
+            
+            if(myYearsMap.containsKey(gc.AQB__ContactCredited__r.Id)){
+                Set<String> yrsSet = myYearsMap.get(gc.AQB__ContactCredited__r.Id);
+                yrsSet.add(gc.Fiscal_Year__c);
+                myYearsMap.put(gc.AQB__ContactCredited__r.Id, yrsSet);
+            }
+            else{
+                myYearsMap.put(gc.AQB__ContactCredited__r.Id, new Set<String> {gc.Fiscal_Year__c} );
+            }
+
+
+
+            if(myGiftsMap.containsKey(gc.AQB__ContactCredited__r.Id)){
+                List<Double> giftsList = myGiftsMap.get(gc.AQB__ContactCredited__r.Id);
+                giftsList.add(gc.AQB__SecondaryGiftCreditAmount__c);
+                myGiftsMap.put(gc.AQB__ContactCredited__r.Id, giftsList);
+            }
+            else{
+                myGiftsMap.put(gc.AQB__ContactCredited__r.Id, new List<Double> {gc.AQB__SecondaryGiftCreditAmount__c} );
+            }
+
+
+
+            Giving_Score__c gvs = gsMap.get(gc.AQB__ContactCredited__r.Id);
+            //gvs.Cumulative_Giving__c += gc.AQB__SecondaryGiftCreditAmount__c;
+            gvs.Lifetime_Total_Gifts__c ++;
+            if ( currentFiscal - (Integer.valueof(gc.Fiscal_Year__c) ) == 0 ) {gvs.Current_Year_Gifts__c ++;}                                   
+            if ( currentFiscal - (Integer.valueof(gc.Fiscal_Year__c) ) == 1 ) {gvs.Last_Year_Gifts__c ++;}
+            if ( currentFiscal - (Integer.valueof(gc.Fiscal_Year__c) ) == 2 ) {gvs.Two_Years_Ago_Gifts__c ++;}
+            if ( currentFiscal - (Integer.valueof(gc.Fiscal_Year__c) ) == 3 ) {gvs.Three_Years_Ago_Gifts__c ++;}
+            if ( currentFiscal - (Integer.valueof(gc.Fiscal_Year__c) ) == 4 ) {gvs.Four_Years_Ago_Gifts__c ++;}
+            if ( currentFiscal - (Integer.valueof(gc.Fiscal_Year__c) ) >= 5 ) {gvs.Five_Plus_Years_Ago_Gifts__c ++;}  
+            
+        }
         
         
-        //Count the Gifts found in the Query (Lifetime Gifts) and Count the Gifts by Fiscal Year, Update the appropriate fields...
-        for (Giving_Score__c gs : gsList) {
-            Set<Integer> fySet = new Set<Integer>();  //add the fiscal years to a set as you loop over each gift
-            List<Double> GiftAmounts = new List<Double>();  // add the amount to a list (doubles) as you loop over the gifts   
-                for (AQB__GiftCredit__c gc : gifts) {           
-                    if (gc.AQB__ContactCredited__c == gs.Contact__c){
-                        gs.Lifetime_Total_Gifts__c ++; 
-                        if(gc.Fiscal_Year__c != NULL){ 
-                            fySet.add(Integer.valueOf(gc.Fiscal_Year__c)); 
-                            System.debug(fySet);
-                            giftAmounts.add(gc.AQB__SecondaryGiftCreditAmount__c); 
-                            System.debug(giftAmounts);                                                                
-                            if ( currentFiscal - (Integer.valueof(gc.Fiscal_Year__c) ) == 0 ) {gs.Current_Year_Gifts__c ++;}                                   
-                            if ( currentFiscal - (Integer.valueof(gc.Fiscal_Year__c) ) == 1 ) {gs.Last_Year_Gifts__c ++;}
-                            if ( currentFiscal - (Integer.valueof(gc.Fiscal_Year__c) ) == 2 ) {gs.Two_Years_Ago_Gifts__c ++;}
-                            if ( currentFiscal - (Integer.valueof(gc.Fiscal_Year__c) ) == 3 ) {gs.Three_Years_Ago_Gifts__c ++;}
-                            if ( currentFiscal - (Integer.valueof(gc.Fiscal_Year__c) ) == 4 ) {gs.Four_Years_Ago_Gifts__c ++;}
-                            if ( currentFiscal - (Integer.valueof(gc.Fiscal_Year__c) ) >= 5 ) {gs.Five_Plus_Years_Ago_Gifts__c ++;}                                                            
+
+
+
+        for (Giving_Score__c gs : gsList){
+
+            //Count the consecutive years of giving back from last fiscal year (not including this current fiscal yr) 
+            if(myYearsMap.containsKey(gs.Contact__c)){ 
+                System.debug('found giving score!!!');   
+
+
+
+                Set<String> yrsStringSet = new Set<String> (myYearsMap.get(gs.Contact__c));
+                List<Integer>yrsNumSet = new List<Integer>();
+                    for(String s : yrsStringSet){
+                        yrsNumSet.add(Integer.valueOf(s));   
+                    }
+                    yrsNumSet.sort();
+                     System.debug('yrsNumSet has been sorted: '+ yrsNumSet);
+                    gs.Giving_Years__c = String.valueOf(yrsNumSet);
+                    
+                    for(Integer i=1; i<=yrsNumSet.size(); i++) {
+                        if(yrsNumSet.contains(currentFiscal - i)) {
+                            gs.Consecutive_Years_of_Giving__c ++;
                         }
-                    }    
-                }
+                        else{break;}    
+                    }
                 
 
-                
-                  //Count the consecutive years of giving back from last fiscal year (not including this current fiscal yr)...
-                gs.Giving_Years__c = String.valueOf(fySet);
-                for(Integer i=1; i<=fySet.size(); i++) {
-                    if(fySet.contains(currentFiscal - i)) {
-                        gs.Consecutive_Years_of_Giving__c ++;
-                    }
-                    else{break;}
-                }  
-                
-                
-                
-                  //RFM SCORING PART A:  
-                  //Determine the RECENCY SCORE by looking at the FY gift counting fields, assigning appropriate points...
+
+
+
+                //RFM SCORING PART A:  
+                //Determine the RECENCY SCORE by looking at the FY gift counting fields, assigning appropriate points...
                 if (gs.Current_Year_Gifts__c > 0) {gs.Recency_Score__c = 20;}
                 else if (gs.Last_Year_Gifts__c > 0) {gs.Recency_Score__c = 15;}
                 else if (gs.Two_Years_Ago_Gifts__c > 0) {gs.Recency_Score__c = 10;}
@@ -433,14 +453,18 @@ public Id household =  Schema.SObjectType.Account.getRecordTypeInfosByName().get
                 else if (gs.Four_Years_Ago_Gifts__c > 0) {gs.Recency_Score__c = 2;}
                 else if (gs.Five_Plus_Years_Ago_Gifts__c > 0) {gs.Recency_Score__c = 1;}
                 else {gs.Recency_Score__c = 0;}
+
                 
+
+
+
+
                 
-                
-                  //RFM SCORING PART B:
-                  //Determine the FREQUENCY SCORE below (4 steps):
-                  //step #1 of 4 ... sort the fiscal years to determine first and last FY; calculate Giving Span (Last FY - First FY)...
+                //RFM SCORING PART B:
+                //Determine the FREQUENCY SCORE below (4 steps):
+                //step #1 of 4 ... sort the fiscal years to determine first and last FY; calculate Giving Span (Last FY - First FY)...
                 List<Integer> fiscalSort =  new List<Integer>();
-                fiscalSort.addAll(fySet);
+                fiscalSort.addAll(yrsNumSet);
                 Integer givingSpan = 0;
                 Double givingPercent = 0.0;
                 
@@ -448,77 +472,94 @@ public Id household =  Schema.SObjectType.Account.getRecordTypeInfosByName().get
                     fiscalSort.sort();                
                     Integer fyMin = fiscalSort[0];                
                     Integer fyMax = fiscalSort[fiscalSort.size()-1];                
-                    givingSpan = (fyMax - fyMin);                
+                    givingSpan = (fyMax - fyMin + 1);                
                     gs.Giving_Span__c = givingSpan;   
                                 
-                      //step #2 of 4 ... calculate the 'Giving Percent' (GiftCount / GivingSpan) ...
+                    //step #2 of 4 ... calculate the 'Giving Percent' (GiftCount / GivingSpan) ...
                     if(givingSpan > 0){
                         givingPercent = Double.valueOf( (gs.Lifetime_Total_Gifts__c / givingSpan) * 100);
                         gs.Giving_Frequency__c = givingPercent;
                     }
-                }
+                
 
-                  //step #3 of 4 ... calculate the 'Years Giving Muliplier' by assigning the appropriate points for Giving Span years...
-                if (givingSpan >= 20) {gs.Years_Giving_Multiplier__c = 3.0;}
-                else if (givingSpan >= 15) {gs.Years_Giving_Multiplier__c = 2.5;}
-                else if (givingSpan >= 10) {gs.Years_Giving_Multiplier__c = 2.0;}
-                else if (givingSpan >= 5) {gs.Years_Giving_Multiplier__c = 1.5;}
-                else if (givingSpan >= 1) {gs.Years_Giving_Multiplier__c = 1.0;}
-                else {gs.Years_Giving_Multiplier__c = 0;}
-                
-                
-                  //step #4 of 4 ... final calc of the 'Frequency Score' by assigning points for the 'Giving Frequency Percentage', multiplied by the 'Y.G.Multiplier'...
-                if (givingPercent == 100) {gs.Frequency_Score__c = 10 * gs.Years_Giving_Multiplier__c; }
-                else if (givingPercent >= 90) {gs.Frequency_Score__c = 8 * gs.Years_Giving_Multiplier__c;}
-                else if (givingPercent >= 80) {gs.Frequency_Score__c = 6 * gs.Years_Giving_Multiplier__c;}
-                else if (givingPercent >= 70) {gs.Frequency_Score__c = 4 * gs.Years_Giving_Multiplier__c;}
-                else if (givingPercent >= 60) {gs.Frequency_Score__c = 2 * gs.Years_Giving_Multiplier__c;}
-                else {gs.Frequency_Score__c = 1 * gs.Years_Giving_Multiplier__c;}  
-                
+                    //step #3 of 4 ... calculate the 'Years Giving Muliplier' by assigning the appropriate points for Giving Span years...
+                    if (givingSpan >= 20) {gs.Years_Giving_Multiplier__c = 3.0;}
+                    else if (givingSpan >= 15) {gs.Years_Giving_Multiplier__c = 2.5;}
+                    else if (givingSpan >= 10) {gs.Years_Giving_Multiplier__c = 2.0;}
+                    else if (givingSpan >= 5) {gs.Years_Giving_Multiplier__c = 1.5;}
+                    else if (givingSpan >= 1) {gs.Years_Giving_Multiplier__c = 1.0;}
+                    else {gs.Years_Giving_Multiplier__c = 0;}
                     
+                    
+                    //step #4 of 4 ... final calc of the 'Frequency Score' by assigning points for the 'Giving Frequency Percentage', multiplied by the 'Y.G.Multiplier'...
+                    if (givingPercent == 100) {gs.Frequency_Score__c = 10 * gs.Years_Giving_Multiplier__c; }
+                    else if (givingPercent >= 90) {gs.Frequency_Score__c = 8 * gs.Years_Giving_Multiplier__c;}
+                    else if (givingPercent >= 80) {gs.Frequency_Score__c = 6 * gs.Years_Giving_Multiplier__c;}
+                    else if (givingPercent >= 70) {gs.Frequency_Score__c = 4 * gs.Years_Giving_Multiplier__c;}
+                    else if (givingPercent >= 60) {gs.Frequency_Score__c = 2 * gs.Years_Giving_Multiplier__c;}
+                    else {gs.Frequency_Score__c = 1 * gs.Years_Giving_Multiplier__c;} 
+
+
+
                 
-                //RFM SCORING PART C:
-                //Determine the MONETARY SCORE (2 steps):
+                    //RFM SCORING PART C:
+                    //Determine the MONETARY SCORE (2 steps):
                 
-                  //step #1 of 2...determine the Largest Gift, assign appropriate points:
-                giftAmounts.sort();
-                Integer giftScore = 0;
-                Double giftMax = 0.0;
-                
-                
-                if (giftAmounts.size() > 0) {                
-                    giftMax = giftAmounts[giftAmounts.size()-1];
-                    gs.Largest_Gift__c = giftMax;
-                }  
-                
-                            
-                if (giftMax >= 5000) {giftScore = 25;}
-                else if (giftMax >= 2000) {giftScore = 15;}
-                else if (giftMax >= 1000) {giftScore = 10;}
-                else if (giftMax >= 500) {giftScore = 5;}
-                else if (giftMax > 0) {giftScore = 1;}
-                else {giftScore = 0;}
-                
+                    //step #1 of 2...determine the Largest Gift, assign appropriate points:
+                    Integer giftScore = 0;
+                    Double giftMax = 0.0; 
+                    List<Double> giftAmounts = new List<Double>();
+
+                    if(myGiftsMap.containsKey(gs.Contact__c)){                  
+                        giftAmounts = myGiftsMap.get(gs.Contact__c);
+                    }
+
+                    
+                    if (giftAmounts.size() > 0) {   
+                        giftAmounts.sort();             
+                        giftMax = giftAmounts[giftAmounts.size()-1];
+                        gs.Largest_Gift__c = giftMax;
+                    }  
+                    
+                                
+                    if (giftMax >= 5000) {giftScore = 25;}
+                    else if (giftMax >= 2000) {giftScore = 15;}
+                    else if (giftMax >= 1000) {giftScore = 10;}
+                    else if (giftMax >= 500) {giftScore = 5;}
+                    else if (giftMax > 0) {giftScore = 1;}
+                    else {giftScore = 0;}
+                    
+
+                    //step #2 of 2...determine the Cumulative Giving Total, assign appropriate points:
+                    Double giftTotal = 0.00;
+                    Integer cumulativeScore = 0;
+
+                    if (giftAmounts.size() > 0) {  
+                        for (Double amt : giftAmounts) {
+                            giftTotal += amt;                   
+                        } 
+                    }
+                    gs.Cumulative_Giving__c = giftTotal; 
+                    
+                                                    
+                    if (giftTotal >= 20000) {cumulativeScore = 25;}
+                    else if (giftTotal >= 10000) {cumulativeScore = 15;}
+                    else if (giftTotal >= 5000) {cumulativeScore = 5;}       
+                    else {cumulativeScore = 0;}               
+                                
+                    gs.Monetary_score__c = giftScore + cumulativeScore;   
+                    
+                } 
+                  
+            }
+        } 
+    }
     
-                 //step #2 of 2...determine the Cumulative Giving Total, assign appropriate points:
-                Double giftTotal = 0;
-                Integer cumulativeScore = 0;
-                for (Double amt : giftAmounts) {
-                    giftTotal = giftTotal + amt;                   
-                }
-                gs.Cumulative_Giving__c = giftTotal;                
-                                               
-                if (giftTotal >= 20000) {cumulativeScore = 25;}
-                else if (giftTotal >= 10000) {cumulativeScore = 15;}
-                else if (giftTotal >= 5000) {cumulativeScore = 5;}       
-                else {cumulativeScore = 0;}               
-                             
-                gs.Monetary_score__c = giftScore + cumulativeScore;                                     
-        }        
-    } 
+ 
     
-    
-    
+
+
+
 
       //Method to find Volunteer Position records for the contacts and map them to the correct fiscal year.
       
@@ -552,14 +593,46 @@ public Id household =  Schema.SObjectType.Account.getRecordTypeInfosByName().get
 
       //Method to find Event Guest records for the contacts and map them to the correct fiscal year.
       
-    public void findEvents() {
-    List<AQB__EventGuest__c> events = new List<AQB__EventGuest__c>();
+    public void findEvents() {    
     Set<String> fiscals = new Set<String>(); 
             
-    events = [SELECT AQB__Event_Date__c, Id, AQB__Contact__c, Fiscal_Year__c
-             FROM AQB__EventGuest__c 
-             WHERE AQB__Contact__c IN :conList];            
-       
+    List<AQB__EventGuest__c> events = [SELECT AQB__Event_Date__c, Id, AQB__Contact__c, AQB__Contact__r.Id, Fiscal_Year__c
+                                        FROM AQB__EventGuest__c 
+                                        WHERE AQB__Contact__c IN :conList
+                                        AND Fiscal_Year__c != NULL
+                                        AND AQB__Attendance__c NOT IN ('No Show', 'Cancelled', 'Invited', 'Waitlist')];                
+
+    Map<Id, Set<String>> myYearsMap = new Map<Id, Set<String>>();
+
+    // do you want to get the giving score object into memory first???
+
+        for (AQB__eventGuest__c eg: events){
+            
+            if(myYearsMap.containsKey(eg.AQB__Contact__r.Id)){
+                Set<String> yrsSet = myYearsMap.get(eg.AQB__Contact__r.Id);
+                yrsSet.add(eg.Fiscal_Year__c);
+                myYearsMap.put(eg.AQB__Contact__r.Id, yrsSet);
+            }
+            else{
+                myYearsMap.put(eg.AQB__Contact__r.Id, new Set<String> {eg.Fiscal_Year__c} );
+            }
+
+
+            Giving_Score__c gs = gsMap.get(eg.AQB__Contact__r.Id);
+            gs.Total_Events_Attended__c ++; 
+
+            if ( currentFiscal - (Integer.valueof(eg.Fiscal_Year__c)) == 0 ) {gs.Current_Year_Events_Attended__c ++;}                                   
+            else if ( currentFiscal - (Integer.valueof(eg.Fiscal_Year__c)) == 1 ) {gs.Last_Year_Events_Attended__c ++;}
+            else if ( currentFiscal - (Integer.valueof(eg.Fiscal_Year__c)) == 2 ) {gs.Two_Years_Ago_Events_Attended__c ++;}
+            else if ( currentFiscal - (Integer.valueof(eg.Fiscal_Year__c)) == 3 ) {gs.Three_Years_Ago_Events_Attended__c ++;} 
+
+            
+            Set<String> yrsSet = myYearsMap.get(eg.AQB__Contact__r.Id);
+            gs.Years_With_Event_Attendance__c = yrsSet.size(); 
+        }
+
+
+        /*   
         for (Giving_Score__c gs : gsList) {
             Set<Integer> fySet = new Set<Integer>();       
                 for (AQB__EventGuest__c eg : events) {           
@@ -575,7 +648,8 @@ public Id household =  Schema.SObjectType.Account.getRecordTypeInfosByName().get
                     }
                 }
             gs.Years_With_Event_Attendance__c = fySet.size();           
-        }        
+        } 
+        */       
     } 
 
 
@@ -640,10 +714,10 @@ public Id household =  Schema.SObjectType.Account.getRecordTypeInfosByName().get
     
     
     global void finish(Database.BatchableContext bc){
-    System.debug('Contacts processed with a new GivingScores: ' + recordsProcessed);
-    System.debug('AGScore and VScore batches are turned off at the moment');
-    //AGScoreDistribution agsd = new AGScoreDistribution();
-    //Id batchId = Database.executeBatch(agsd);
-    ID jobID = System.enqueueJob(new AGScoreDistribution());
+    //System.debug('Contacts processed with a new GivingScores: ' + recordsProcessed);
+    //System.debug('AGScore and VScore batches are turned off at the moment');
+    AGGrade agg = new AGGrade();
+    Id batchId = Database.executeBatch(agg);
+    //ID jobID = System.enqueueJob(new AGScoreDistribution2());
     }    
 }

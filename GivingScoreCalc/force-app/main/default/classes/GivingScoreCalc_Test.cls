@@ -8,6 +8,7 @@ global class GivingScoreCalc_Test {
         List<AQB__RelationshipContact__c> relationships = new List<AQB__RelationshipContact__c>();
         List<AQB__LLContactRole__c> contactRoles = new List<AQB__LLContactRole__c>();
         List<AQB__Education__c> eduList = new List<AQB__Education__c>();
+        List<AQB__Employment__c> empList = new List<AQB__Employment__c>();
 
 
         
@@ -24,12 +25,14 @@ global class GivingScoreCalc_Test {
         a.Name = 'Account '+ 1;
         a.Type = 'Household';
         a.RecordTypeId = '012f4000000gmsBAAQ';
+        a.Phone = '333-555-7777';
         accountList.add(a);
         
         Account a2 = new Account();
         a2.Name = 'Account '+ a2;
         a2.Type = 'Household';
         a2.RecordTypeId = '012f4000000gmsBAAQ';
+        a2.Phone = '333-555-7777';
         accountList.add(a2);
         
         Account a3 = new Account();
@@ -42,18 +45,21 @@ global class GivingScoreCalc_Test {
         a4.Name = 'Account '+ a4;
         a4.Type = 'Household';
         a4.RecordTypeId = '012f4000000gmsBAAQ';
+        a4.Phone = '333-555-7777';
         accountList.add(a4);
         
         Account a5 = new Account();
         a5.Name = 'Account '+ a5;
         a5.Type = 'Household';
         a5.RecordTypeId = '012f4000000gmsBAAQ';
+        a5.Phone = '333-555-7777';
         accountList.add(a5);
         
         Account a6 = new Account();
         a6.Name = 'Account '+ a6;
         a6.Type = 'Household';
         a6.RecordTypeId = '012f4000000gmsBAAQ';
+        a6.Phone = '333-555-7777';
         accountList.add(a6);
         
         
@@ -69,6 +75,7 @@ global class GivingScoreCalc_Test {
         c1.AQB__SecondaryType__c = 'Parent';
         c1.Update_Giving_Score__c = TRUE;        
         c1.AQB__Gender__c = 'Male';
+        c1.Email = 'newcontactbogus@gmail.com';
         contactList.add(c1);
         
         Contact c2 = new Contact();
@@ -79,6 +86,7 @@ global class GivingScoreCalc_Test {
         c2.AQB__Relationship__c = 'Spouse';
         c2.Update_Giving_Score__c = TRUE;
         c2.AQB__Gender__c = 'Female';
+        c1.Email = 'newcontactbogus2@gmail.com';
         contactList.add(c2);    
 
         Contact c3 = new Contact();
@@ -111,6 +119,7 @@ global class GivingScoreCalc_Test {
         c5.AQB__Relationship__c = 'Spouse';
         c5.Update_Giving_Score__c = TRUE;
         c5.AQB__Gender__c = 'Female';
+        c1.Email = 'newcontactbogus5@gmail.com';
         contactList.add(c5);  
 
 
@@ -125,6 +134,7 @@ global class GivingScoreCalc_Test {
         contactList.add(c6);  
 
         Contact c7 = new Contact();
+        c1.Email = 'newcontactbogus7@gmail.com';
         c7.AccountId = a6.Id;
         c7.LastName = a6.Name + 7; 
         c7.AQB__Type__c = 'Staff';
@@ -138,9 +148,6 @@ global class GivingScoreCalc_Test {
         
 
 
-
-
-        
           //add relationship spouse
         AQB__RelationshipContact__c rel1 = new AQB__RelationshipContact__c();
         rel1.AQB__Contact__c = c1.Id;
@@ -149,6 +156,44 @@ global class GivingScoreCalc_Test {
         rel1.AQB__RelatedContactRole__c = cr1.Id;
         relationships.add(rel1);
         insert relationships;
+
+
+
+          //employment rows
+        AQB__Employment__c emp1 = new AQB__Employment__c();
+        emp1.AQB__EmployerName__c = 'PhonyCo';
+        emp1.AQB__BusinessPhone__c = '222-444-6666';
+        emp1.AQB__Contact__c = c1.Id;
+        empList.add(emp1);
+
+        AQB__Employment__c emp2 = new AQB__Employment__c();
+        emp2.AQB__EmployerName__c = 'PhonyCo';
+        emp2.AQB__BusinessPhone__c = '222-444-6666';
+        emp2.AQB__Contact__c = c2.Id;
+        empList.add(emp2);
+
+        AQB__Employment__c emp3 = new AQB__Employment__c();
+        emp3.AQB__EmployerName__c = 'PhonyCo';
+        emp3.AQB__BusinessPhone__c = '222-444-6666';
+        emp3.AQB__Contact__c = c4.Id;
+        empList.add(emp3);
+
+        AQB__Employment__c emp4 = new AQB__Employment__c();
+        emp4.AQB__EmployerName__c = 'PhonyCo';
+        emp4.AQB__BusinessPhone__c = '222-444-6666';
+        emp4.AQB__Contact__c = c6.Id;
+        empList.add(emp4);
+
+        insert emplist;
+
+
+
+        c1.AQB__PrimaryEmploymentLink__c = emp1.Id;
+        c2.AQB__PrimaryEmploymentLink__c = emp2.Id;
+        c4.AQB__PrimaryEmploymentLink__c = emp3.Id;
+        c6.AQB__PrimaryEmploymentLink__c = emp4.Id;
+        update contactList;
+
         
         
           //add education links
@@ -156,21 +201,21 @@ global class GivingScoreCalc_Test {
         edu1.AQB__Contact__c = c1.Id;
         edu1.AQB__School__c = 'Tepper School of Business';
         edu1.AQB__PreferredYear__c = '1990';
-        edu1.AQB__DegreeLevel__c = 'Undergraduate';
+        edu1.AQB__DegreeLevel__c = 'Bachelor\'s degree';
         eduList.add(edu1); 
         
         AQB__Education__c edu2 = new AQB__Education__c();
         edu2.AQB__Contact__c = c2.Id;
         edu2.AQB__School__c = 'Heinz College';
         edu2.AQB__PreferredYear__c = '2014';
-        edu2.AQB__DegreeLevel__c = 'Masters';
+        edu2.AQB__DegreeLevel__c = 'Master\'s degree';
         eduList.add(edu2); 
         
         AQB__Education__c edu3 = new AQB__Education__c();
         edu3.AQB__Contact__c = c2.Id;
         edu3.AQB__School__c = 'Tepper School of Business';
         edu3.AQB__PreferredYear__c = '2016';
-        edu3.AQB__DegreeLevel__c = 'Doctorate';
+        edu3.AQB__DegreeLevel__c = 'Doctoral degree';
         eduList.add(edu3); 
         
         insert eduList;
@@ -187,6 +232,8 @@ global class GivingScoreCalc_Test {
         
             GivingScoreCalc gsc = new GivingScoreCalc();
             Database.executeBatch(gsc);
+
+            GivingScoreCalc_Scheduler gscs = new GivingScoreCalc_Scheduler();
         
         Test.stopTest();        
         

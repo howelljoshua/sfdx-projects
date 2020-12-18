@@ -110,8 +110,12 @@ public static Set<Opportunity> oppSet = new Set<Opportunity>();
                     
                     if(goalsByFiscalMap.containsKey(opp.Ask_Date_Fiscal__c)){
                         Goal_Tracker__c subGoal = goalsByFiscalMap.get(opp.Ask_Date_Fiscal__c); 
+                        Decimal aa = opp.Ask_Amount__c;
+                            if(aa == NULL){
+                                aa = 0.00;
+                            }
+                        subGoal.Submitted_Total_Asks__c = subGoal.Submitted_Total_Asks__c + aa;
                         subGoal.Submitted_Count__c = subGoal.Submitted_Count__c + 1;
-                        subGoal.Submitted_Total_Asks__c = subGoal.Submitted_Total_Asks__c + opp.Ask_Amount__c;
                         subGoal.Submitted_Opportunities__c = subGoal.Submitted_Opportunities__c + opp.Submitted_Opp_Name_Link__c + '<br>';
                         subGoal.Last_Goals_Update__c = System.Now(); 
                     }

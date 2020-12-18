@@ -1,12 +1,14 @@
-Global class GivingScoreUpdateContact implements Queueable{
+Global class GivingScoreUpdateContact implements Database.Batchable<sObject>{
 
-    global void execute(QueueableContext qc){
-        List<Giving_Score__c> gsList = [SELECT Id, Contact__c, Annual_Giving_Grade__c, 
-                                        Volunteer_Grade__c, Research_Grade__c 
-                                        FROM Giving_Score__c];
+    global Database.QueryLocator start(Database.BatchableContext bc) {
+        return Database.getQueryLocator('SELECT Id, Contact__c, Annual_Giving_Grade__c, Volunteer_Grade__c, Research_Grade__c FROM Giving_Score__c'); 
+    }
 
+
+
+    global void execute(Database.BatchableContext bc, List<Giving_Score__c> scope){
         List<Id> conList = new List<Id>();
-        for (Giving_Score__c gs : gsList){
+        for (Giving_Score__c gs : scope){
             conList.add(gs.Contact__c);
         }
 
@@ -15,7 +17,7 @@ Global class GivingScoreUpdateContact implements Queueable{
                                                         FROM Contact WHERE ID IN : conList]);
 
 
-        for (Giving_Score__c g : gsList){
+        for (Giving_Score__c g : scope){
             if (conMap.containsKey(g.Contact__c)){
                 Contact c = conMap.get(g.Contact__c);
                 c.Giving_Score__c = g.Id;
@@ -25,5 +27,10 @@ Global class GivingScoreUpdateContact implements Queueable{
             }
         }
     Database.update(conMap.values(), false);
+    }
+
+
+
+    global void finish(Database.BatchableContext bc){
     }
 }
