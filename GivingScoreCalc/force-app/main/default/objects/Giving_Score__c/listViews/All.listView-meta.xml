@@ -10,6 +10,8 @@
     <columns>Volunteer_Score__c</columns>
     <columns>Research_Grade__c</columns>
     <columns>Research_Score__c</columns>
+    <columns>Greek_Indicator__c</columns>
+    <columns>Gmail_Indicator__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

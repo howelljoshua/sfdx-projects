@@ -5,31 +5,11 @@ Global List<Giving_Score__c> gsList = new List<Giving_Score__c>();
 Global List<Giving_Score__c> agsLeftovers = new List<Giving_Score__c>();
 Global Integer counter;
 
-    
-    global Database.QueryLocator start(Database.BatchableContext bc) {
-
-
-    }
-
     global void execute(QueueableContext qc){
 
-        /*
         gsList = [SELECT Id, Annual_Giving_Score__c, Annual_Giving_Grade__c, Volunteer_Score__c, Research_Score__c
                   FROM Giving_Score__c ORDER BY Annual_Giving_Score__c ASC, Volunteer_Score__c ASC, Research_Score__c ASC];
-        */
-
-        /*
-        gsList = Database.QueryLocator('SELECT Id, Annual_Giving_Score__c, Annual_Giving_Grade__c, Volunteer_Score__c, Research_Score__c' +
-                                          'FROM Giving_Score__c ORDER BY Annual_Giving_Score__c ASC, Volunteer_Score__c ASC, Research_Score__c ASC' );
-        */
-
-        /*
-        gsList = Database.QueryLocator([SELECT Id, Annual_Giving_Score__c, Annual_Giving_Grade__c, Volunteer_Score__c, Research_Score__c
-                                        FROM Giving_Score__c ORDER BY Annual_Giving_Score__c 
-                                        ASC, Volunteer_Score__c ASC, Research_Score__c ASC]);
-        */
-
-        
+           
 
           System.debug('Started AGScoreDistribution with this many Giving Scores: ' + gsList); 
         Integer numberInAgsBucket = (gsList.size() / agGrades.size());
@@ -56,6 +36,6 @@ Global Integer counter;
             counter ++;
         }      
     update gsList;     
-    //ID jobID = System.enqueueJob(new VScoreDistribution());
+    ID jobID = System.enqueueJob(new VScoreDistribution());
     }
 }

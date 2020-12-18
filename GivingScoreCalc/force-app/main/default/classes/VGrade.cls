@@ -1,6 +1,6 @@
 Global class VGrade implements Database.Batchable<sObject>{
 
-Global FINAL List<String> VGrades = new List<String>{'B', 'B+', 'A-', 'A', 'A+'};
+Global FINAL List<String> VGRades = new List<String>{'B', 'B+', 'A-', 'A', 'A+'};
 Global Map<Decimal,String> gradeValuesMap = new Map<Decimal,String>();
 GLobal List<Decimal> vals = new List<Decimal>();
 Global Decimal max = 0;
@@ -11,7 +11,7 @@ Global Decimal boundary = 0;
 Global Integer bucketCount = 0;
 
 
-    global VGrade(){
+    global VGRade(){
         List<Giving_Score__c> extremeMax = [SELECT Id, Volunteer_Score__c FROM Giving_Score__c ORDER BY Volunteer_Score__c DESC LIMIT 1];
 
         max = extremeMax[0].Volunteer_Score__c; 
@@ -23,7 +23,7 @@ Global Integer bucketCount = 0;
             System.debug('extreme min score is: ' + min);
         range = max - min;
             System.debug('range is: '+ range);
-        bucketSize = range / VGrades.size();
+        bucketSize = range / VGRades.size();
             System.debug('bucketsize is: ' + bucketSize);
 
 
@@ -56,13 +56,13 @@ Global Integer bucketCount = 0;
         //refigure final Range and final Bucketsize after outliers are removed
         range = max - min;
         System.debug('NEW range is: '+ range);
-        bucketSize = range / VGrades.size();
+        bucketSize = range / VGRades.size();
         System.debug('NEW bucketsize is: ' + bucketSize);
 
 
 
-        for(String grade : VGrades){          
-            gradeValuesMap.put(boundary, VGrades[bucketCount]);
+        for(String grade : VGRades){          
+            gradeValuesMap.put(boundary, VGRades[bucketCount]);
             boundary = boundary + bucketsize;
             bucketCount ++;
         }

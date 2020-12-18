@@ -3,8 +3,8 @@
     <fullName>Giving_Score_Header</fullName>
     <fields>Name</fields>
     <fields>Contact__c</fields>
-    <fields>Volunteer_Grade__c</fields>
     <fields>Annual_Giving_Grade__c</fields>
+    <fields>Volunteer_Grade__c</fields>
     <fields>Research_Grade__c</fields>
     <fields>Calculated_On__c</fields>
     <label>Giving Score Header</label>
