@@ -1,17 +1,12 @@
 public with sharing class CMU_TransactionTriggerHandler {
-
+    
 public Integer cfy; // current fiscal year
 public Integer pfy; // previous fiscal year
 public Integer tfya; // two fiscal years ago
 
 
-
-
-
-
       //calculate the summary fields on the parent COA for each transaction in trigger...
     public void calculatePGSummaries(List<AQB__Transaction__c> transactions){
-
         calcFY();
 
         Set<Id> allCOAs = new Set<Id>();
@@ -21,23 +16,23 @@ public Integer tfya; // two fiscal years ago
         }
 
 
-        Map<Id, AQB__Transaction__c> payments = [SELECT Id, AQB__Amount__c, AQB__Date__c
-                                                        FROM Transaction
-                                                        WHERE RecordType.Name NOT IN ('Soft Credit','Pledge Soft Credit')   
-                                                        AND AQB__Type__c = 'Payment'                                                
-                                                        AND AQB__Amount__c > 0                                                    
-                                                        AND AQB__Voided__c = FALSE
-                                                        AND AQB_Designation__c IN: allCOAs];
+        Map<Id, AQB__Transaction__c> payments = new Map<Id, AQB__Transaction__c>([SELECT Id, AQB__Amount__c, AQB__Date__c, AQB__ChartofAccounts__c
+                                                                                FROM AQB__Transaction__c
+                                                                                WHERE RecordType.Name NOT IN ('Soft Credit','Pledge Soft Credit')   
+                                                                                AND AQB__Type__c = 'Payment'                                                
+                                                                                AND AQB__Amount__c > 0                                                    
+                                                                                AND AQB__Voided__c = FALSE
+                                                                                AND AQB__ChartofAccounts__c IN: allCOAs] );
 
 
-        Map<Id, AQB__Transaction__c> pledges = [SELECT Id, AQB__Amount__c, AQB__Date__c
-                                                        FROM Transaction
-                                                        WHERE RecordType.Name NOT IN ('Soft Credit','Pledge Soft Credit')   
-                                                        AND AQB__Type__c = 'Pledge' 
-                                                        AND AQB__PledgePaymentLink__c = NULL
-                                                        AND AQB__Balance__c > 0                                                                                       
-                                                        AND AQB__Voided__c = FALSE
-                                                        AND AQB_Designation__c IN: allCOAs];    
+        Map<Id, AQB__Transaction__c> pledges = new Map<Id, AQB__Transaction__c>([SELECT Id, AQB__Amount__c, AQB__Date__c, AQB__ChartofAccounts__c
+                                                                                FROM AQB__Transaction__c
+                                                                                WHERE RecordType.Name NOT IN ('Soft Credit','Pledge Soft Credit')   
+                                                                                AND AQB__Type__c = 'Pledge' 
+                                                                                AND AQB__PledgePaymentLink__c = NULL
+                                                                                AND AQB__Balance__c > 0                                                                                       
+                                                                                AND AQB__Voided__c = FALSE
+                                                                                AND AQB__ChartofAccounts__c IN: allCOAs]);    
 
 
         Map<Id, AQB__LLChartofAccounts__c> charts = new Map<Id, AQB__LLChartofAccounts__c>();
@@ -52,40 +47,44 @@ public Integer tfya; // two fiscal years ago
         }
 
 
-          //loop thru the PAYMENT transactions and update all 4 summary fields
-        for (AQB__Transaction__c payment : payments){
-            if(payment.AQB__Date__c.year() == cfy){
-                allCOAS.get(payment.AQB__ChartofAccounts__c).CFY_Cash__c += payment.AQB__Amount__c;
+          //loop thru the PAYMENT transactions and update the 4 summary fields, as appropriate....
+        for (AQB__Transaction__c payment : payments.values()){            
+             //for now, set "this" Transactions's fy to the actual year of the payment date
+            integer fy = payment.AQB__Date__c.year();
+             // check month of payment date, if July or later, add 1 to "this" payment's fiscal year...
+            if (payment.AQB__Date__c.month() > 6){
+                fy ++;
             }
 
-            else if(payment.AQB__Date__c.year() == pfy){
-                allCOAS.get(payment.AQB__ChartofAccounts__c).PFY_Cash__c += payment.AQB__Amount__c;
+
+              //total all PAYMENTS into the lifetime field, regardless of year, etc....
+            charts.get(payment.AQB__ChartofAccounts__c).Lifetime_Cash_and_Commitments__c += payment.AQB__Amount__c;
+
+              // if fiscal year of this PAYMENT is the current fiscal year, add it here...
+            if (fy == cfy){
+                charts.get(payment.AQB__ChartofAccounts__c).CFY_Cash__c += payment.AQB__Amount__c;
+            }
+
+              // if fiscal year of this PAYMENT is the previous fiscal year, add it here...
+            else if (fy == pfy){
+                charts.get(payment.AQB__ChartofAccounts__c).PFY_Cash__c += payment.AQB__Amount__c;
                 
             }
-
-            else if(payment.AQB__Date__c.year() == tfya){
-                allCOAS.get(payment.AQB__ChartofAccounts__c).X2FYA_Cash__c += payment.AQB__Amount__c;
-            }
-            else{
-                allCOAS.get(payment.AQB__ChartofAccounts__c).Lifetime_Cash_and_Commitments__c += payment.AQB__Amount__c;
+              // if fiscal year of this PAYMENT is 2 fiscal years ago, add it here...
+            else if (fy == tfya){
+                charts.get(payment.AQB__ChartofAccounts__c).X2FYA_Cash__c += payment.AQB__Amount__c;
             }
             
         }
 
 
-          //loop thru the PLEDGE transactions and update the lifetime total field
-//        for (AQB__Transaction__c pledge : pledges){
-//        }
+          //loop thru the PLEDGE transactions and summarize into the lifetime total field, adding to the PAYMENTS
+        for (AQB__Transaction__c pledge : pledges.values()){
+            charts.get(pledge.AQB__ChartofAccounts__c).Lifetime_Cash_and_Commitments__c += pledge.AQB__Amount__c;
+        }
 
-    update allCOAS.values();
+    update charts.values();
     }
-
-
-
-
-
-
-
 
 
 

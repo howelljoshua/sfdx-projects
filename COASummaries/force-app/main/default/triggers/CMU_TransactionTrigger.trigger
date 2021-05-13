@@ -11,13 +11,16 @@ trigger CMU_TransactionTrigger on AQB__Transaction__c (before insert,after inser
 
     if (Trigger.IsAfter) {          
         if (Trigger.isInsert) { 
-            CMU_TransactionTriggerHandler.calculatePGSummaries(Trigger.new);
+            CMU_TransactionTriggerHandler tth = new CMU_TransactionTriggerHandler();
+            tth.calculatePGSummaries(Trigger.new);
         }          
         if (Trigger.isUpdate) {
-            CMU_TransactionTriggerHandler.calculatePGSummaries(Trigger.new);     
+            CMU_TransactionTriggerHandler tth = new CMU_TransactionTriggerHandler();
+            tth.calculatePGSummaries(Trigger.new);
         }
         if (Trigger.isDelete) {
-            CMU_TransactionTriggerHandler.calculatePGSummaries(Trigger.old);
+            CMU_TransactionTriggerHandler tth = new CMU_TransactionTriggerHandler();
+            tth.calculatePGSummaries(Trigger.old);
         }
     }
 }
