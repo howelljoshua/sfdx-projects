@@ -5,6 +5,7 @@
  * Updated 2/5/19 -- to include additional search parameters for Advance ID and generate CSV class -- JH
  * Update 3/25/19 -- to add new functionality to the Event for regDate, regStatus, and noShow indicator -- JH
  * Update 4/29/19 -- Fixed an issue with the pagination and added record count numbers --  JH
+ * Update 5/18/21 -- changed Card Id query to search Alternate Channels / Changed Email query to search all emails on Contact / consolidated redundant queries -- JH
  * 
  * Test Coverage =  MassEmailSearchController_Test -- covers at 93%
  */
@@ -74,74 +75,85 @@ public class MassEmailSearchController {
         if (searchType == 'Email') {
             if(input.contains(',')){
                 inputs = input.split(','); 
-                results = [SELECT LastName, FirstName, Account.Name, Email, Contact_External_ID_Clean__c, Inst_Suffix__c, Card_ID__c, Id, Contact_15_Digit_ID__c, Contact_18_Digit_ID__c, Link__c, Account_Link__c FROM Contact WHERE email IN :inputs ORDER BY LastName ASC];
-                totalSize = results.size();    
             }            
             else if(input.contains(' ')) {
                 inputs = input.split(' '); 
-                results = [SELECT LastName, FirstName, Account.Name, Email, Contact_External_ID_Clean__c, Inst_Suffix__c, Card_ID__c, Id, Contact_15_Digit_ID__c, Contact_18_Digit_ID__c, Link__c, Account_Link__c FROM Contact WHERE email IN :inputs ORDER BY LastName ASC];
-                totalSize = results.size();
             }
             else{
                 inputs = input.split('\n'); 
-                results = [SELECT LastName, FirstName, Account.Name, Email, Contact_External_ID_Clean__c, Inst_Suffix__c, Card_ID__c, Id, Contact_15_Digit_ID__c, Contact_18_Digit_ID__c, Link__c, Account_Link__c FROM Contact WHERE email IN :inputs ORDER BY LastName ASC];
-                totalSize = results.size();
-            }           
-            
+            }
+        results = [SELECT LastName, FirstName, Account.Name, Email, Contact_External_ID_Clean__c, Inst_Suffix__c, 
+                  Card_ID__c, Id, Contact_15_Digit_ID__c, Contact_18_Digit_ID__c, Link__c, Account_Link__c 
+                  FROM Contact 
+                  WHERE RecordType.Name = 'Advancement Contact'
+                  AND AQB__Type__c != 'Event Registrant'
+                  AND (Email IN :inputs
+                  OR AQB__PersonalEmail__c IN :inputs
+                  OR AQB__BusinessEmail__c IN :inputs
+                  OR AQB__OtherEmail__c IN :inputs)
+                  ORDER BY LastName ASC];
+        totalSize = results.size();              
         }
         
+
         else if (searchType == 'AID'){
             if (input.contains(',')){
-                inputs = input.split(',');  
-                results = [SELECT LastName, FirstName, Account.Name, Email, Contact_External_ID_Clean__c, Inst_Suffix__c, Card_ID__c, Id, Contact_15_Digit_ID__c, Contact_18_Digit_ID__c, Link__c, Account_Link__c FROM Contact WHERE Contact_External_ID_Clean__c IN :inputs ORDER BY LastName ASC];
-                totalSize = results.size();               
+                inputs = input.split(',');            
             }
             else if (input.contains(' ')){
-                inputs = input.split(' ');  
-                results = [SELECT LastName, FirstName, Account.Name, Email, Contact_External_ID_Clean__c, Inst_Suffix__c, Id, Card_ID__c, Contact_15_Digit_ID__c, Contact_18_Digit_ID__c, Link__c, Account_Link__c FROM Contact WHERE Contact_External_ID_Clean__c IN :inputs ORDER BY LastName ASC];
-                totalSize = results.size();               
+                inputs = input.split(' ');             
             }
             else{
                 inputs = input.split('\n');  
-                results = [SELECT LastName, FirstName, Account.Name, Email, Contact_External_ID_Clean__c, Inst_Suffix__c, Id, Card_ID__c, Contact_15_Digit_ID__c, Contact_18_Digit_ID__c, Link__c, Account_Link__c FROM Contact WHERE Contact_External_ID_Clean__c IN :inputs ORDER BY LastName ASC];
-                totalSize = results.size();
             }
+            results = [SELECT LastName, FirstName, Account.Name, Email, Contact_External_ID_Clean__c, Inst_Suffix__c, Id, 
+                      Card_ID__c, Contact_15_Digit_ID__c, Contact_18_Digit_ID__c, Link__c, Account_Link__c 
+                      FROM Contact WHERE Contact_External_ID_Clean__c IN :inputs ORDER BY LastName ASC];
+            totalSize = results.size();
         }
+
         
-        else If (searchType == 'CID'){
+        else if (searchType == 'CID'){
             if (input.contains(',')){
-                inputs = input.split(',');  
-                results = [SELECT LastName, FirstName, Account.Name, Email, Contact_External_ID_Clean__c, Inst_Suffix__c, Card_ID__c, Id, Contact_15_Digit_ID__c, Contact_18_Digit_ID__c, Link__c, Account_Link__c FROM Contact WHERE Card_ID__c IN :inputs ORDER BY LastName ASC];
-                totalSize = results.size();               
+                inputs = input.split(',');           
             }
             else if (input.contains(' ')){
-                inputs = input.split(' ');  
-                results = [SELECT LastName, FirstName, Account.Name, Email, Contact_External_ID_Clean__c, Inst_Suffix__c, Card_ID__c, Id, Contact_15_Digit_ID__c, Contact_18_Digit_ID__c, Link__c, Account_Link__c FROM Contact WHERE Card_ID__c IN :inputs ORDER BY LastName ASC];
-                totalSize = results.size();               
+                inputs = input.split(' ');              
             }
             else{
-                inputs = input.split('\n');  
-                results = [SELECT LastName, FirstName, Account.Name, Email, Contact_External_ID_Clean__c, Inst_Suffix__c, Card_ID__c, Id, Contact_15_Digit_ID__c, Contact_18_Digit_ID__c, Link__c, Account_Link__c FROM Contact WHERE Card_ID__c IN :inputs ORDER BY LastName ASC];
-                totalSize = results.size();
-            }            
+                inputs = input.split('\n');
+            } 
+            List<AQB__AlternateId__c> cardIDs = [SELECT Id, AQB__NonuniqueAlternateId__c , AQB__ContactReferenced__c 
+                                                FROM AQB__AlternateId__c 
+                                                WHERE AQB__Type__c = 'CARD ID' 
+                                                AND AQB__NonuniqueAlternateId__c IN :inputs];  
+            List<Id> foundIDs = new List<Id>();
+                for(AQB__AlternateId__c altId : cardIDs){
+                    foundIDs.add(altId.AQB__ContactReferenced__c);
+                }
+            results = [SELECT LastName, FirstName, Account.Name, Email, Contact_External_ID_Clean__c, Inst_Suffix__c, 
+                      Card_ID__c, Id, Contact_15_Digit_ID__c, Contact_18_Digit_ID__c, Link__c, Account_Link__c 
+                      FROM Contact 
+                      WHERE RecordType.Name = 'Advancement Contact' 
+                      AND AQB__Type__c != 'Event Registrant'
+                      AND Id IN :foundIDs ORDER BY LastName ASC];
+            totalSize = results.size();           
         }
         
         else{
             if (input.contains(',')){
-                inputs = input.split(',');  
-                results = [SELECT LastName, FirstName, Account.Name, Email, Contact_External_ID_Clean__c, Inst_Suffix__c, Card_ID__c, Id, Contact_15_Digit_ID__c, Contact_18_Digit_ID__c, Link__c, Account_Link__c FROM Contact WHERE ID IN :inputs ORDER BY LastName ASC];
-                totalSize = results.size();               
+                inputs = input.split(',');            
             }
             else if (input.contains(' ')){
-                inputs = input.split(' ');  
-                results = [SELECT LastName, FirstName, Account.Name, Email, Contact_External_ID_Clean__c, Inst_Suffix__c, Card_ID__c, Id, Contact_15_Digit_ID__c, Contact_18_Digit_ID__c, Link__c, Account_Link__c FROM Contact WHERE ID IN :inputs ORDER BY LastName ASC];
-                totalSize = results.size();               
+                inputs = input.split(' ');                
             }
             else{
                 inputs = input.split('\n');  
-                results = [SELECT LastName, FirstName, Account.Name, Email, Contact_External_ID_Clean__c, Inst_Suffix__c, Card_ID__c, Id, Contact_15_Digit_ID__c, Contact_18_Digit_ID__c, Link__c, Account_Link__c FROM Contact WHERE ID IN :inputs ORDER BY LastName ASC];
-                totalSize = results.size();
-            }                      
+            }
+            results = [SELECT LastName, FirstName, Account.Name, Email, Contact_External_ID_Clean__c, Inst_Suffix__c, 
+                      Card_ID__c, Id, Contact_15_Digit_ID__c, Contact_18_Digit_ID__c, Link__c, Account_Link__c 
+                      FROM Contact WHERE ID IN :inputs ORDER BY LastName ASC];
+            totalSize = results.size();                      
         }     
 
         ShortResults = [SELECT Id FROM Contact WHERE Id IN :results];
