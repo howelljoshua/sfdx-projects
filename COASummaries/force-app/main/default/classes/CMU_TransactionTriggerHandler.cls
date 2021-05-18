@@ -29,7 +29,8 @@ public Integer tfya; // two fiscal years ago
                                                                                 FROM AQB__Transaction__c
                                                                                 WHERE RecordType.Name NOT IN ('Soft Credit','Pledge Soft Credit')   
                                                                                 AND AQB__Type__c = 'Pledge' 
-                                                                                AND AQB__PledgePaymentLink__c = NULL
+                                                                                AND AQB__Amount__c > 0   
+                                                                                AND AQB__PledgePayment__c = FALSE
                                                                                 AND AQB__Balance__c > 0                                                                                       
                                                                                 AND AQB__Voided__c = FALSE
                                                                                 AND AQB__ChartofAccounts__c IN: allCOAs]);    
