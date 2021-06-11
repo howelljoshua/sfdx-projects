@@ -26,7 +26,7 @@ public static String currentFiscalYear = [SELECT FiscalYearSettings.Name FROM Pe
         
           // query for a list of goalTrackers associated with the users and FY's above
         goals = [SELECT Id, Prospect_Manager__c, Fiscal_Year__c, Visits_Goal__c,  
-                 Visits_Count__c, Visits__c, Last_Goals_Update__c 
+                 Visits_Count__c, Visits__c, Moves_Goal__c, Moves_Count__c,  Last_Goals_Update__c 
                  FROM Goal_Tracker__c
                  WHERE fiscal_Year__c IN : fiscalYears
                  AND Prospect_Manager__c IN : users];
@@ -46,11 +46,23 @@ public static String currentFiscalYear = [SELECT FiscalYearSettings.Name FROM Pe
                                                            OR
                                                            (AQB__ActivityReport__r.AQB__Type__c = 'Virtual Visit'  AND  AQB__ActivityReport__r.Fiscal_Year_Num__c >= 2020))];        
 
-        
-															   
-                                           					        
           System.debug('arpList query had: ' + arpList.size() + ' Elements');  
           System.debug('arpList query had the following recs: ' + arpList);
+          
+          
+        List<AQB__ActivityReportParticipant__c> movesList = [SELECT Id, AQB__User__c, AQB__UserRole__c, Fiscal_Year__c, AQB__ActivityReport__r.AQB__Date__c                                          					   
+                                                             FROM AQB__ActivityReportParticipant__c
+                                                             WHERE Fiscal_Year__c IN : fiscalYears
+                                                             AND AQB__User__c IN : users
+                                                             AND AQB__ActivityReport__r.AQB__ReportStatus__c = 'Final'
+                                                             AND AQB__UserRole__c IN ('Assigned To', 'Participant' , 'Facilitator')
+                                                             AND AQB__ActivityReport__r.AQB__Type__c IN ('Visit In' ,'Visit Out', 'Virtual Visit', 'Mail Cultivation', 
+                                                                                                         'Phone Cultivation', 'Development Event', 'Board Meeting')];     
+                                                           
+
+                                           					        
+          System.debug('movesList query had: ' + movesList.size() + ' Elements');  
+          System.debug('movesList query had the following recs: ' + movesList);
    
         
 
@@ -60,15 +72,28 @@ public static String currentFiscalYear = [SELECT FiscalYearSettings.Name FROM Pe
             for(Goal_Tracker__c gt : goals) {
                 if (u == gt.Prospect_Manager__c) {
                     gt.Visits_Count__c = 0;
+                    gt.Moves_Count__c = 0;
                     goalsByFiscalMap.put(gt.Fiscal_Year__c, gt);        
                 }
             }
-            
+
+              //VISITS loop - loop thru ar participants of arpList (visits) and increment VISITS counter            
             for(AQB__ActivityReportParticipant__c arp : arpList){
                 if(u == arp.AQB__User__c){
                     if(goalsByFiscalMap.containsKey(arp.Fiscal_Year__c)){
                         Goal_Tracker__c thisGoal = goalsByFiscalMap.get(arp.Fiscal_Year__c);
                         thisGoal.Visits_Count__c = thisGoal.Visits_Count__c + 1;
+                        thisGoal.Last_Goals_Update__c = System.Now();
+                    }
+                }          
+            }
+
+              //MOVES loop - loop thru ar participants of movesList (moves) and increment MOVES counter            
+            for(AQB__ActivityReportParticipant__c moves : movesList){
+                if(u == moves.AQB__User__c){
+                    if(goalsByFiscalMap.containsKey(moves.Fiscal_Year__c)){
+                        Goal_Tracker__c thisGoal = goalsByFiscalMap.get(moves.Fiscal_Year__c);
+                        thisGoal.Moves_Count__c = thisGoal.Moves_Count__c + 1;
                         thisGoal.Last_Goals_Update__c = System.Now();
                     }
                 }          

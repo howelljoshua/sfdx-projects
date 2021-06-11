@@ -14,6 +14,8 @@ public Integer tfya; // two fiscal years ago
         for(AQB__Transaction__c tr: transactions){
             allCOAs.add(tr.AQB__ChartofAccounts__c);
         }
+        allCOAs.remove(null);
+        
 
 
         Map<Id, AQB__Transaction__c> payments = new Map<Id, AQB__Transaction__c>([SELECT Id, AQB__Amount__c, AQB__Date__c, AQB__ChartofAccounts__c
