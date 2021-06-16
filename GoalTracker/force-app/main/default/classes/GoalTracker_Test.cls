@@ -23,7 +23,7 @@ public class GoalTracker_Test {
         
         User u = new User();
             u.Alias = 'testuser';
-            u.Username = 'test.user@fake.email.com';
+            u.Username = 'test.user@fake.660000.email.com';
             u.Email = 'test.user@fake.email.com';
             u.FirstName = 'first';
             u.LastName = 'last';
