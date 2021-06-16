@@ -56,6 +56,8 @@ public static Set<Opportunity> oppSet = new Set<Opportunity>();
                                       WHERE (Ask_Date_Fiscal__c IN : fiscalYears OR Close_Date_Fiscal__c IN : fiscalYears)
                                       AND (StageName = 'Solicitation'
                                          OR StageName = 'Advisory'
+                                         OR StageName = 'Proposal Outstanding'
+                                         OR StageName = 'Negotiation/Review'
                                          OR StageName = 'Accepted'
                                          OR StageName = 'Declined')
                                      // AND (RecordType.Name = 'Major Gift'
