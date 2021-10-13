@@ -1,14 +1,16 @@
 /*
-AUTHOR - JOSH HOWELL 9/30/2021
+AUTHOR - JOSH HOWELL SEPT 30 2021
 USING JSON SERIALIZER TO CREATE ACCOUNT+CONTACT JSON PAYLOAD AND SENDING IT TO LIMS SYSTEM
 
 UPDATE OCT 11 2021 - CHANGE CALLOUT TO RETRIEVE TOKEN FROM '/get-token' API ENDPOINT
 ADD TOKEN TO HEADER PARAM AND CALL '/client' ENDPOINT TO PASS PAYLOAD
 
+UPDATE OCT 12 2021 - PARAMETERIZED THE 'KEY', 'SECRET', 'AUTH ENDPOINT', & 'CLIENT ENDPOINT' VALUES WITH CUSTOM METADATE TYPE RECORD
 */
 
 
 public class SendAccountToLIMS {
+    
 
     @invocableMethod(label='Send Practice to LIMS' description='Send Practice to LIMS' category='Account')
     public static void getAccount(List<Id> Ids){
@@ -32,8 +34,9 @@ public class SendAccountToLIMS {
 
 
  //QUERY THE CONTACTS FROM THIS ACCOUNT
-    List<Contact> contactList = [SELECT Id, Salutation, FirstName, LastName, Suffix, NPI_Number__c, Phone, MobilePhone, Email
-                                  FROM Contact WHERE AccountId IN :Ids];
+    List<Contact> contactList = [SELECT Id, Salutation, FirstName, LastName, 
+                                Suffix, NPI_Number__c, Phone, MobilePhone, Email
+                                FROM Contact WHERE AccountId IN :Ids];
     
     List<ContactWrapper> jsonContacts = new List<ContactWrapper>();    
 
@@ -62,53 +65,35 @@ public class SendAccountToLIMS {
     jsonMap.put('accountId', practice.Id);  
     String str = JSON.serialize(jsonMap);
 
-//just for testing...can remove later...want to see the payload field before making the callout.
-    practice.Payload__c = str;
     
-/*  ORIGINAL CODE...COMMENTED OUT TO TRY THE BEARER TOKEN METHOD
-//SET THE BODY AS THE JSON OBJECT
-    request.setBody(str);
-    HttpResponse response = http.send(request);
-
-//PARSE THE JSON RESPONSE
-        if(response.getStatusCode() != 201) {
-            System.debug('The status code returned was not expected: ' + response.getStatusCode() + ' ' + response.getStatus());
-        } 
-        else {
-            System.debug(response.getBody() + ' ' + response.getStatusCode() + ' ' + response.getStatus());
-        } 
-
-//WRITE THE RESPONSE INTO THE FIELD FOR DISPLAY IN THE FLOW AND UPDATE RECORD
-    practice.Payload__c = response.getBody() + '\n' + '\n' + response.getStatusCode() + ' ' + response.getStatus();
-    update practice;          
-    }   
-*/
-
+//QUERY CREDENTIALS FROM THE CUSTOM METADATA TYPE
+LIMS__mdt creds = [SELECT Label, api_key__c, api_secret__c,auth_endpoint__c, client_endpoint__c
+                  FROM LIMS__mdt WHERE Label = 'LIMS_Credentials'];
 
 
 //MAKE THE FIRST CALLOUT    
     Http http1 = new Http();
     HttpRequest request1 = new HttpRequest();
-    request1.setEndpoint('https://dev-api-lims.skin-atlas.com/api/v1/client/get-token');
+    request1.setEndpoint(creds.auth_endpoint__c); //set from custom mdt
     request1.setMethod('POST');
-    request1.setHeader('Content-Type', 'application/json;charset=UTF-8'); 
-    request1.setHeader('api_key', 'e3acaf58-43e5-489b-be52-5847b8272337');
-    request1.setHeader('api_secret', 'DNY3YdZU0ZCyB)GIqq');
+    request1.setHeader('Content-Type', 'application/json;charset=UTF-8');
+    request1.setHeader('api_key', creds.api_key__c); //set from custom mdt
+    request1.setHeader('api_secret', + creds.api_secret__c); //set from custom mdt
     HttpResponse response1 = http1.send(request1);
 
 
 //DESERIALIZE JSON RESPONSE AND USE "TOKEN" SENT BACK
-     //System.debug('response1 is: '+ response1);
+     System.debug('response1 is: '+ response1);
    Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response1.getBody());
-     //System.System.debug('reponseMap is: ' + responseMap);
+     System.System.debug('reponseMap is: ' + responseMap);
    String token = (String)responseMap.get('token');
-     //System.debug('token is: ' + token);
+     System.debug('token is: ' + token);
 
 
 //SECOND CALLOUT WITH PAYLOAD.................................................................
     Http http2 = new Http();
     HttpRequest request2 = new HttpRequest();
-    request2.setEndpoint('https://dev-api-lims.skin-atlas.com/api/v1/client'); //CREATE CLIENT ENDPOINT
+    request2.setEndpoint(creds.client_endpoint__c); //set from custom mdt
     request2.setMethod('POST');
     request2.setHeader('Content-Type', 'application/json;charset=UTF-8'); 
     request2.setHeader('Authorization', 'Bearer ' + token);
@@ -132,6 +117,7 @@ public class SendAccountToLIMS {
     practice.Payload__c = response2.getBody() + '\n' + '\n' + response2.getStatusCode() + ' ' + response2.getStatus();
     update practice;         
     }   
+
 
 
 //WRAPPER CLASS FOR ADDRESS WRAPPER OBJECT TO CONTROL WHICH FIELDS ARE IN THE PAYLOAD
