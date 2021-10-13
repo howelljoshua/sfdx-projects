@@ -71,7 +71,7 @@ LIMS__mdt creds = [SELECT Label, api_key__c, api_secret__c,auth_endpoint__c, cli
                   FROM LIMS__mdt WHERE Label = 'LIMS_Credentials'];
 
 
-//MAKE THE FIRST CALLOUT    
+//MAKE THE FIRST CALLOUT TO RETRIEVE TOKEN  
     Http http1 = new Http();
     HttpRequest request1 = new HttpRequest();
     request1.setEndpoint(creds.auth_endpoint__c); //set from custom mdt
@@ -90,7 +90,7 @@ LIMS__mdt creds = [SELECT Label, api_key__c, api_secret__c,auth_endpoint__c, cli
      System.debug('token is: ' + token);
 
 
-//SECOND CALLOUT WITH PAYLOAD.................................................................
+//SECOND CALLOUT WITH PAYLOAD AND BEARER TOKEN 
     Http http2 = new Http();
     HttpRequest request2 = new HttpRequest();
     request2.setEndpoint(creds.client_endpoint__c); //set from custom mdt
