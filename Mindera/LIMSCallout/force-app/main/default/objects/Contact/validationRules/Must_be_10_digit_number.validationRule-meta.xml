@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Must_be_10_digit_number</fullName>
+    <active>true</active>
+    <errorConditionFormula>NOT(REGEX( NPI_Number__c, &quot;(\\d){10}&quot;))</errorConditionFormula>
+    <errorDisplayField>NPI_Number__c</errorDisplayField>
+    <errorMessage>NPI must be a 10 digit number.</errorMessage>
+</ValidationRule>
