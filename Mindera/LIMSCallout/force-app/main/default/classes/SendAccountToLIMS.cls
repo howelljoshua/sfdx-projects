@@ -18,6 +18,8 @@ public class SendAccountToLIMS {
 //QUERY THE ACCOUNT WITH THE ACCOUNT ID PASSED FROM THE FLOW    
     List<Account> practiceList = [SELECT Id, PracticeID__c, Name, Payload__c, BillingAddress,
                                   BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry
+                                  ,sftpHost__c, sftpUsername__c, sftpPassword__c, 
+                                  sftpOrdersDir__c, sftpResultsDir__c, MOD_Id__c
                                   FROM Account WHERE Id IN :Ids];
                                   
 //SET THE QUERY RESULT TO A SINGLE ACCOUNT (THERE WILL ONLY BE ONE)                                                                             
@@ -36,8 +38,10 @@ public class SendAccountToLIMS {
  //QUERY THE CONTACTS FROM THIS ACCOUNT
     List<Contact> contactList = [SELECT Id, Salutation, FirstName, LastName, 
                                 Suffix, NPI_Number__c, Phone, MobilePhone, Email
+                                //,sftpHost__c, sftpUsername__c, sftpPassword__c, 
+                                //sftpOrdersDir__c, sftpResultsDir__c
                                 FROM Contact WHERE AccountId IN :Ids];
-    
+    System.debug('contactList is :' + contactList);
     List<ContactWrapper> jsonContacts = new List<ContactWrapper>();    
 
 
@@ -52,8 +56,14 @@ public class SendAccountToLIMS {
         jsonContact.phoneNumber = con.Phone;
         jsonContact.mobile = con.MobilePhone;
         jsonContact.emailAddress = con.Email;
+        //jsonContact.sftpHost = con.sftpHost__c;
+        //jsonContact.sftpUsername = con.sftpUsername__c;
+        //jsonContact.sftpPassword = con.sftpPassword__c;
+        //jsonContact.sftpOrdersDir = con.sftpOrdersDir__c;
+        //jsonContact.sftpResultsDir = con.sftpResultsDir__c;
         jsonContacts.add(jsonContact);
-    }                                
+    }  
+    System.debug('JSONCONTACTS List = '+jsonContacts);                         
 
 
 //CREATE A MAP WITH THE FIELDS AND ADDRESS OBJECT NEEDED FOR THE PAYLOAD, SERIALIZE THE PAYLOAD INTO JSON 
@@ -62,8 +72,15 @@ public class SendAccountToLIMS {
     jsonMap.put('address', jsonAddress);
     jsonMap.put('practiceName', practice.Name);
     jsonMap.put('clientId', practice.PracticeID__c);
-    jsonMap.put('accountId', practice.Id);  
-    String str = JSON.serialize(jsonMap);
+    jsonMap.put('accountId', practice.Id);
+    jsonMap.put('sftpHost', practice.sftpHost__c);
+    jsonMap.put('sftpUsername', practice.sftpUserName__c);
+    jsonMap.put('sftpPassword', practice.sftpPassword__c);
+    jsonMap.put('sftpOrdersDir', practice.sftpOrdersDir__c);
+    jsonMap.put('sftpResultsDir', practice.sftpResultsDir__c);
+    jsonMap.put('externalProviderId', practice.MOD_Id__c);
+    String str = JSON.serialize(jsonMap);    
+    System.debug('str is:' + str);
 
     
 //QUERY CREDENTIALS FROM THE CUSTOM METADATA TYPE
@@ -80,6 +97,7 @@ LIMS__mdt creds = [SELECT Label, api_key__c, api_secret__c,auth_endpoint__c, cli
     request1.setHeader('api_key', creds.api_key__c); //set from custom mdt
     request1.setHeader('api_secret', + creds.api_secret__c); //set from custom mdt
     HttpResponse response1 = http1.send(request1);
+
 
 
 //DESERIALIZE JSON RESPONSE AND USE "TOKEN" SENT BACK
@@ -103,6 +121,11 @@ LIMS__mdt creds = [SELECT Label, api_key__c, api_secret__c,auth_endpoint__c, cli
     request2.setBody(str);
     HttpResponse response2 = http2.send(request2);
 
+        //....this beow commits the actual payload being sent to the Payload field on the Account
+        //....uncomment this and comment out the save below to see the actual raw data being sent
+        //....instead of the response
+    //practice.Payload__c = str;
+    //update practice;
 
 //PARSE THE JSON RESPONSE
         if(response2.getStatusCode() != 201) {
@@ -140,6 +163,11 @@ LIMS__mdt creds = [SELECT Label, api_key__c, api_secret__c,auth_endpoint__c, cli
         public String phoneNumber; 
         public String mobile;
         public String emailAddress;
+        //public String sftpHost;
+        //public String sftpUsername;
+        //public String sftpPassword;
+        //public String sftpOrdersDir;
+        //public String sftpResultsDir;
 
     }
     
