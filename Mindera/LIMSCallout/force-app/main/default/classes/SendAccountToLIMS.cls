@@ -20,7 +20,7 @@ public class SendAccountToLIMS {
                                   BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry
                                   ,sftpHost__c, sftpUsername__c, sftpPassword__c, 
                                   sftpOrdersDir__c, sftpResultsDir__c, MOD_Id__c
-                                  FROM Account WHERE Id IN :Ids];
+                                  FROM Account WHERE Id IN :Ids LIMIT 1];
                                   
 //SET THE QUERY RESULT TO A SINGLE ACCOUNT (THERE WILL ONLY BE ONE)                                                                             
     Account practice = practiceList[0];  
@@ -121,7 +121,7 @@ LIMS__mdt creds = [SELECT Label, api_key__c, api_secret__c,auth_endpoint__c, cli
     request2.setBody(str);
     HttpResponse response2 = http2.send(request2);
 
-        //....this beow commits the actual payload being sent to the Payload field on the Account
+        //....this below commits the actual payload being sent to the Payload field on the Account
         //....uncomment this and comment out the save below to see the actual raw data being sent
         //....instead of the response
     //practice.Payload__c = str;
