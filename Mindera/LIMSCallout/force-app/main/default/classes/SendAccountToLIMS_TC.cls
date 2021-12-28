@@ -9,11 +9,11 @@ public class SendAccountToLIMS_TC {
             return res;
         }
     }
-    @isTest
-    public static void testsendaccount(){
+    @testSetup
+    static void testsendaccount(){
         List<Id> AccId=new List<Id>();
         Account Acc=new Account();
-        Acc.Name='Test';
+        Acc.Name='Test000';
         Acc.BillingCity='New York';
         //Acc.BillingAddress='test';
         Acc.BillingCountry='US';
@@ -31,9 +31,16 @@ public class SendAccountToLIMS_TC {
         cntrec.LastName='last';
         cntrec.NPI_Number__c='1234556789';
         insert cntrec;
-        
+    }
+    
+    @isTest
+    static void testCallout(){   
+        Test.startTest();
+        List<Id> AccId = new List<Id>();
+        List<Account> accs = [SELECT Id FROM Account WHERE Name = 'Test000'];
+        AccId.add(accs[0].Id);        
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         SendAccountToLIMS.getAccount(AccId);
-        
+		Test.stopTest();        
     }
 }
