@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>AllOpenLeads</fullName>
+    <fullName>Nevada_Accepting_United</fullName>
     <columns>FULL_NAME</columns>
-    <columns>LEAD.TITLE</columns>
     <columns>LEAD.COMPANY</columns>
+    <columns>LEAD.TITLE</columns>
     <columns>LEAD.STATE</columns>
     <columns>LEAD.PHONE</columns>
     <columns>LEAD.EMAIL</columns>
-    <columns>Payers__c</columns>
     <columns>LEAD.STATUS</columns>
-    <columns>LEAD.CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>LEAD.STATUS</field>
         <operation>notEqual</operation>
         <value>Qualified</value>
     </filters>
-    <label>All Open Leads</label>
+    <filters>
+        <field>Payers__c</field>
+        <operation>includes</operation>
+        <value>Unitedhealth Group</value>
+    </filters>
+    <label>Nevada Accepting United</label>
 </ListView>
